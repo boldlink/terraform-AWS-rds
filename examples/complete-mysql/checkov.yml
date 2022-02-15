@@ -1,0 +1,8 @@
+download-external-modules: false
+evaluate-variables: true
+external-modules-download-path: .external_modules
+file:
+- .
+framework: all
+skip-check:
+- CKV_AWS_129

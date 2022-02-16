@@ -7,13 +7,13 @@ variable "allocated_storage" {
 variable "allow_major_version_upgrade" {
   description = "Indicates that major version upgrades are allowed. Changing this parameter does not result in an outage and the change is asynchronously applied as soon as possible"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "auto_minor_version_upgrade" {
   description = "Indicates that minor engine upgrades will be applied automatically to the DB instance during the maintenance window"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "apply_immediately" {
@@ -37,13 +37,13 @@ variable "backup_window" {
 variable "copy_tags_to_snapshot" {
   description = "On delete, copy all Instance tags to the final snapshot (if final_snapshot_identifier is specified)"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "db_subnet_group_name" {
   description = "(Optional) The subnet group name to attach the instance (if specified you must also provide the var.subnet_ids value), if no value is specified the module will create a group for you,"
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "create_db_subnet_group" {
@@ -96,7 +96,7 @@ variable "instance_class" {
 variable "kms_key_id" {
   description = "The ARN for the KMS encryption key. If creating an encrypted replica, set this to the destination KMS ARN. If storage_encrypted is set to true and kms_key_id is not specified the default KMS key created in your account will be used"
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "maintenance_window" {
@@ -114,13 +114,13 @@ variable "monitoring_interval" {
 variable "monitoring_role_arn" {
   description = "The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to CloudWatch Logs. Must be specified if monitoring_interval is non-zero."
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "availability_zone" {
-  description = "Only set if multi_az is in the default seeting (false) for multi_az = true leave this blank"
+  description = "Only set if multi_az is in the default setting (false) for multi_az = true leave this blank"
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "multi_az" {
@@ -132,13 +132,13 @@ variable "multi_az" {
 variable "option_group_name" {
   description = "Name of the option group"
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "parameter_group_name" {
   description = "Name of the DB parameter group to associate or create"
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "username" {
@@ -187,20 +187,17 @@ variable "name" {
   type        = string
 }
 
-// Tags
-
-variable "tag_project" {
-  type    = string
-  default = ""
-}
+# Tags
 
 variable "environment" {
-  type    = string
-  default = ""
+  type        = string
+  description = "The environment which the dbInstance is being deployed"
+  default     = null
 
 }
 
 variable "other_tags" {
-  type    = map(string)
-  default = {}
+  description = "Other tags for the dbInstance"
+  type        = map(string)
+  default     = {}
 }

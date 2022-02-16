@@ -35,7 +35,7 @@ resource "aws_db_instance" "main" {
   monitoring_role_arn                 = var.monitoring_role_arn
   availability_zone                   = var.availability_zone
   multi_az                            = var.multi_az
-  name                                = var.name
+  db_name                             = var.name
   option_group_name                   = var.option_group_name
   parameter_group_name                = var.parameter_group_name
   username                            = var.username

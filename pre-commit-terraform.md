@@ -53,3 +53,5 @@ brew install pre-commit terraform-docs tflint coreutils checkov infracost
 
 The command `pre-commit run -a` executes the hooks on all files in the repository
 The command  `pre-commit run` is executed only on newly added files/modified files in git that await commiting. This command is also executed automatically when you attempt to do a git commit.
+
+

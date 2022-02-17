@@ -58,8 +58,6 @@ module "rds_instance_complete" {
   monitoring_interval             = "0"
   multi_az                        = "true"
   enabled_cloudwatch_logs_exports = ["general", "error", "slowquery"]
-
-
   other_tags = {
     "cost_center" = "random2"
   }

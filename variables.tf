@@ -144,7 +144,6 @@ variable "parameter_group_name" {
 variable "username" {
   description = "Username for the master DB user"
   type        = string
-
 }
 
 variable "password" {
@@ -193,7 +192,6 @@ variable "environment" {
   type        = string
   description = "The environment which the dbInstance is being deployed"
   default     = null
-
 }
 
 variable "other_tags" {

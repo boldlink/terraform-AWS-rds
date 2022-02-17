@@ -65,7 +65,7 @@ module "rds_instance_complete" {
 
 # Using an external RDS Subnet Group
 module "rds_subnets" {
-  source      = "git::git@github.com:boldlink/terraform-labs-modules//modules/aws/rds/subnetGroup?ref=v0.1.0"
+  source      = "git::git@github.com:boldlink/terraform-labs-modules//modules/aws/rds/subnetGroup?ref=1.0.2"
   name        = "random_rds_subnet"
   subnet_ids  = data.aws_subnet_ids.rds.ids
   environment = "beta"

@@ -8,10 +8,6 @@ Example available [here](./example/main.tf)
 
 # Security Check
 
-[Note:] The warning:
-
-`CKV_AWS_129`: Ensure that respective logs of Amazon Relational Database Service (Amazon RDS) triggers a bug in checkov scan and we have added this code to `.checkov.yml` configuration of the example. We have reported the issue [here](https://github.com/bridgecrewio/checkov/issues/1943).
-
 See [CHECKOV.md](https://github.com/boldlink/terraform-labs-modules/blob/develop/CHECKOV.md) for more information on usage options and configuration used.
 
 ## Documentation

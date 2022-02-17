@@ -9,6 +9,7 @@ We create a `.pre-commit-config.yaml` file in the root folder and add the hooks 
 # Installation
 
 <details><summary><b> Ubuntu 18.04 </b></summary>
+
 ```bash
 sudo apt update
 sudo apt install -y unzip software-properties-common

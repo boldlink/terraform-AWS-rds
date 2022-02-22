@@ -13,8 +13,11 @@ data "aws_vpc" "rds" {
   }
 }
 
-data "aws_subnet_ids" "rds" {
-  vpc_id = data.aws_vpc.rds.id
+data "aws_subnets" "rds" {
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.rds.id]
+  }
 }
 
 # We are using the default RDS kms key for encryption.
@@ -48,8 +51,9 @@ resource "random_string" "rds_pwd2" {
 
 # Default minimal setup
 module "rds_instance_complete" {
-  source                          = "./../../"
-  subnet_ids                      = data.aws_subnet_ids.rds.ids
+  source                          = "boldlink/rds/aws"
+  version                         = "1.0.2"
+  subnet_ids                      = data.aws_subnets.rds.ids
   name                            = "randominstancecomplete"
   username                        = random_string.rds_usr.result
   password                        = random_string.rds_pwd.result
@@ -67,7 +71,7 @@ module "rds_instance_complete" {
 module "rds_subnets" {
   source      = "git::git@github.com:boldlink/terraform-labs-modules//modules/aws/rds/subnetGroup?ref=1.0.2"
   name        = "random_rds_subnet"
-  subnet_ids  = data.aws_subnet_ids.rds.ids
+  subnet_ids  = data.aws_subnets.rds.ids
   environment = "beta"
   other_tags = {
     "cost_center" = "random1"
@@ -76,7 +80,8 @@ module "rds_subnets" {
 
 module "rds_instance_external" {
 
-  source                          = "./../../"
+  source                          = "boldlink/rds/aws"
+  version                         = "1.0.2"
   create_db_subnet_group          = false # When using a subnet group external to the module
   db_subnet_group_name            = module.rds_subnets.outputs.id
   name                            = "randominstance1"
@@ -94,6 +99,7 @@ module "rds_instance_external" {
 
 # Example of oututs
 output "address" {
+  description = "Example of outputs"
   value = [
     module.rds_instance_external.address,
     module.rds_instance_complete.address

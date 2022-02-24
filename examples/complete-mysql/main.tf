@@ -80,7 +80,6 @@ module "rds_subnet_group" {
 }
 
 module "rds_instance_external" {
-
   source                          = "boldlink/rds/aws"
   version                         = "1.0.2"
   create_db_subnet_group          = false # When using a subnet group external to the module

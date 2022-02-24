@@ -18,7 +18,7 @@ No requirements.
 |------|--------|---------|
 | <a name="module_rds_instance_complete"></a> [rds\_instance\_complete](#module\_rds\_instance\_complete) | boldlink/rds/aws | 1.0.2 |
 | <a name="module_rds_instance_external"></a> [rds\_instance\_external](#module\_rds\_instance\_external) | boldlink/rds/aws | 1.0.2 |
-| <a name="module_rds_subnets"></a> [rds\_subnets](#module\_rds\_subnets) | git::git@github.com:boldlink/terraform-labs-modules//modules/aws/rds/subnetGroup | 1.0.2 |
+| <a name="module_rds_subnet_group"></a> [rds\_subnet\_group](#module\_rds\_subnet\_group) | boldlink/db-subnet-group/aws | 1.0.0 |
 
 ## Resources
 

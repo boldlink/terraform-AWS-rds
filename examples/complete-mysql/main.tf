@@ -68,8 +68,9 @@ module "rds_instance_complete" {
 }
 
 # Using an external RDS Subnet Group
-module "rds_subnets" {
-  source      = "git::git@github.com:boldlink/terraform-labs-modules//modules/aws/rds/subnetGroup?ref=1.0.2"
+module "rds_subnet_group" {
+  source      = "boldlink/db-subnet-group/aws"
+  version     = "1.0.0"
   name        = "random_rds_subnet"
   subnet_ids  = data.aws_subnets.rds.ids
   environment = "beta"
@@ -83,7 +84,7 @@ module "rds_instance_external" {
   source                          = "boldlink/rds/aws"
   version                         = "1.0.2"
   create_db_subnet_group          = false # When using a subnet group external to the module
-  db_subnet_group_name            = module.rds_subnets.outputs.id
+  db_subnet_group_name            = module.rds_subnet_group.id
   name                            = "randominstance1"
   username                        = random_string.rds_usr2.result
   password                        = random_string.rds_pwd2.result

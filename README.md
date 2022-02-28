@@ -4,9 +4,7 @@ Terraform module for creating a MySQL RDS instance.
 
 This template creates a database instance running on mysql version 8.0.13, port 3306 and a database subnet group.
 
-
 Example available [here](https://github.com/boldlink/terraform-aws-rds/tree/main/examples/complete-mysql)
-
 
 # Security Check
 

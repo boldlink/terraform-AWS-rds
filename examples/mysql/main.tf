@@ -2,6 +2,8 @@ provider "aws" {
   region = "eu-west-1"
 }
 
+data "aws_partition" "current" {}
+
 # Grab the subnets ids to be used, we are using the default VPC for the example.
 data "aws_vpc" "rds" {
   filter {
@@ -48,12 +50,14 @@ module "rds_instance_mysql" {
   multi_az                        = true
   enabled_cloudwatch_logs_exports = ["general", "error", "slowquery"]
   create_security_group           = true
+  create_monitoring_role = true
+  policy_arn = "arn:${data.aws_partition.current.partition}:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
   other_tags = {
     "cost_center" = "random"
   }
 }
 
-# Example of oututs
+# Example of outputs
 output "address" {
   description = "Example of outputs"
   value = [

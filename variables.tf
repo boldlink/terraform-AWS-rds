@@ -337,3 +337,16 @@ variable "to_port" {
   type        = number
   default     = 0
 }
+
+# IAM role
+variable "create_monitoring_role" {
+  description = "Create an IAM role for enhanced monitoring"
+  type = bool
+  default = false  
+}
+
+variable "policy_arn" {
+  description = " (Required) - The ARN of the policy you want to apply"
+  type = string
+  value = ""
+}

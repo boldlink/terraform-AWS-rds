@@ -25,11 +25,11 @@ resource "aws_db_instance" "this" {
   kms_key_id                            = var.kms_key_id
   maintenance_window                    = var.maintenance_window
   monitoring_interval                   = var.monitoring_interval
-  monitoring_role_arn                   = var.monitoring_role_arn
+  monitoring_role_arn                   = var.create_enhanced_monitoring == true && var.monitoring_interval > 0 ? aws_iam_role.this[0].arn : var.monitoring_role_arn
   availability_zone                     = var.availability_zone
   multi_az                              = var.multi_az
   db_name                               = var.name
-  option_group_name                     = var.option_group_name
+  option_group_name                     = length(var.option_group_name) > 0 ? var.option_group_name : join("", aws_db_option_group.this.0.name)
   parameter_group_name                  = var.parameter_group_name
   username                              = var.username
   password                              = var.password
@@ -60,6 +60,7 @@ resource "aws_db_instance" "this" {
   }
 }
 
+# Subnet Group
 resource "aws_db_subnet_group" "this" {
   count       = var.create_db_subnet_group ? 1 : 0
   name        = "${var.name}-subnetgroup"
@@ -74,6 +75,7 @@ resource "aws_db_subnet_group" "this" {
   )
 }
 
+# Security group
 resource "aws_security_group" "this" {
   count       = var.create_security_group ? 1 : 0
   name        = "${var.name}-securitygroup"
@@ -107,4 +109,48 @@ resource "aws_security_group_rule" "egress" {
   protocol          = var.egress_protocol
   cidr_blocks       = [var.cidr_blocks]
   security_group_id = join("", aws_security_group.this.*.id)
+}
+# Option Group
+resource "aws_db_option_group" "this" {
+  name = "${var.name}-optiongroup"
+  name_prefix = var.name_prefix
+  engine_name = var.engine
+  major_engine_version = var.major_engine_version
+  dynamic "options" {
+    for_each = var.options
+    content{
+      option_name                      = lookup(option.value, "option_name")
+      dynamic "option_settings" {
+        for_each = lookup(option.value, "option_settings")
+        content {
+          name = option_settings.value.name
+          value = option_settings.value.value
+        }
+      }
+      port                              = lookup(option.value, "port", null )
+      version                           = lookup(option.value, "version", null)
+      db_security_group_memberships     = lookup(option.value, "db_security_group_memberships", null)
+      vpc_security_group_memberships    = lookup(option.value, "vpc_security_group_memberships", null)
+    }
+  }
+}
+
+#  enhanced monitoring IAM role
+resource "aws_iam_role" "this" {
+  count = var.create_monitoring_role ? 1 : 0
+  name = "${var.name}-enhanced-monitoring-role"
+  assume_role_policy = var.assume_role_policy
+  description = "enhanced monitoting iam role for rds instance."
+  tags = merge(
+    {
+      "Environment" = var.environment
+    },
+    var.other_tags,
+  )  
+}
+
+resource "aws_iam_role_policy_attachment" "this" {
+  count = var.create_monitoring_role ? 1 : 0
+  role =  aws_iam_role.this[0].name
+  policy_arn = var.policy_arn
 }

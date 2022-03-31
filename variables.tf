@@ -89,15 +89,14 @@ variable "enabled_cloudwatch_logs_exports" {
 }
 
 variable "engine" {
-  description = "The database engine to use"
+  description = "(Required unless a snapshot_identifier or replicate_source_db is provided) The database engine to use."
   type        = string
-  default     = "MYSQL"
 }
 
 variable "engine_version" {
   description = "The engine version to use"
   type        = string
-  default     = "8.0.13"
+  default     = null
 }
 
 variable "final_snapshot_identifier" {
@@ -191,9 +190,9 @@ variable "multi_az" {
 }
 
 variable "option_group_name" {
-  description = "Name of the option group"
+  description = "(Optional) Name of the DB option group to associate."
   type        = string
-  default     = null
+  default     = ""
 }
 
 variable "parameter_group_name" {
@@ -337,16 +336,42 @@ variable "to_port" {
   type        = number
   default     = 0
 }
+# Option Group
+variable "create_option_group" {
+  description = "whether to create option_group resource or not"
+  type        = bool
+  default     = false
+}
+variable "name_prefix" {
+  description = "(Optional, Forces new resource) Creates a unique name beginning with the specified prefix. Conflicts with name. Must be lowercase, to match as it is stored in AWS."
+  type        = string
+  default     = null
+}
+variable "major_engine_version" {
+  description = "(Required) Specifies the major version of the engine that this option group should be associated with."
+  type        = string
+  default     = ""
+}
+variable "options" {
+  description = "(Optional) A list of Options to apply."
+  type        = any
+  default     = []
+}
 
 # IAM role
 variable "create_monitoring_role" {
   description = "Create an IAM role for enhanced monitoring"
-  type = bool
-  default = false  
+  type        = bool
+  default     = false
 }
 
+variable "assume_role_policy" {
+  description = "(Required) Policy that grants an entity permission to assume the role."
+  type        = string
+  default     = ""
+}
 variable "policy_arn" {
   description = " (Required) - The ARN of the policy you want to apply"
-  type = string
-  value = ""
+  type        = string
+  default     = ""
 }

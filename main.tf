@@ -141,7 +141,7 @@ resource "aws_iam_role" "this" {
   count              = var.create_monitoring_role ? 1 : 0
   name               = "${var.name}-enhanced-monitoring-role"
   assume_role_policy = var.assume_role_policy
-  description        = "enhanced monitoting iam role for rds instance."
+  description        = "enhanced monitoring iam role for rds instance."
   tags = merge(
     {
       "Environment" = var.environment

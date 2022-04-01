@@ -110,6 +110,7 @@ resource "aws_security_group_rule" "egress" {
   cidr_blocks       = [var.cidr_blocks]
   security_group_id = join("", aws_security_group.this.*.id)
 }
+
 # Option Group
 resource "aws_db_option_group" "this" {
   count                = var.create_option_group ? 1 : 0

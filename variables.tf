@@ -40,6 +40,7 @@ variable "ca_cert_identifier" {
   type        = string
   default     = null
 }
+
 variable "copy_tags_to_snapshot" {
   description = "On delete, copy all Instance tags to the final snapshot (if final_snapshot_identifier is specified)"
   type        = bool
@@ -110,6 +111,7 @@ variable "identifier_prefix" {
   type        = string
   default     = null
 }
+
 variable "iam_database_authentication_enabled" {
   description = "Specifies whether or not the mappings of AWS Identity and Access Management (IAM) accounts to database accounts are enabled"
   type        = bool
@@ -336,6 +338,7 @@ variable "to_port" {
   type        = number
   default     = 0
 }
+
 # Option Group
 variable "create_option_group" {
   description = "whether to create option_group resource or not"

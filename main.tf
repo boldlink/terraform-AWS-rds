@@ -25,7 +25,7 @@ resource "aws_db_instance" "this" {
   kms_key_id                            = var.kms_key_id
   maintenance_window                    = var.maintenance_window
   monitoring_interval                   = var.monitoring_interval
-  monitoring_role_arn                   = var.create_monitoring_role == true && var.monitoring_interval > 0 ? aws_iam_role.this[0].arn : var.monitoring_role_arn
+  monitoring_role_arn                   = var.create_monitoring_role && var.monitoring_interval > 0 ? aws_iam_role.this[0].arn : var.monitoring_role_arn
   availability_zone                     = var.availability_zone
   multi_az                              = var.multi_az
   db_name                               = var.name

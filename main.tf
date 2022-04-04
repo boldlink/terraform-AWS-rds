@@ -28,7 +28,10 @@ resource "aws_db_instance" "this" {
   monitoring_role_arn                   = var.create_monitoring_role && var.monitoring_interval > 0 ? aws_iam_role.this[0].arn : var.monitoring_role_arn
   availability_zone                     = var.availability_zone
   multi_az                              = var.multi_az
-  db_name                               = var.name
+  nchar_character_set_name              = var.nchar_character_set_name
+  license_model                         = var.license_model
+  replica_mode                          = var.replica_mode
+  db_name                               = var.engine == try("mysql", "posgresql") ? var.name : null
   option_group_name                     = length(var.option_group_name) > 0 ? var.option_group_name : join("", aws_db_option_group.this.*.name)
   parameter_group_name                  = var.parameter_group_name
   username                              = var.username
@@ -43,6 +46,7 @@ resource "aws_db_instance" "this" {
   snapshot_identifier                   = var.snapshot_identifier
   storage_encrypted                     = var.storage_encrypted
   storage_type                          = var.storage_type
+  timezone                              = var.timezone # Currently only supported by Microsoft SQL Server.                          
   tags = merge(
     {
       "Name"        = var.name
@@ -50,6 +54,29 @@ resource "aws_db_instance" "this" {
     },
     var.other_tags,
   )
+
+  dynamic "restore_to_point_in_time" {
+    for_each = var.restore_to_point_in_time
+    content {
+      restore_time                  = lookup(restore_to_point_in_time.value, "restore_time", null)
+      source_db_instance_identifier = lookup(restore_to_point_in_time.value, "source_db_instance_identifier", null)
+      source_dbi_resource_id        = lookup(restore_to_point_in_time.value, "source_dbi_resource_id", null)
+      use_latest_restorable_time    = lookup(restore_to_point_in_time.value, "use_latest_restorable_time", null)
+    }
+  }
+
+  # This will not recreate the resource if the S3 object changes in some way. It's only used to initialize the database
+  dynamic "s3_import" {
+    for_each = var.s3_import == null ? [] : [var.s3_import]
+    content {
+      bucket_name           = s3_import.value.bucket_name
+      bucket_prefix         = lookup(s3_import.value, "bucket_prefix", null)
+      ingestion_role        = s3_import.value.ingestion_role
+      source_engine         = "mysql"
+      source_engine_version = s3_import.value.source_engine_version
+    }
+  }
+
   dynamic "timeouts" {
     for_each = var.instance_timeouts
     content {
@@ -73,6 +100,32 @@ resource "aws_db_subnet_group" "this" {
     },
     var.other_tags,
   )
+}
+
+# Option Group
+resource "aws_db_option_group" "this" {
+  count                = var.create_option_group ? 1 : 0
+  name                 = "${var.name}-option-group"
+  name_prefix          = var.name_prefix
+  engine_name          = var.engine
+  major_engine_version = var.major_engine_version
+  dynamic "option" {
+    for_each = var.options
+    content {
+      option_name                    = lookup(option.value, "option_name")
+      port                           = lookup(option.value, "port", null)
+      version                        = lookup(option.value, "version", null)
+      db_security_group_memberships  = lookup(option.value, "db_security_group_memberships", null)
+      vpc_security_group_memberships = lookup(option.value, "vpc_security_group_memberships", null)
+      dynamic "option_settings" {
+        for_each = lookup(option.value, "option_settings", [])
+        content {
+          name  = option_settings.value.name
+          value = option_settings.value.value
+        }
+      }
+    }
+  }
 }
 
 # Security group
@@ -109,32 +162,6 @@ resource "aws_security_group_rule" "egress" {
   protocol          = var.egress_protocol
   cidr_blocks       = [var.cidr_blocks]
   security_group_id = join("", aws_security_group.this.*.id)
-}
-
-# Option Group
-resource "aws_db_option_group" "this" {
-  count                = var.create_option_group ? 1 : 0
-  name                 = "${var.name}-option-group"
-  name_prefix          = var.name_prefix
-  engine_name          = var.engine
-  major_engine_version = var.major_engine_version
-  dynamic "option" {
-    for_each = var.options
-    content {
-      option_name                    = lookup(option.value, "option_name")
-      port                           = lookup(option.value, "port", null)
-      version                        = lookup(option.value, "version", null)
-      db_security_group_memberships  = lookup(option.value, "db_security_group_memberships", null)
-      vpc_security_group_memberships = lookup(option.value, "vpc_security_group_memberships", null)
-      dynamic "option_settings" {
-        for_each = lookup(option.value, "option_settings", [])
-        content {
-          name  = option_settings.value.name
-          value = option_settings.value.value
-        }
-      }
-    }
-  }
 }
 
 #  enhanced monitoring IAM role

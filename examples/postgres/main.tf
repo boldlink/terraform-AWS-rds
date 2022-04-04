@@ -1,6 +1,6 @@
-# ######################
-#  MySQL Engine example
-# ######################
+# ###########################
+#  PostgreSQL Engine example
+# ###########################
 
 provider "aws" {
   region = "eu-west-1"
@@ -53,32 +53,28 @@ resource "random_password" "rds_pwd" {
   upper   = false
 }
 
-module "rds_instance_mysql" {
+module "rds_instance_postgres" {
   source                              = "../../"
-  engine                              = "mysql"
-  instance_class                      = "db.t2.small"
+  engine                              = "postgres"
+  engine_version                      = "14.1"
+  instance_class                      = "db.t4g.large"
   subnet_ids                          = data.aws_subnets.rds.ids
-  name                                = "randominstancemysql"
+  name                                = "randominstancepostgresql"
   username                            = random_string.rds_usr.result
   password                            = random_password.rds_pwd.result
   kms_key_id                          = data.aws_kms_alias.rds.target_key_arn
   environment                         = "beta"
-  port                                = 3306
+  port                                = 5432
   iam_database_authentication_enabled = true
   multi_az                            = true
-  enabled_cloudwatch_logs_exports     = ["general", "error", "slowquery"]
+  enabled_cloudwatch_logs_exports     = ["postgresql", "upgrade"]
   create_security_group               = true
   create_monitoring_role              = true
   monitoring_interval                 = 30
   create_option_group                 = true
   assume_role_policy                  = data.aws_iam_policy_document.monitoring.json
   policy_arn                          = "arn:${data.aws_partition.current.partition}:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
-  major_engine_version                = "8.0"
-  options = {
-    option = {
-      option_name = "MARIADB_AUDIT_PLUGIN"
-    }
-  }
+  major_engine_version                = "14"
   other_tags = {
     "cost_center" = "random"
   }
@@ -87,6 +83,6 @@ module "rds_instance_mysql" {
 # Example of outputs
 output "address" {
   value = [
-    module.rds_instance_mysql,
+    module.rds_instance_postgres,
   ]
 }

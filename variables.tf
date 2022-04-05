@@ -150,9 +150,9 @@ variable "publicly_accessible" {
 }
 
 variable "instance_class" {
-  description = "The instance class for your instance(s), by default we are using db.t2.small because we want to enable encryption, if you disable encryption you can choose  db.t2.micro"
+  description = "The instance class for your instance(s)."
   type        = string
-  default     = "db.t2.small"
+  default     = null
 }
 
 variable "kms_key_id" {
@@ -245,14 +245,60 @@ variable "storage_encrypted" {
 variable "storage_type" {
   description = "One of 'standard' (magnetic), 'gp2' (general purpose SSD), or 'io1' (provisioned IOPS SSD). The default is 'io1' if iops is specified, 'gp2' if not."
   type        = string
-  default     = "gp2"
+  default     = null
 }
 
 variable "name" {
   description = "The DB name to create. If omitted, no database is created initially"
   type        = string
+  default     = null
 }
 
+variable "nchar_character_set_name" {
+  description = "(Optional, Forces new resource) The national character set is used in the NCHAR, NVARCHAR2, and NCLOB data types for Oracle instances. This can't be changed."
+  type        = string
+  default     = null
+}
+
+variable "license_model" {
+  description = "(Optional, but required for some DB engines, i.e., Oracle SE1) License model information for this DB instance."
+  type        = string
+  default     = null
+}
+
+variable "replica_mode" {
+  description = "(Optional) Specifies whether the replica is in either mounted or open-read-only mode. This attribute is only supported by Oracle instances. Oracle replicas operate in open-read-only mode unless otherwise specified."
+  type        = string
+  default     = null
+}
+
+variable "timezone" {
+  description = "(Optional) Time zone of the DB instance. timezone is currently only supported by Microsoft SQL Server."
+  type        = string
+  default     = null
+}
+
+# Restore to point in time
+variable "restore_to_point_in_time" {
+  description = "(Optional, Forces new resource) A configuration block for restoring a DB instance to an arbitrary point in time. Requires the identifier argument to be set with the name of the new DB instance to be created."
+  type = list(object({
+    restore_time                             = string
+    source_db_instance_identifier            = string
+    source_db_instance_automated_backups_arn = string
+    source_dbi_resource_id                   = string
+    use_latest_restorable_time               = bool
+  }))
+  default = []
+}
+
+#S3 import
+variable "s3_import" {
+  description = "(Optional) Restore from a Percona Xtrabackup in S3.(Only MySQL is supported)."
+  type        = map(string)
+  default     = null
+}
+
+# Timeout
 variable "instance_timeouts" {
   description = "aws_rds_instance provides the following Timeouts configuration options: create, update, delete"
   type = list(object({
@@ -262,7 +308,6 @@ variable "instance_timeouts" {
   }))
   default = []
 }
-
 
 # Tags
 variable "environment" {

@@ -1,6 +1,7 @@
 
 resource "aws_db_instance" "this" {
   allocated_storage                     = var.allocated_storage
+  max_allocated_storage                 = var.max_allocated_storage
   allow_major_version_upgrade           = var.allow_major_version_upgrade
   auto_minor_version_upgrade            = var.auto_minor_version_upgrade
   apply_immediately                     = var.apply_immediately
@@ -18,7 +19,7 @@ resource "aws_db_instance" "this" {
   engine_version                        = var.engine_version
   final_snapshot_identifier             = var.final_snapshot_identifier
   iam_database_authentication_enabled   = var.iam_database_authentication_enabled
-  identifier                            = var.name
+  identifier                            = lower("${var.name}")
   identifier_prefix                     = var.identifier_prefix
   publicly_accessible                   = var.publicly_accessible
   instance_class                        = var.instance_class
@@ -90,7 +91,7 @@ resource "aws_db_instance" "this" {
 # Subnet Group
 resource "aws_db_subnet_group" "this" {
   count       = var.create_db_subnet_group ? 1 : 0
-  name        = "${var.name}-subnetgroup"
+  name        = lower("${var.name}-subnetgroup")
   subnet_ids  = var.subnet_ids
   description = "${var.name} RDS Subnet Group"
   tags = merge(
@@ -105,7 +106,7 @@ resource "aws_db_subnet_group" "this" {
 # Option Group
 resource "aws_db_option_group" "this" {
   count                = var.create_option_group ? 1 : 0
-  name                 = "${var.name}-option-group"
+  name                 = lower("${var.name}-option-group")
   name_prefix          = var.name_prefix
   engine_name          = var.engine
   major_engine_version = var.major_engine_version

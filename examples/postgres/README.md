@@ -16,7 +16,7 @@ No requirements.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_rds_instance_posgres"></a> [rds\_instance\_posgres](#module\_rds\_instance\_posgres) | ../../ | n/a |
+| <a name="module_rds_instance_postgres"></a> [rds\_instance\_postgres](#module\_rds\_instance\_postgres) | ../../ | n/a |
 
 ## Resources
 

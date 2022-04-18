@@ -2,7 +2,13 @@
 variable "allocated_storage" {
   description = "(Required unless a snapshot_identifier or replicate_source_db is provided) The allocated storage in gibibytes. If max_allocated_storage is configured, this argument represents the initial storage allocation and differences from the configuration will be ignored automatically when Storage Autoscaling occurs. If replicate_source_db is set, the value is ignored during the creation of the instance."
   type        = number
-  default     = "5"
+  default     = 5
+}
+
+variable "max_allocated_storage" {
+  description = "(Optional) When configured, the upper limit to which Amazon RDS can automatically scale the storage of the DB instance. Configuring this will automatically ignore differences to allocated_storage. Must be greater than or equal to allocated_storage or 0 to disable Storage Autoscaling."
+  type        = number
+  default     = 0
 }
 
 variable "allow_major_version_upgrade" {
@@ -68,7 +74,7 @@ variable "delete_automated_backups" {
 variable "deletion_protection" {
   description = "If the DB instance should have deletion protection enabled. The database can't be deleted when this value is set to true. The default is false."
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "domain" {

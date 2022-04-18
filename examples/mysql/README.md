@@ -38,5 +38,5 @@ No inputs.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_address"></a> [address](#output\_address) | Example of outputs |
+| <a name="output_mysql"></a> [mysql](#output\_mysql) | Example of outputs |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

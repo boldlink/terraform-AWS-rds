@@ -71,6 +71,7 @@ module "rds_instance_mysql" {
   create_monitoring_role              = true
   monitoring_interval                 = 30
   create_option_group                 = true
+  deletion_protection                 = false
   assume_role_policy                  = data.aws_iam_policy_document.monitoring.json
   policy_arn                          = "arn:${data.aws_partition.current.partition}:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
   major_engine_version                = "8.0"
@@ -85,7 +86,7 @@ module "rds_instance_mysql" {
 }
 
 # Example of outputs
-output "address" {
+output "mysql" {
   value = [
     module.rds_instance_mysql,
   ]

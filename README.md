@@ -1,10 +1,11 @@
+
+[![Build Status](https://github.com/boldlink/terraform-aws-rds/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/boldlink/terraform-aws-rds/actions)
+
 Terraform module for creating an RDS instance resource.
 
 ## Description
 
-This template creates a database instance running on mysql version 8.0.13, port 3306 and a database subnet group.
-
-Example available [here](https://github.com/boldlink/terraform-aws-rds/tree/main/examples/complete-mysql)
+Example available [here](https://github.com/boldlink/terraform-aws-rds/tree/main/examples/)
 
 # Security Check
 

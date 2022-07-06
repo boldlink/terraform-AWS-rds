@@ -1,0 +1,18 @@
+uuid = 1b895d0f-bda4-11ec-b8d7-0242ac110002
+name =
+tool_name = xtrabackup
+tool_command = --backup --datadir=/var/lib/mysql --target-dir=/sample_backup --user=root --password=...
+tool_version = 8.0.27-19
+ibbackup_version = 8.0.27-19
+server_version = 8.0.20-11
+start_time = 2022-04-16 16:41:35
+end_time = 2022-04-16 16:41:47
+lock_time = 8
+binlog_pos = filename 'binlog.000003', position '156'
+innodb_from_lsn = 0
+innodb_to_lsn = 27588121
+partial = N
+incremental = N
+format = file
+compressed = N
+encrypted = N

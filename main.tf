@@ -1,4 +1,4 @@
-
+#####
 resource "aws_db_instance" "this" {
   allocated_storage                     = var.allocated_storage
   max_allocated_storage                 = var.max_allocated_storage
@@ -19,7 +19,7 @@ resource "aws_db_instance" "this" {
   engine_version                        = var.engine_version
   final_snapshot_identifier             = var.final_snapshot_identifier
   iam_database_authentication_enabled   = var.iam_database_authentication_enabled
-  identifier                            = lower("${var.name}")
+  identifier                            = lower(var.name)
   identifier_prefix                     = var.identifier_prefix
   publicly_accessible                   = var.publicly_accessible
   instance_class                        = var.instance_class
@@ -47,7 +47,7 @@ resource "aws_db_instance" "this" {
   snapshot_identifier                   = var.snapshot_identifier
   storage_encrypted                     = var.storage_encrypted
   storage_type                          = var.storage_type
-  timezone                              = var.timezone # Currently only supported by Microsoft SQL Server.                          
+  timezone                              = var.timezone # Currently only supported by Microsoft SQL Server.
   tags = merge(
     {
       "Name"        = var.name

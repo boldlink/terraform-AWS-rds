@@ -19,7 +19,7 @@ See [here](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/MySQL.Procedur
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.21.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.22.0 |
 | <a name="provider_random"></a> [random](#provider\_random) | 3.3.2 |
 
 ## Modules

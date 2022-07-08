@@ -49,7 +49,7 @@ POLICY
 resource "aws_iam_policy_attachment" "s3_acces" {
   name = "s3-import"
   roles = [
-    "${aws_iam_role.s3_acces.name}"
+    aws_iam_role.s3_acces.name,
   ]
   policy_arn = aws_iam_policy.s3_bucket.arn
 }

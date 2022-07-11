@@ -51,6 +51,27 @@ module "rds_instance_mysql" {
   assume_role_policy                  = data.aws_iam_policy_document.monitoring.json
   policy_arn                          = "arn:${data.aws_partition.current.partition}:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
   major_engine_version                = "8.0"
+
+  security_group_ingress = [
+    {
+      description = "inbound rds traffic"
+      from_port   = 3306
+      to_port     = 3306
+      protocol    = "tcp"
+      cidr_blocks = [local.cidr_block]
+    }
+  ]
+
+  security_group_egress = [
+    {
+      description = "Rule to allow outbound traffic"
+      from_port   = 0
+      to_port     = 0
+      protocol    = -1
+      cidr_blocks = [local.cidr_block]
+    }
+  ]
+
   options = {
     option = {
       option_name = "MARIADB_AUDIT_PLUGIN"

@@ -3,7 +3,7 @@ resource "aws_s3_bucket" "mysql" {
   #checkov:skip=CKV_AWS_19: Ensure all data stored in the S3 bucket is securely encrypted at rest
   #checkov:skip=CKV_AWS_144: Ensure that S3 bucket has cross-region replication enabled
   #checkov:skip=CKV_AWS_18: Ensure the S3 bucket has access logging enabled
-  bucket        = "mysql-import-bucket"
+  bucket        = local.name
   force_destroy = true
 
 }
@@ -22,29 +22,14 @@ data "aws_iam_policy_document" "assume_policy" {
 }
 
 resource "aws_iam_role" "s3_acces" {
-  name               = "rds_s3_import"
+  name               = local.name
   assume_role_policy = data.aws_iam_policy_document.assume_policy.json
 }
 
 resource "aws_iam_policy" "s3_bucket" {
   name   = "s3-import"
-  policy = <<POLICY
-{
-    "Version": 2012-10-17",
-    "Statement": [
-        {
-            "Effect": Allow",
-            "Action": [
-                "s3:*"
-            ],
-            "Resource": [
-                "${aws_s3_bucket.mysql.arn}",
-                "${aws_s3_bucket.mysql.arn}/*"
-            ]
-        }
-    ]
-}
-POLICY
+  policy = data.aws_iam_policy_document.s3_bucket.json
+
   provisioner "local-exec" {
     command = "unzip sample_backup.zip && aws s3 sync ${path.module}/sample_backup s3://${aws_s3_bucket.mysql.id}"
   }
@@ -54,7 +39,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "main" {
   bucket = aws_s3_bucket.mysql.bucket
   rule {
     apply_server_side_encryption_by_default {
-      sse_algorithm = "aws:kms"
+      sse_algorithm = "AES256"
     }
   }
 }

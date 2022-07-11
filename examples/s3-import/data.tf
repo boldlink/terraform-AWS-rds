@@ -26,3 +26,16 @@ data "aws_availability_zones" "available" {
 data "aws_caller_identity" "current" {}
 
 data "aws_region" "current" {}
+
+data "aws_iam_policy_document" "s3_bucket" {
+  version = "2012-10-17"
+  statement {
+    sid     = "AllowAccess"
+    effect  = "Allow"
+    actions = ["s3:*"]
+    resources = [
+      "arn:aws:s3:::${aws_s3_bucket.mysql.bucket}",
+      "arn:aws:s3:::${aws_s3_bucket.mysql.bucket}/*"
+    ]
+  }
+}

@@ -35,7 +35,7 @@ module "s3_import" {
   instance_class = "db.t2.small"
   subnet_ids     = flatten(module.vpc.database_subnet_id)
   port           = 3306
-  name           = local.name
+  name           = local.db_name
   username       = random_string.rds_usr.result
   password       = random_password.rds_pwd.result
 

@@ -1,51 +1,25 @@
-# #######################
-#  MariaDB Engine example
-# #######################
+########################
+# MariaDB Engine example
+########################
+module "vpc" {
+  source               = "git::https://github.com/boldlink/terraform-aws-vpc.git?ref=2.0.3"
+  cidr_block           = local.cidr_block
+  name                 = local.name
+  enable_dns_support   = true
+  enable_dns_hostnames = true
+  account              = data.aws_caller_identity.current.account_id
+  region               = data.aws_region.current.name
 
-provider "aws" {
-  region = "eu-west-1"
-}
-
-data "aws_partition" "current" {}
-
-# Grab the subnets ids to be used, we are using the default VPC for the example.
-data "aws_vpc" "rds" {
-  filter {
-    name   = "tag:Name"
-    values = ["default"]
-  }
-}
-
-data "aws_subnets" "rds" {
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.rds.id]
-  }
-}
-
-data "aws_iam_policy_document" "monitoring" {
-  statement {
-    actions = [
-      "sts:AssumeRole",
-    ]
-
-    principals {
-      type        = "Service"
-      identifiers = ["monitoring.rds.amazonaws.com"]
-    }
-  }
-}
-
-# We are using the default RDS kms key for encryption in this example.
-data "aws_kms_alias" "rds" {
-  name = "alias/aws/rds"
+  ## database Subnets
+  database_subnets   = local.database_subnets
+  availability_zones = local.azs
 }
 
 resource "random_string" "rds_usr" {
   length  = 5
   special = false
   upper   = false
-  number  = false
+  numeric = false
 }
 resource "random_password" "rds_pwd" {
   length  = 16
@@ -59,14 +33,15 @@ module "rds_instance_mariadb" {
   engine_version                  = "10.6.7"
   instance_class                  = "db.m5.xlarge"
   allocated_storage               = 30
-  subnet_ids                      = data.aws_subnets.rds.ids
-  name                            = "randominstancemariadb"
+  subnet_ids                      = flatten(module.vpc.database_subnet_id)
+  name                            = local.name
   username                        = random_string.rds_usr.result
   password                        = random_password.rds_pwd.result
   kms_key_id                      = data.aws_kms_alias.rds.target_key_arn
-  environment                     = "beta"
+  environment                     = local.environment
   port                            = 3306
   multi_az                        = true
+  vpc_id                          = module.vpc.id
   enabled_cloudwatch_logs_exports = ["error", "audit", "general", "slowquery"]
   create_security_group           = true
   create_monitoring_role          = true
@@ -79,11 +54,4 @@ module "rds_instance_mariadb" {
   other_tags = {
     "cost_center" = "random"
   }
-}
-
-# Example of outputs
-output "address" {
-  value = [
-    module.rds_instance_mariadb,
-  ]
 }

@@ -11,6 +11,18 @@ variable "max_allocated_storage" {
   default     = 0
 }
 
+variable "security_group_ingress" {
+  type        = any
+  description = "The rules block for defining additional ingress rules"
+  default     = []
+}
+
+variable "security_group_egress" {
+  type        = any
+  description = "The rules block for defining additional egress rules"
+  default     = []
+}
+
 variable "allow_major_version_upgrade" {
   description = "Indicates that major version upgrades are allowed. Changing this parameter does not result in an outage and the change is asynchronously applied as soon as possible"
   type        = bool
@@ -219,11 +231,6 @@ variable "password" {
   type        = string
 }
 
-variable "port" {
-  description = "The port on which the DB accepts connections"
-  type        = string
-}
-
 variable "replicate_source_db" {
   description = "Specifies that this resource is a Replicate database, and to use this value as the source database."
   type        = string
@@ -348,46 +355,9 @@ variable "create_security_group" {
   type        = bool
 }
 
-variable "ingress_protocol" {
-  description = "(Required) Protocol. If not icmp, icmpv6, tcp, udp, or all use the protocol number"
+variable "port" {
+  description = "The port on which the DB accepts connections"
   type        = string
-  default     = "tcp"
-}
-
-variable "ingress_type" {
-  description = " (Required) Type of rule being created. Valid options are ingress (inbound) or egress (outbound)"
-  type        = string
-  default     = "ingress"
-}
-
-variable "egress_protocol" {
-  description = "(Required) Protocol. If not icmp, icmpv6, tcp, udp, or all use the protocol number"
-  type        = string
-  default     = "-1"
-}
-
-variable "egress_type" {
-  description = " (Required) Type of rule being created. Valid options are ingress (inbound) or egress (outbound)"
-  type        = string
-  default     = "egress"
-}
-
-variable "cidr_blocks" {
-  description = "List of CIDR blocks"
-  default     = "0.0.0.0/0"
-  type        = string
-}
-
-variable "from_port" {
-  description = "(Required) Start port (or ICMP type number if protocol is 'icmp' or 'icmpv6')"
-  type        = number
-  default     = 0
-}
-
-variable "to_port" {
-  description = "(Required) End port (or ICMP code if protocol is 'icmp')"
-  type        = number
-  default     = 0
 }
 
 # Option Group

@@ -1,46 +1,25 @@
-# ######################
+#######################
 #  MsSQL Engine example
-# ######################
+#######################
+module "vpc" {
+  source               = "git::https://github.com/boldlink/terraform-aws-vpc.git?ref=2.0.3"
+  cidr_block           = local.cidr_block
+  name                 = local.name
+  enable_dns_support   = true
+  enable_dns_hostnames = true
+  account              = data.aws_caller_identity.current.account_id
+  region               = data.aws_region.current.name
 
-provider "aws" {
-  region = "eu-west-1"
-}
-
-data "aws_partition" "current" {}
-
-# Grab the subnets ids to be used, we are using the default VPC for the example.
-data "aws_vpc" "rds" {
-  filter {
-    name   = "tag:Name"
-    values = ["default"]
-  }
-}
-
-data "aws_subnets" "rds" {
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.rds.id]
-  }
-}
-
-data "aws_iam_policy_document" "monitoring" {
-  statement {
-    actions = [
-      "sts:AssumeRole",
-    ]
-
-    principals {
-      type        = "Service"
-      identifiers = ["monitoring.rds.amazonaws.com"]
-    }
-  }
+  ## database Subnets
+  database_subnets   = local.database_subnets
+  availability_zones = local.azs
 }
 
 resource "random_string" "rds_usr" {
   length  = 5
   special = false
   upper   = false
-  number  = false
+  numeric = false
 }
 resource "random_password" "rds_pwd" {
   length  = 16
@@ -54,11 +33,11 @@ module "rds_instance_mssql" {
   allocated_storage               = 30
   engine_version                  = "15.00.4153.1.v1"
   instance_class                  = "db.t3.xlarge"
-  subnet_ids                      = data.aws_subnets.rds.ids
-  name                            = "randominstancemssql"
+  subnet_ids                      = flatten(module.vpc.database_subnet_id)
+  name                            = local.name
   username                        = random_string.rds_usr.result
   password                        = random_password.rds_pwd.result
-  environment                     = "beta"
+  environment                     = local.environment
   port                            = 1433
   enabled_cloudwatch_logs_exports = ["agent", "error"]
   create_security_group           = true
@@ -66,6 +45,7 @@ module "rds_instance_mssql" {
   monitoring_interval             = 30
   create_option_group             = true
   deletion_protection             = false
+  vpc_id                          = module.vpc.id
   assume_role_policy              = data.aws_iam_policy_document.monitoring.json
   policy_arn                      = "arn:${data.aws_partition.current.partition}:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
   major_engine_version            = "15.00"
@@ -75,11 +55,4 @@ module "rds_instance_mssql" {
   other_tags = {
     "cost_center" = "random"
   }
-}
-
-# Example of outputs
-output "address" {
-  value = [
-    module.rds_instance_mssql,
-  ]
 }

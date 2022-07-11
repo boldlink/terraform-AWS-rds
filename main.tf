@@ -1,4 +1,4 @@
-
+#####
 resource "aws_db_instance" "this" {
   allocated_storage                     = var.allocated_storage
   max_allocated_storage                 = var.max_allocated_storage
@@ -19,7 +19,7 @@ resource "aws_db_instance" "this" {
   engine_version                        = var.engine_version
   final_snapshot_identifier             = var.final_snapshot_identifier
   iam_database_authentication_enabled   = var.iam_database_authentication_enabled
-  identifier                            = lower("${var.name}")
+  identifier                            = lower(var.name)
   identifier_prefix                     = var.identifier_prefix
   publicly_accessible                   = var.publicly_accessible
   instance_class                        = var.instance_class
@@ -47,7 +47,7 @@ resource "aws_db_instance" "this" {
   snapshot_identifier                   = var.snapshot_identifier
   storage_encrypted                     = var.storage_encrypted
   storage_type                          = var.storage_type
-  timezone                              = var.timezone # Currently only supported by Microsoft SQL Server.                          
+  timezone                              = var.timezone # Currently only supported by Microsoft SQL Server.
   tags = merge(
     {
       "Name"        = var.name
@@ -132,37 +132,39 @@ resource "aws_db_option_group" "this" {
 # Security group
 resource "aws_security_group" "this" {
   count       = var.create_security_group ? 1 : 0
-  name        = "${var.name}-securitygroup"
+  name        = "${var.name}-security-group"
   vpc_id      = var.vpc_id
   description = "RDS instance Security Group"
+
+  dynamic "ingress" {
+    for_each = var.security_group_ingress
+    content {
+      description      = "Rule to allow port ${try(ingress.value.from_port, "")} inbound traffic"
+      from_port        = try(ingress.value.from_port, null)
+      to_port          = try(ingress.value.to_port, null)
+      protocol         = try(ingress.value.protocol, null)
+      cidr_blocks      = try(ingress.value.cidr_blocks, [])
+      ipv6_cidr_blocks = try(ingress.value.ipv6_cidr_blocks, [])
+    }
+  }
+
+  dynamic "egress" {
+    for_each = var.security_group_egress
+    content {
+      description = "Rule to allow outbound traffic"
+      from_port   = try(egress.value.from_port, 0)
+      to_port     = try(egress.value.to_port, 0)
+      protocol    = try(egress.value.protocol, -1)
+      cidr_blocks = try(egress.value.cidr_blocks, ["0.0.0.0/0"])
+    }
+  }
+
   tags = merge(
     {
       "Environment" = var.environment
     },
     var.other_tags,
   )
-}
-
-resource "aws_security_group_rule" "ingress" {
-  count                    = var.create_security_group ? 1 : 0
-  type                     = var.ingress_type
-  description              = "Allow inbound traffic from existing Security Groups"
-  from_port                = var.port
-  to_port                  = var.port
-  protocol                 = var.ingress_protocol
-  source_security_group_id = join("", aws_security_group.this.*.id)
-  security_group_id        = join("", aws_security_group.this.*.id)
-}
-
-resource "aws_security_group_rule" "egress" {
-  count             = var.create_security_group ? 1 : 0
-  type              = var.egress_type
-  description       = "Allow all egress traffic"
-  from_port         = var.from_port
-  to_port           = var.to_port
-  protocol          = var.egress_protocol
-  cidr_blocks       = [var.cidr_blocks]
-  security_group_id = join("", aws_security_group.this.*.id)
 }
 
 #  enhanced monitoring IAM role

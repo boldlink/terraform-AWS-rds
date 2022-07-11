@@ -2,8 +2,7 @@
 
 [<img src="https://avatars.githubusercontent.com/u/25388280?s=200&v=4" width="96"/>](https://boldlink.io)
 
-# Terraform module usage example with configuration for mariadb
-
+# Terraform module usage example with configuration for MYSQL
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
@@ -25,7 +24,7 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_rds_instance_mariadb"></a> [rds\_instance\_mariadb](#module\_rds\_instance\_mariadb) | ../../ | n/a |
+| <a name="module_rds_instance_mysql"></a> [rds\_instance\_mysql](#module\_rds\_instance\_mysql) | ../../ | n/a |
 | <a name="module_vpc"></a> [vpc](#module\_vpc) | git::https://github.com/boldlink/terraform-aws-vpc.git | 2.0.3 |
 
 ## Resources
@@ -49,7 +48,7 @@ No inputs.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_address"></a> [address](#output\_address) | Output values for the module |
+| <a name="output_mysql"></a> [mysql](#output\_mysql) | Output values for the module |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## Third party software

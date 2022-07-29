@@ -42,7 +42,7 @@ resource "aws_db_instance" "this" {
   performance_insights_retention_period = var.performance_insights_retention_period
   port                                  = var.port
   replicate_source_db                   = var.replicate_source_db
-  vpc_security_group_ids                = try(aws_security_group.this.*.id, var.vpc_security_group_ids)
+  vpc_security_group_ids                = concat([join("", aws_security_group.this.*.id, )], var.vpc_security_group_ids)
   skip_final_snapshot                   = var.skip_final_snapshot
   snapshot_identifier                   = var.snapshot_identifier
   storage_encrypted                     = var.storage_encrypted
@@ -139,23 +139,25 @@ resource "aws_security_group" "this" {
   dynamic "ingress" {
     for_each = var.security_group_ingress
     content {
-      description      = "Rule to allow port ${try(ingress.value.from_port, "")} inbound traffic"
+      description      = try(ingress.value.description, "Rule to allow port ${try(ingress.value.from_port, "")} inbound traffic")
       from_port        = try(ingress.value.from_port, null)
       to_port          = try(ingress.value.to_port, null)
       protocol         = try(ingress.value.protocol, null)
       cidr_blocks      = try(ingress.value.cidr_blocks, [])
       ipv6_cidr_blocks = try(ingress.value.ipv6_cidr_blocks, [])
+
     }
   }
 
   dynamic "egress" {
     for_each = var.security_group_egress
     content {
-      description = "Rule to allow outbound traffic"
-      from_port   = try(egress.value.from_port, 0)
-      to_port     = try(egress.value.to_port, 0)
-      protocol    = try(egress.value.protocol, -1)
-      cidr_blocks = try(egress.value.cidr_blocks, ["0.0.0.0/0"])
+      description      = try(egress.value.description, "Rule to allow outbound traffic")
+      from_port        = try(egress.value.from_port, 0)
+      to_port          = try(egress.value.to_port, 0)
+      protocol         = try(egress.value.protocol, -1)
+      cidr_blocks      = try(egress.value.cidr_blocks, ["0.0.0.0/0"])
+      ipv6_cidr_blocks = try(egress.value.ipv6_cidr_blocks, [])
     }
   }
 
@@ -167,7 +169,7 @@ resource "aws_security_group" "this" {
   )
 }
 
-#  enhanced monitoring IAM role
+# enhanced monitoring IAM role
 resource "aws_iam_role" "this" {
   count              = var.create_monitoring_role ? 1 : 0
   name               = "${var.name}-enhanced-monitoring-role"

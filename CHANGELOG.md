@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 - feat: use s3 module to create the bucket in example.
 
-## [1.1.0]
+## [1.1.0] - 2022-07-30
 - fix: db instance security group ids argument
 - added: security group arn and id in outputs
 ## [1.0.9] - 2022-07-06

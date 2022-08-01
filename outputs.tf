@@ -124,3 +124,14 @@ output "character_set_name" {
   description = "The character set (collation) used on Oracle and Microsoft SQL instances."
   value       = aws_db_instance.this.character_set_name
 }
+
+# Security Group
+output "sg_arn" {
+  description = "ARN of the security group."
+  value       = aws_security_group.this.*.arn
+}
+
+output "sg_id" {
+  description = " ID of the security group.."
+  value       = aws_security_group.this.*.id
+}

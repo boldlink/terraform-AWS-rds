@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 - feat: use s3 module to create the bucket in example.
 
+## [1.1.0] - 2022-07-30
+- fix: db instance security group ids argument
+- added: security group arn and id in outputs
 ## [1.0.9] - 2022-07-06
 ### Changes
 - Added the `.github/workflow` folder (not supposed to run gitcommit)
@@ -75,3 +78,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [1.0.7]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.0.7
 [1.0.8]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.0.8
 [1.0.9]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.0.9
+[1.1.0]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.1.0

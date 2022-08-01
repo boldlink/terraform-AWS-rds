@@ -35,7 +35,7 @@ Example available [here](https://github.com/boldlink/terraform-aws-rds/tree/main
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.22.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.24.0 |
 
 ## Modules
 
@@ -147,6 +147,8 @@ No modules.
 | <a name="output_multi_az"></a> [multi\_az](#output\_multi\_az) | If the RDS instance is multi AZ enabled. |
 | <a name="output_port"></a> [port](#output\_port) | The database port. |
 | <a name="output_resource_id"></a> [resource\_id](#output\_resource\_id) | The RDS Resource ID of this instance. |
+| <a name="output_sg_arn"></a> [sg\_arn](#output\_sg\_arn) | ARN of the security group. |
+| <a name="output_sg_id"></a> [sg\_id](#output\_sg\_id) | ID of the security group.. |
 | <a name="output_status"></a> [status](#output\_status) | The RDS instance status. |
 | <a name="output_storage_encrypted"></a> [storage\_encrypted](#output\_storage\_encrypted) | Specifies whether the DB instance is encrypted. |
 | <a name="output_tags_all"></a> [tags\_all](#output\_tags\_all) | A map of tags assigned to the resource, including those inherited from the provider default\_tags |

@@ -323,14 +323,8 @@ variable "instance_timeouts" {
 }
 
 # Tags
-variable "environment" {
-  type        = string
-  description = "The environment which the dbInstance is being deployed"
-  default     = null
-}
-
-variable "other_tags" {
-  description = "Other tags for the dbInstance"
+variable "tags" {
+  description = "(Optional) A map of tags to assign to the resource. If configured with a provider default_tags configuration block present, tags with matching keys will overwrite those defined at the provider-level."
   type        = map(string)
   default     = {}
 }

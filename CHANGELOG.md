@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 - feat: use s3 module to create the bucket in example.
+- fix: CKV2_AWS_30 #"Ensure Postgres RDS as aws_db_instance has Query Logging enabled"
+- fix: s3 import exampleCKV_AWS_145: "Ensure that S3 buckets are encrypted with KMS by default"
+- fix: s3 import exampleCKV_AWS_18: "Ensure the S3 bucket has access logging enabled"
+- fix: s3 import exampleCKV2_AWS_6: "Ensure that S3 bucket has a Public Access block"
+- fix: s3 import exampleCKV_AWS_19: "Ensure all data stored in the S3 bucket is securely encrypted at rest"
+- fix: s3 import exampleCKV_AWS_144: "Ensure that S3 bucket has cross-region replication enabled"
+- fix: mssql example CKV_AWS_157: "Ensure that RDS instances have Multi-AZ enabled"
+- fix: mssql example CKV_AWS_16: "Ensure all data stored in the RDS is securely encrypted at rest"
 
 
 ## [1.1.1] - 2022-10-14

@@ -15,6 +15,11 @@ resource "random_password" "rds_pwd" {
 }
 
 module "s3_import" {
+  #checkov:skip=CKV_AWS_145: "Ensure that S3 buckets are encrypted with KMS by default"
+  #checkov:skip=CKV_AWS_18: "Ensure the S3 bucket has access logging enabled"
+  #checkov:skip=CKV2_AWS_6: "Ensure that S3 bucket has a Public Access block"
+  #checkov:skip=CKV_AWS_19: "Ensure all data stored in the S3 bucket is securely encrypted at rest"
+  #checkov:skip=CKV_AWS_144: "Ensure that S3 bucket has cross-region replication enabled"
   source         = "../../"
   engine         = "mysql"
   engine_version = "8.0.28"

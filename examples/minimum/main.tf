@@ -12,6 +12,12 @@ resource "random_password" "rds_pwd" {
 }
 
 module "minimum" {
+  #checkov:skip=CKV_AWS_129: "Ensure that respective logs of Amazon Relational Database Service (Amazon RDS) are enabled"
+  #checkov:skip=CKV_AWS_118: "Ensure that enhanced monitoring is enabled for Amazon RDS instances"
+  #checkov:skip=CKV_AWS_161: "Ensure RDS database has IAM authentication enabled"
+  #checkov:skip=CKV_AWS_157: "Ensure that RDS instances have Multi-AZ enabled"
+
+
   source              = "../../"
   engine              = "mysql"
   vpc_id              = local.vpc_id

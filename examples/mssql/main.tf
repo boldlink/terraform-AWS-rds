@@ -14,6 +14,8 @@ resource "random_password" "rds_pwd" {
 }
 
 module "rds_instance_mssql" {
+  #checkov:skip=CKV_AWS_157: "Ensure that RDS instances have Multi-AZ enabled"
+  #checkov:skip=CKV_AWS_16: "Ensure all data stored in the RDS is securely encrypted at rest"
   source                          = "../../"
   engine                          = "sqlserver-ee"
   allocated_storage               = 30

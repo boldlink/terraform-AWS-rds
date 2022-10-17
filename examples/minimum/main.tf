@@ -1,18 +1,3 @@
-#### supporting rscs
-module "vpc" {
-  source               = "git::https://github.com/boldlink/terraform-aws-vpc.git?ref=2.0.3"
-  cidr_block           = local.cidr_block
-  name                 = local.name
-  enable_dns_support   = true
-  enable_dns_hostnames = true
-  account              = data.aws_caller_identity.current.account_id
-  region               = data.aws_region.current.name
-
-  ## database Subnets
-  database_subnets   = local.database_subnets
-  availability_zones = local.azs
-}
-
 resource "random_string" "rds_usr" {
   length  = 5
   special = false
@@ -27,14 +12,21 @@ resource "random_password" "rds_pwd" {
 }
 
 module "minimum" {
+  #checkov:skip=CKV_AWS_129: "Ensure that respective logs of Amazon Relational Database Service (Amazon RDS) are enabled"
+  #checkov:skip=CKV_AWS_118: "Ensure that enhanced monitoring is enabled for Amazon RDS instances"
+  #checkov:skip=CKV_AWS_161: "Ensure RDS database has IAM authentication enabled"
+  #checkov:skip=CKV_AWS_157: "Ensure that RDS instances have Multi-AZ enabled"
+
+
   source              = "../../"
   engine              = "mysql"
-  vpc_id              = module.vpc.id
-  subnet_ids          = flatten(module.vpc.database_subnet_id)
+  vpc_id              = local.vpc_id
+  subnet_ids          = local.database_subnets
   name                = local.db_name
   deletion_protection = false
   instance_class      = "db.t2.small"
   username            = random_string.rds_usr.result
   password            = random_password.rds_pwd.result
   port                = 3306
+  tags                = local.tags
 }

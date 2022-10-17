@@ -6,10 +6,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 - feat: use s3 module to create the bucket in example.
+- fix: CKV2_AWS_30 #"Ensure Postgres RDS as aws_db_instance has Query Logging enabled"
+- fix: s3 import exampleCKV_AWS_145: "Ensure that S3 buckets are encrypted with KMS by default"
+- fix: s3 import exampleCKV_AWS_18: "Ensure the S3 bucket has access logging enabled"
+- fix: s3 import exampleCKV2_AWS_6: "Ensure that S3 bucket has a Public Access block"
+- fix: s3 import exampleCKV_AWS_19: "Ensure all data stored in the S3 bucket is securely encrypted at rest"
+- fix: s3 import exampleCKV_AWS_144: "Ensure that S3 bucket has cross-region replication enabled"
+- fix: mssql example CKV_AWS_157: "Ensure that RDS instances have Multi-AZ enabled"
+- fix: mssql example CKV_AWS_16: "Ensure all data stored in the RDS is securely encrypted at rest"
+
+
+## [1.1.1] - 2022-10-14
+### Changes
+- fix: an empty vpc_security_group_ids and `var.create_security_group == false` always triggers change in place for a second terraform apply
+- Updated github workflow files
+- Updated Module Makefile
+- Added makefiles for examples
+- updated tags variable for values to be populated at the stack level
+- Added vpc as a supporting resource
 
 ## [1.1.0] - 2022-07-30
 - fix: db instance security group ids argument
 - added: security group arn and id in outputs
+
 ## [1.0.9] - 2022-07-06
 ### Changes
 - Added the `.github/workflow` folder (not supposed to run gitcommit)
@@ -67,7 +86,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial commit
 - pre-commit checks fix
 
-[Unreleased]: https://github.com/boldlink/terraform-aws-rds/compare/1.0.9...HEAD
+[Unreleased]: https://github.com/boldlink/terraform-aws-rds/compare/1.1.1...HEAD
 
 [1.0.0]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.0.0
 [1.0.2]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.0.2
@@ -79,3 +98,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [1.0.8]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.0.8
 [1.0.9]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.0.9
 [1.1.0]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.1.0
+[1.1.1]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.1.1

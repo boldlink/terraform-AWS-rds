@@ -19,14 +19,6 @@ data "aws_kms_alias" "rds" {
   name = "alias/aws/rds"
 }
 
-data "aws_availability_zones" "available" {
-  state = "available"
-}
-
-data "aws_caller_identity" "current" {}
-
-data "aws_region" "current" {}
-
 data "aws_iam_policy_document" "s3_bucket" {
   version = "2012-10-17"
   statement {
@@ -38,4 +30,23 @@ data "aws_iam_policy_document" "s3_bucket" {
       "arn:aws:s3:::${aws_s3_bucket.mysql.bucket}/*"
     ]
   }
+}
+
+data "aws_vpc" "supporting" {
+  filter {
+    name   = "tag:Name"
+    values = [local.supporting_resources_name]
+  }
+}
+
+data "aws_subnets" "database" {
+  filter {
+    name   = "tag:Name"
+    values = ["${local.supporting_resources_name}.isolated.*"]
+  }
+}
+
+data "aws_subnet" "database" {
+  for_each = toset(data.aws_subnets.database.ids)
+  id       = each.value
 }

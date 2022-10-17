@@ -42,19 +42,13 @@ resource "aws_db_instance" "this" {
   performance_insights_retention_period = var.performance_insights_retention_period
   port                                  = var.port
   replicate_source_db                   = var.replicate_source_db
-  vpc_security_group_ids                = concat([join("", aws_security_group.this.*.id, )], var.vpc_security_group_ids)
+  vpc_security_group_ids                = local.vpc_security_group_ids == null ? null : compact(concat(aws_security_group.this.*.id, local.vpc_security_group_ids))
   skip_final_snapshot                   = var.skip_final_snapshot
   snapshot_identifier                   = var.snapshot_identifier
   storage_encrypted                     = var.storage_encrypted
   storage_type                          = var.storage_type
   timezone                              = var.timezone # Currently only supported by Microsoft SQL Server.
-  tags = merge(
-    {
-      "Name"        = var.name
-      "Environment" = var.environment
-    },
-    var.other_tags,
-  )
+  tags                                  = var.tags
 
   dynamic "restore_to_point_in_time" {
     for_each = var.restore_to_point_in_time
@@ -94,13 +88,7 @@ resource "aws_db_subnet_group" "this" {
   name        = lower("${var.name}-subnetgroup")
   subnet_ids  = var.subnet_ids
   description = "${var.name} RDS Subnet Group"
-  tags = merge(
-    {
-      "Name"        = "${var.name}-subnetgroup"
-      "Environment" = var.environment
-    },
-    var.other_tags,
-  )
+  tags        = var.tags
 }
 
 # Option Group
@@ -161,12 +149,7 @@ resource "aws_security_group" "this" {
     }
   }
 
-  tags = merge(
-    {
-      "Environment" = var.environment
-    },
-    var.other_tags,
-  )
+  tags = var.tags
 }
 
 # enhanced monitoring IAM role
@@ -175,12 +158,7 @@ resource "aws_iam_role" "this" {
   name               = "${var.name}-enhanced-monitoring-role"
   assume_role_policy = var.assume_role_policy
   description        = "enhanced monitoring iam role for rds instance."
-  tags = merge(
-    {
-      "Environment" = var.environment
-    },
-    var.other_tags,
-  )
+  tags               = var.tags
 }
 
 resource "aws_iam_role_policy_attachment" "this" {

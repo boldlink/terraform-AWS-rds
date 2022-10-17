@@ -1,20 +1,3 @@
-#######################
-#  MySQL Engine example
-#######################
-module "vpc" {
-  source               = "git::https://github.com/boldlink/terraform-aws-vpc.git?ref=2.0.3"
-  cidr_block           = local.cidr_block
-  name                 = local.name
-  enable_dns_support   = true
-  enable_dns_hostnames = true
-  account              = data.aws_caller_identity.current.account_id
-  region               = data.aws_region.current.name
-
-  ## database Subnets
-  database_subnets   = local.database_subnets
-  availability_zones = local.azs
-}
-
 resource "random_string" "rds_usr" {
   length  = 5
   special = false
@@ -32,12 +15,11 @@ module "rds_instance_mysql" {
   source                              = "../../"
   engine                              = "mysql"
   instance_class                      = "db.t2.small"
-  subnet_ids                          = flatten(module.vpc.database_subnet_id)
+  subnet_ids                          = local.database_subnets
   name                                = local.name
   username                            = random_string.rds_usr.result
   password                            = random_password.rds_pwd.result
   kms_key_id                          = data.aws_kms_alias.rds.target_key_arn
-  environment                         = local.environment
   port                                = 3306
   iam_database_authentication_enabled = true
   multi_az                            = true
@@ -47,10 +29,11 @@ module "rds_instance_mysql" {
   monitoring_interval                 = 30
   create_option_group                 = true
   deletion_protection                 = false
-  vpc_id                              = module.vpc.id
+  vpc_id                              = local.vpc_id
   assume_role_policy                  = data.aws_iam_policy_document.monitoring.json
   policy_arn                          = "arn:${data.aws_partition.current.partition}:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
   major_engine_version                = "8.0"
+  tags                                = local.tags
 
   security_group_ingress = [
     {
@@ -58,7 +41,7 @@ module "rds_instance_mysql" {
       from_port   = 3306
       to_port     = 3306
       protocol    = "tcp"
-      cidr_blocks = [local.cidr_block]
+      cidr_blocks = ["0.0.0.0/0"]
     }
   ]
 
@@ -68,7 +51,7 @@ module "rds_instance_mysql" {
       from_port   = 0
       to_port     = 0
       protocol    = -1
-      cidr_blocks = [local.cidr_block]
+      cidr_blocks = ["0.0.0.0/0"]
     }
   ]
 
@@ -76,8 +59,5 @@ module "rds_instance_mysql" {
     option = {
       option_name = "MARIADB_AUDIT_PLUGIN"
     }
-  }
-  other_tags = {
-    "cost_center" = "random"
   }
 }

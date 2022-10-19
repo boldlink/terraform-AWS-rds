@@ -16,6 +16,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fix: mssql example CKV_AWS_16: "Ensure all data stored in the RDS is securely encrypted at rest"
 
 
+## [1.1.2] - 2022-10-19
+### Changes
+- update: `.gitignore file` to except terraform, tflint and terraform docs zip files from being committed
+- update: removed badges with .yml extension
+
 ## [1.1.1] - 2022-10-14
 ### Changes
 - fix: an empty vpc_security_group_ids and `var.create_security_group == false` always triggers change in place for a second terraform apply
@@ -55,7 +60,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changes
 - fix: rectified typo
 - feat: Module upgrade
-- feat: subnetgroup modification
+- feat: subnet-group modification
 - feat: tested with mysql example
 - feat: option group && enhanced monitoring
 - feat: updated repository code
@@ -69,7 +74,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.3] - 2022-02-28
 ### Changes
 - fix: minor fixes
-- fix: removed depricated data resources, updated source link && added example readme
+- fix: removed deprecated data resources, updated source link && added example readme
 - feat: pre-commit checks fix
 - feat: updated repository code
 - feat: subnet group update
@@ -86,7 +91,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial commit
 - pre-commit checks fix
 
-[Unreleased]: https://github.com/boldlink/terraform-aws-rds/compare/1.1.1...HEAD
+[Unreleased]: https://github.com/boldlink/terraform-aws-rds/compare/1.1.2...HEAD
 
 [1.0.0]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.0.0
 [1.0.2]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.0.2
@@ -99,3 +104,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [1.0.9]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.0.9
 [1.1.0]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.1.0
 [1.1.1]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.1.1
+[1.1.2]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.1.2

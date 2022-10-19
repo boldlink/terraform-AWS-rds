@@ -37,7 +37,7 @@ jobs:
       run: |
         parent_dir=$(pwd)
         directories=$(find . -not -path '*/.*' -type d -exec test -e '{}'/README.md \; -print)
-        files=$(ls .github/workflows | grep "yaml")
+        files=$(ls .github/workflows | grep "yaml\|yml")
         cmd="cat README.md | grep -i 'Build Status' | grep -o "
         for folder in ${directories} ; do
                 echo "============================================"

@@ -19,6 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fix: mssql example CKV_AWS_157: "Ensure that RDS instances have Multi-AZ enabled"
 - fix: mssql example CKV_AWS_16: "Ensure all data stored in the RDS is securely encrypted at rest"
 - feat: use s3 module to create the bucket in example.
+- feat: Added parameter group feature.
+- feat: Updated workflow files
 
 ## [1.1.2] - 2022-10-19
 ### Changes

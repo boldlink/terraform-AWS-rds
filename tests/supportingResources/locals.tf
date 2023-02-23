@@ -8,7 +8,12 @@ locals {
   cidr_block       = "10.1.0.0/16"
   name             = "terraform-aws-rds"
   tags = {
-    Environment        = "examples"
+    Environment        = "example"
     "user::CostCenter" = "terraform-registry"
+    Department         = "DevOps"
+    Project            = "Examples"
+    Owner              = "Boldlink"
+    LayerName          = "cExample"
+    LayerId            = "cExample"
   }
 }

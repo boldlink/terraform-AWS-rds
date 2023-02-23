@@ -5,7 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-- feat: use s3 module to create the bucket in example.
+- feat: Show parameter group usage in example.
+
+## [1.1.3] - 2023-02-23
+### Changes
+
 - fix: CKV2_AWS_30 #"Ensure Postgres RDS as aws_db_instance has Query Logging enabled"
 - fix: s3 import exampleCKV_AWS_145: "Ensure that S3 buckets are encrypted with KMS by default"
 - fix: s3 import exampleCKV_AWS_18: "Ensure the S3 bucket has access logging enabled"
@@ -14,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fix: s3 import exampleCKV_AWS_144: "Ensure that S3 bucket has cross-region replication enabled"
 - fix: mssql example CKV_AWS_157: "Ensure that RDS instances have Multi-AZ enabled"
 - fix: mssql example CKV_AWS_16: "Ensure all data stored in the RDS is securely encrypted at rest"
-
+- feat: use s3 module to create the bucket in example.
 
 ## [1.1.2] - 2022-10-19
 ### Changes
@@ -91,7 +95,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial commit
 - pre-commit checks fix
 
-[Unreleased]: https://github.com/boldlink/terraform-aws-rds/compare/1.1.2...HEAD
+[Unreleased]: https://github.com/boldlink/terraform-aws-rds/compare/1.1.3...HEAD
 
 [1.0.0]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.0.0
 [1.0.2]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.0.2
@@ -105,3 +109,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [1.1.0]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.1.0
 [1.1.1]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.1.1
 [1.1.2]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.1.2
+[1.1.3]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.1.3

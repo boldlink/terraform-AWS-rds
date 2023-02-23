@@ -14,8 +14,6 @@ resource "random_password" "rds_pwd" {
 }
 
 module "rds_instance_mssql" {
-  #checkov:skip=CKV_AWS_157: "Ensure that RDS instances have Multi-AZ enabled"
-  #checkov:skip=CKV_AWS_16: "Ensure all data stored in the RDS is securely encrypted at rest"
   source                          = "../../"
   engine                          = "sqlserver-ee"
   allocated_storage               = 30
@@ -26,6 +24,7 @@ module "rds_instance_mssql" {
   username                        = random_string.rds_usr.result
   password                        = random_password.rds_pwd.result
   port                            = 1433
+  multi_az                        = true
   enabled_cloudwatch_logs_exports = ["agent", "error"]
   create_security_group           = true
   create_monitoring_role          = true
@@ -38,6 +37,6 @@ module "rds_instance_mssql" {
   major_engine_version            = "15.00"
   timezone                        = "UTC"
   license_model                   = "license-included"
-  storage_encrypted               = false
+  storage_encrypted               = true
   tags                            = local.tags
 }

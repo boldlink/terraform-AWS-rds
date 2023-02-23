@@ -1,61 +1,113 @@
-resource "aws_s3_bucket" "mysql" {
-  #checkov:skip=CKV2_AWS_6: Ensure that S3 bucket has a Public Access block
-  #checkov:skip=CKV_AWS_19: Ensure all data stored in the S3 bucket is securely encrypted at rest
-  #checkov:skip=CKV_AWS_144: Ensure that S3 bucket has cross-region replication enabled
-  #checkov:skip=CKV_AWS_18: Ensure the S3 bucket has access logging enabled
-  #checkov:skip=CKV_AWS_145: "Ensure that S3 buckets are encrypted with KMS by default"
-  bucket        = local.name
+provider "aws" {
+  region = "eu-west-1"
+}
+
+provider "aws" {
+  alias  = "dest"
+  region = "eu-west-2"
+}
+
+module "replication_role" {
+  source                = "boldlink/iam-role/aws"
+  version               = "1.1.0"
+  name                  = "${local.name}-replication-role"
+  description           = "S3 replication role"
+  assume_role_policy    = local.assume_role_policy
+  force_detach_policies = true
+  policies = {
+    "${local.name}-replication-policy" = {
+      policy = local.role_policy
+    }
+  }
+}
+
+module "replication_bucket" {
+  source                 = "boldlink/s3/aws"
+  version                = "2.2.0"
+  sse_bucket_key_enabled = false
+  bucket                 = local.replication_bucket
+  sse_sse_algorithm      = "AES256"
+  force_destroy          = true
+  tags                   = local.tags
+
+  providers = {
+    aws = aws.dest
+  }
+}
+
+module "s3_logging" {
+  source        = "boldlink/s3/aws"
+  version       = "2.2.0"
+  bucket        = "${local.name}-logging-bucket"
   force_destroy = true
-
+  tags          = local.tags
 }
 
-data "aws_iam_policy_document" "assume_policy" {
-  statement {
-    actions = [
-      "sts:AssumeRole",
+module "mysql" {
+  source                 = "boldlink/s3/aws"
+  version                = "2.2.0"
+  bucket                 = local.name
+  sse_sse_algorithm      = "AES256"
+  sse_bucket_key_enabled = false
+  force_destroy          = true
+  tags                   = local.tags
+
+  s3_logging = {
+    target_bucket = module.s3_logging.bucket
+    target_prefix = "/logs"
+  }
+
+  replication_configuration = {
+    role = module.replication_role.arn
+    rules = [
+      {
+        id     = "everything"
+        status = "Enabled"
+
+        delete_marker_replication = {
+          status = "Enabled"
+        }
+
+        destination = {
+          bucket        = module.replication_bucket.arn
+          storage_class = "STANDARD"
+        }
+
+        source_selection_criteria = {
+          replica_modifications = {
+            status = "Enabled"
+          }
+        }
+      }
     ]
+  }
 
-    principals {
-      type        = "Service"
-      identifiers = ["rds.amazonaws.com"]
+  depends_on = [module.s3_logging]
+}
+
+module "s3_acces_role" {
+  source                = "boldlink/iam-role/aws"
+  version               = "1.1.0"
+  name                  = local.name
+  assume_role_policy    = data.aws_iam_policy_document.assume_policy.json
+  description           = "Role for mysql instance to access artifacts from s3"
+  force_detach_policies = true
+  tags                  = local.tags
+  policies = {
+    "${local.name}-policy" = {
+      policy = data.aws_iam_policy_document.s3_bucket.json
+      tags   = local.tags
     }
   }
 }
 
-resource "aws_iam_role" "s3_acces" {
-  name               = local.name
-  assume_role_policy = data.aws_iam_policy_document.assume_policy.json
-}
-
-resource "aws_iam_policy" "s3_bucket" {
-  name   = "s3-import"
-  policy = data.aws_iam_policy_document.s3_bucket.json
-
+resource "null_resource" "s3_sync" {
   provisioner "local-exec" {
-    command = "unzip sample_backup.zip && aws s3 sync ${path.module}/sample_backup s3://${aws_s3_bucket.mysql.id}"
+    command = "unzip sample_backup.zip && aws s3 sync ${path.module}/sample_backup s3://${module.mysql.id}"
   }
-}
 
-resource "aws_s3_bucket_server_side_encryption_configuration" "main" {
-  bucket = aws_s3_bucket.mysql.bucket
-  rule {
-    apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256"
-    }
-  }
-}
-
-resource "aws_s3_bucket_versioning" "main" {
-  bucket = aws_s3_bucket.mysql.id
-  versioning_configuration {
-    status = "Enabled"
-  }
-}
-
-resource "aws_iam_policy_attachment" "s3_acces" {
-  name = "s3-import"
-  roles = [
-    aws_iam_role.s3_acces.name,
+  depends_on = [
+    module.mysql,
+    module.s3_acces_role
   ]
-  policy_arn = aws_iam_policy.s3_bucket.arn
 }

@@ -7,7 +7,13 @@ locals {
     for s in data.aws_subnet.database : s.id
   ]
   tags = {
-    Name        = local.name
-    Environment = "examples"
+    Environment        = "example"
+    Name               = local.name
+    "user::CostCenter" = "terraform-registry"
+    Department         = "DevOps"
+    Project            = "Examples"
+    Owner              = "Boldlink"
+    LayerName          = "cExample"
+    LayerId            = "cExample"
   }
 }

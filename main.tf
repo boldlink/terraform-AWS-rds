@@ -34,7 +34,7 @@ resource "aws_db_instance" "this" {
   replica_mode                          = var.replica_mode
   db_name                               = var.engine == try("mysql", "posgresql") ? var.name : null
   option_group_name                     = length(var.option_group_name) > 0 ? var.option_group_name : join("", aws_db_option_group.this.*.name)
-  parameter_group_name                  = var.parameter_group_name
+  parameter_group_name                  = length(var.parameter_group) > 0 ? join("", aws_db_parameter_group.this.*.id) : var.parameter_group_name
   username                              = var.username
   password                              = var.password
   performance_insights_enabled          = var.performance_insights_enabled
@@ -165,4 +165,24 @@ resource "aws_iam_role_policy_attachment" "this" {
   count      = var.create_monitoring_role ? 1 : 0
   role       = aws_iam_role.this[0].name
   policy_arn = var.policy_arn
+}
+
+## Parameter Group
+resource "aws_db_parameter_group" "this" {
+  count  = length(var.parameter_group) > 0 ? 1 : 0
+  name   = var.parameter_group["name"]
+  family = var.parameter_group["family"]
+
+  dynamic "parameter" {
+    for_each = try([var.parameter_group["parameter"]], [])
+    content {
+      name         = parameter.value.name
+      value        = parameter.value.value
+      apply_method = try(parameter.value.apply_method, "immediate")
+    }
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }

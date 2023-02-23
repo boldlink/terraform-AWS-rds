@@ -62,7 +62,7 @@ variable "ca_cert_identifier" {
 variable "copy_tags_to_snapshot" {
   description = "On delete, copy all Instance tags to the final snapshot (if final_snapshot_identifier is specified)"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "db_subnet_group_name" {
@@ -219,6 +219,12 @@ variable "parameter_group_name" {
   description = "Name of the DB parameter group to associate or create"
   type        = string
   default     = null
+}
+
+variable "parameter_group" {
+  description = "Parameter group to create"
+  type        = any
+  default     = []
 }
 
 variable "username" {

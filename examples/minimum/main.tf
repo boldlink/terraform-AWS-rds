@@ -12,21 +12,19 @@ resource "random_password" "rds_pwd" {
 }
 
 module "minimum" {
-  #checkov:skip=CKV_AWS_129: "Ensure that respective logs of Amazon Relational Database Service (Amazon RDS) are enabled"
-  #checkov:skip=CKV_AWS_118: "Ensure that enhanced monitoring is enabled for Amazon RDS instances"
-  #checkov:skip=CKV_AWS_161: "Ensure RDS database has IAM authentication enabled"
-  #checkov:skip=CKV_AWS_157: "Ensure that RDS instances have Multi-AZ enabled"
-
-
-  source              = "../../"
-  engine              = "mysql"
-  vpc_id              = local.vpc_id
-  subnet_ids          = local.database_subnets
-  name                = local.db_name
-  deletion_protection = false
-  instance_class      = "db.t2.small"
-  username            = random_string.rds_usr.result
-  password            = random_password.rds_pwd.result
-  port                = 3306
-  tags                = local.tags
+  source                              = "../../"
+  engine                              = "mysql"
+  vpc_id                              = local.vpc_id
+  subnet_ids                          = local.database_subnets
+  name                                = local.db_name
+  enabled_cloudwatch_logs_exports     = ["general", "error", "slowquery"]
+  multi_az                            = true
+  monitoring_interval                 = 5
+  iam_database_authentication_enabled = true
+  deletion_protection                 = false
+  instance_class                      = "db.t2.small"
+  username                            = random_string.rds_usr.result
+  password                            = random_password.rds_pwd.result
+  port                                = 3306
+  tags                                = local.tags
 }

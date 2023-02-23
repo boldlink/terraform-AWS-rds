@@ -15,11 +15,6 @@ resource "random_password" "rds_pwd" {
 }
 
 module "s3_import" {
-  #checkov:skip=CKV_AWS_145: "Ensure that S3 buckets are encrypted with KMS by default"
-  #checkov:skip=CKV_AWS_18: "Ensure the S3 bucket has access logging enabled"
-  #checkov:skip=CKV2_AWS_6: "Ensure that S3 bucket has a Public Access block"
-  #checkov:skip=CKV_AWS_19: "Ensure all data stored in the S3 bucket is securely encrypted at rest"
-  #checkov:skip=CKV_AWS_144: "Ensure that S3 bucket has cross-region replication enabled"
   source         = "../../"
   engine         = "mysql"
   engine_version = "8.0.28"
@@ -32,8 +27,8 @@ module "s3_import" {
 
   s3_import = {
     source_engine_version = "8.0.28"
-    bucket_name           = aws_s3_bucket.mysql.id
-    ingestion_role        = aws_iam_role.s3_acces.arn
+    bucket_name           = module.mysql.id
+    ingestion_role        = module.s3_acces_role.arn
   }
 
   kms_key_id                          = data.aws_kms_alias.rds.target_key_arn
@@ -42,6 +37,7 @@ module "s3_import" {
   enabled_cloudwatch_logs_exports     = ["general", "error", "slowquery"]
   create_security_group               = true
   create_monitoring_role              = true
+  storage_encrypted                   = true
   monitoring_interval                 = 30
   deletion_protection                 = false
   vpc_id                              = local.vpc_id
@@ -56,7 +52,7 @@ module "s3_import" {
   }
 
   depends_on = [
-    aws_s3_bucket.mysql,
-    aws_iam_policy.s3_bucket
+    module.mysql,
+    module.s3_acces_role
   ]
 }

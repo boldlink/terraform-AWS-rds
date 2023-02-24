@@ -1,18 +1,3 @@
-data "aws_partition" "current" {}
-
-data "aws_iam_policy_document" "monitoring" {
-  statement {
-    actions = [
-      "sts:AssumeRole",
-    ]
-
-    principals {
-      type        = "Service"
-      identifiers = ["monitoring.rds.amazonaws.com"]
-    }
-  }
-}
-
 data "aws_vpc" "supporting" {
   filter {
     name   = "tag:Name"

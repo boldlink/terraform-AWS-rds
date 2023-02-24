@@ -7,6 +7,8 @@ locals {
   partition                 = data.aws_partition.current.partition
   dns_suffix                = data.aws_partition.current.dns_suffix
   replication_bucket        = "${local.name}-replication-bucket"
+  aws_region_1              = "eu-west-1"
+  aws_region_2              = "eu-west-2"
 
   database_subnet_id = [
     for s in data.aws_subnet.database : s.id
@@ -71,7 +73,7 @@ locals {
     Department         = "DevOps"
     Project            = "Examples"
     Owner              = "Boldlink"
-    LayerName          = "cExample"
-    LayerId            = "cExample"
+    LayerName          = "Example"
+    LayerId            = "Example"
   }
 }

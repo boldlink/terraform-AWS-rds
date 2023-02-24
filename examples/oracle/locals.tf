@@ -13,7 +13,7 @@ locals {
     Department         = "DevOps"
     Project            = "Examples"
     Owner              = "Boldlink"
-    LayerName          = "cExample"
-    LayerId            = "cExample"
+    LayerName          = "Example"
+    LayerId            = "Example"
   }
 }

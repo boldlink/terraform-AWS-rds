@@ -1,12 +1,3 @@
-provider "aws" {
-  region = "eu-west-1"
-}
-
-provider "aws" {
-  alias  = "dest"
-  region = "eu-west-2"
-}
-
 module "replication_role" {
   source                = "boldlink/iam-role/aws"
   version               = "1.1.0"

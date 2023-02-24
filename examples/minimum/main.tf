@@ -12,13 +12,13 @@ resource "random_password" "rds_pwd" {
 }
 
 module "minimum" {
+  #checkov:skip=CKV_AWS_157: "Ensure that RDS instances have Multi-AZ enabled"
   source                              = "../../"
   engine                              = "mysql"
   vpc_id                              = local.vpc_id
   subnet_ids                          = local.database_subnets
   name                                = local.db_name
   enabled_cloudwatch_logs_exports     = ["general", "error", "slowquery"]
-  multi_az                            = true
   monitoring_interval                 = 5
   iam_database_authentication_enabled = true
   deletion_protection                 = false

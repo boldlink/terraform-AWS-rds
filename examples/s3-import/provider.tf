@@ -1,8 +1,8 @@
 provider "aws" {
-  region = local.aws_region_1
+  region = var.region_1
 }
 
 provider "aws" {
   alias  = "dest"
-  region = local.aws_region_2
+  region = var.region_2
 }

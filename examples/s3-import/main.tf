@@ -42,7 +42,7 @@ module "s3_import" {
   deletion_protection                 = false
   vpc_id                              = local.vpc_id
   assume_role_policy                  = data.aws_iam_policy_document.monitoring.json
-  policy_arn                          = "arn:${data.aws_partition.current.partition}:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
+  policy_arn                          = "arn:${local.partition}:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
   major_engine_version                = "8.0"
   tags                                = local.tags
   options = {

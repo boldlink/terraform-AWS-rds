@@ -34,7 +34,7 @@ module "rds_instance_mariadb" {
   deletion_protection             = false
   create_option_group             = true
   assume_role_policy              = data.aws_iam_policy_document.monitoring.json
-  policy_arn                      = "arn:${data.aws_partition.current.partition}:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
+  policy_arn                      = "arn:${local.partition}:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
   major_engine_version            = "10.6"
   tags                            = local.tags
 }

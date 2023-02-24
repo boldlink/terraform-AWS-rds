@@ -71,7 +71,11 @@ See [here](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/MySQL.Procedur
 
 ## Inputs
 
-No inputs.
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_region_1"></a> [region\_1](#input\_region\_1) | The default region where all other resources are deployed | `string` | `"eu-west-1"` | no |
+| <a name="input_region_2"></a> [region\_2](#input\_region\_2) | The second region to deploy replication bucket | `string` | `"eu-west-2"` | no |
+| <a name="input_supporting_resources_name"></a> [supporting\_resources\_name](#input\_supporting\_resources\_name) | The stack name for supporting resources launched separately | `string` | `"terraform-aws-rds"` | no |
 
 ## Outputs
 

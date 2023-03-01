@@ -13,7 +13,9 @@ on:
       - 'releases/*'
       - 'chore/*'
       - 'chores/*'
-      - 'automatic*'
+      - 'automation*'
+  schedule:
+    - cron: "00 18 * * *"
 
 permissions: read-all
 

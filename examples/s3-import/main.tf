@@ -21,7 +21,7 @@ module "s3_import" {
   instance_class = "db.t2.small"
   subnet_ids     = local.database_subnets
   port           = 3306
-  name           = local.db_name
+  name           = var.db_name
   username       = random_string.rds_usr.result
   password       = random_password.rds_pwd.result
 
@@ -37,14 +37,20 @@ module "s3_import" {
   enabled_cloudwatch_logs_exports     = ["general", "error", "slowquery"]
   create_security_group               = true
   create_monitoring_role              = true
-  storage_encrypted                   = true
   monitoring_interval                 = 30
   deletion_protection                 = false
   vpc_id                              = local.vpc_id
   assume_role_policy                  = data.aws_iam_policy_document.monitoring.json
   policy_arn                          = "arn:${local.partition}:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
   major_engine_version                = "8.0"
-  tags                                = local.tags
+
+  tags = merge(
+    {
+      "Name" = var.name
+    },
+    var.tags,
+  )
+
   options = {
     option = {
       option_name = "MARIADB_AUDIT_PLUGIN"

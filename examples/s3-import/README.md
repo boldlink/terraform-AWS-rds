@@ -73,9 +73,12 @@ See [here](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/MySQL.Procedur
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_db_name"></a> [db\_name](#input\_db\_name) | Name of the database | `string` | `"examples3db"` | no |
+| <a name="input_name"></a> [name](#input\_name) | Name of the stack | `string` | `"mysql-s3-import-example"` | no |
 | <a name="input_region_1"></a> [region\_1](#input\_region\_1) | The default region where all other resources are deployed | `string` | `"eu-west-1"` | no |
 | <a name="input_region_2"></a> [region\_2](#input\_region\_2) | The second region to deploy replication bucket | `string` | `"eu-west-2"` | no |
 | <a name="input_supporting_resources_name"></a> [supporting\_resources\_name](#input\_supporting\_resources\_name) | The stack name for supporting resources launched separately | `string` | `"terraform-aws-rds"` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | The resource tags to be applied | `map(string)` | <pre>{<br>  "Department": "DevOps",<br>  "Environment": "example",<br>  "InstanceScheduler": true,<br>  "LayerId": "Example",<br>  "LayerName": "Example",<br>  "Owner": "Boldlink",<br>  "Project": "Examples",<br>  "user::CostCenter": "terraform-registry"<br>}</pre> | no |
 
 ## Outputs
 

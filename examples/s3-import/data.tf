@@ -31,8 +31,8 @@ data "aws_iam_policy_document" "s3_bucket" {
       "s3:GetBucketLocation"
     ]
     resources = [
-      "arn:${local.partition}:s3:::${local.name}",
-      "arn:${local.partition}:s3:::${local.name}/*"
+      "arn:${local.partition}:s3:::${var.name}",
+      "arn:${local.partition}:s3:::${var.name}/*"
     ]
   }
 }

@@ -58,7 +58,9 @@ make tfdestroy
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_db_name"></a> [db\_name](#input\_db\_name) | The database name to create | `string` | `"exampleminimuminstance"` | no |
 | <a name="input_supporting_resources_name"></a> [supporting\_resources\_name](#input\_supporting\_resources\_name) | The stack name for supporting resources launched separately | `string` | `"terraform-aws-rds"` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | The resource tags to be applied | `map(string)` | <pre>{<br>  "Department": "DevOps",<br>  "Environment": "example",<br>  "InstanceScheduler": true,<br>  "LayerId": "Example",<br>  "LayerName": "Example",<br>  "Owner": "Boldlink",<br>  "Project": "Examples",<br>  "user::CostCenter": "terraform-registry"<br>}</pre> | no |
 
 ## Outputs
 

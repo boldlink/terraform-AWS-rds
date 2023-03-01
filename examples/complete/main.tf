@@ -16,7 +16,7 @@ module "rds_instance_mysql" {
   engine                              = "mysql"
   instance_class                      = "db.t2.small"
   subnet_ids                          = local.database_subnets
-  name                                = local.name
+  name                                = var.name
   username                            = random_string.rds_usr.result
   password                            = random_password.rds_pwd.result
   kms_key_id                          = data.aws_kms_alias.rds.target_key_arn
@@ -33,7 +33,12 @@ module "rds_instance_mysql" {
   assume_role_policy                  = data.aws_iam_policy_document.monitoring.json
   policy_arn                          = "arn:${local.partition}:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
   major_engine_version                = "8.0"
-  tags                                = local.tags
+  tags = merge(
+    {
+      "Name" = var.name
+    },
+    var.tags,
+  )
 
   security_group_ingress = [
     {

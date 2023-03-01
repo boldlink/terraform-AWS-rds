@@ -20,7 +20,7 @@ module "rds_instance_mssql" {
   engine_version                  = "15.00.4153.1.v1"
   instance_class                  = "db.t3.xlarge"
   subnet_ids                      = local.database_subnets
-  name                            = local.name
+  name                            = var.name
   username                        = random_string.rds_usr.result
   password                        = random_password.rds_pwd.result
   port                            = 1433
@@ -37,6 +37,10 @@ module "rds_instance_mssql" {
   major_engine_version            = "15.00"
   timezone                        = "UTC"
   license_model                   = "license-included"
-  storage_encrypted               = true
-  tags                            = local.tags
+  tags = merge(
+    {
+      "Name" = var.name
+    },
+    var.tags,
+  )
 }

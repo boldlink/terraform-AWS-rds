@@ -1,12 +1,12 @@
 module "replication_role" {
   source                = "boldlink/iam-role/aws"
   version               = "1.1.0"
-  name                  = "${local.name}-replication-role"
+  name                  = "${var.name}-replication-role"
   description           = "S3 replication role"
   assume_role_policy    = local.assume_role_policy
   force_detach_policies = true
   policies = {
-    "${local.name}-replication-policy" = {
+    "${var.name}-replication-policy" = {
       policy = local.role_policy
     }
   }
@@ -19,7 +19,12 @@ module "replication_bucket" {
   bucket                 = local.replication_bucket
   sse_sse_algorithm      = "AES256"
   force_destroy          = true
-  tags                   = local.tags
+  tags = merge(
+    {
+      "Name" = var.name
+    },
+    var.tags,
+  )
 
   providers = {
     aws = aws.dest
@@ -29,19 +34,29 @@ module "replication_bucket" {
 module "s3_logging" {
   source        = "boldlink/s3/aws"
   version       = "2.2.0"
-  bucket        = "${local.name}-logging-bucket"
+  bucket        = "${var.name}-logging-bucket"
   force_destroy = true
-  tags          = local.tags
+  tags = merge(
+    {
+      "Name" = var.name
+    },
+    var.tags,
+  )
 }
 
 module "mysql" {
   source                 = "boldlink/s3/aws"
   version                = "2.2.0"
-  bucket                 = local.name
+  bucket                 = var.name
   sse_sse_algorithm      = "AES256"
   sse_bucket_key_enabled = false
   force_destroy          = true
-  tags                   = local.tags
+  tags = merge(
+    {
+      "Name" = var.name
+    },
+    var.tags,
+  )
 
   s3_logging = {
     target_bucket = module.s3_logging.bucket
@@ -79,15 +94,26 @@ module "mysql" {
 module "s3_acces_role" {
   source                = "boldlink/iam-role/aws"
   version               = "1.1.0"
-  name                  = local.name
+  name                  = var.name
   assume_role_policy    = data.aws_iam_policy_document.assume_policy.json
   description           = "Role for mysql instance to access artifacts from s3"
   force_detach_policies = true
-  tags                  = local.tags
+  tags = merge(
+    {
+      "Name" = var.name
+    },
+    var.tags,
+  )
+
   policies = {
-    "${local.name}-policy" = {
+    "${var.name}-policy" = {
       policy = data.aws_iam_policy_document.s3_bucket.json
-      tags   = local.tags
+      tags = merge(
+        {
+          "Name" = var.name
+        },
+        var.tags,
+      )
     }
   }
 }

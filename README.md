@@ -20,8 +20,35 @@ This template creates a database instance running on mysql version 8.0.13, port 
 Examples available [here](./examples)
 
 ## Usage
-*NOTE*: These examples use the latest version of this module
+**NOTE**: These examples use the latest version of this module
 
+## **Security Notice**
+The following checkov checks have been disabled for the minimum example because this intended for development environment. All these should be enabled in a production environment
+- CKV2_AWS_30: "Ensure Postgres RDS as aws_db_instance has Query Logging enabled"
+- CKV_AWS_129: "Ensure that respective logs of Amazon Relational Database Service (Amazon RDS) are enabled"
+- CKV_AWS_118: "Ensure that enhanced monitoring is enabled for Amazon RDS instances"
+- CKV_AWS_161: "Ensure RDS database has IAM authentication enabled"
+- CKV_AWS_157: "Ensure that RDS instances have Multi-AZ enabled"
+
+```hcl
+module "minimum" {
+  source              = "boldlink/rds/aws"
+  engine              = "mysql"
+  vpc_id              = local.vpc_id
+  subnet_ids          = local.database_subnets
+  name                = var.db_name
+  deletion_protection = false
+  instance_class      = "db.t2.small"
+  username            = random_string.rds_usr.result
+  password            = random_password.rds_pwd.result
+  tags = merge(
+    {
+      "Name" = var.db_name
+    },
+    var.tags,
+  )
+}
+```
 ## Documentation
 
 [AWS DB Instance documentation](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.DBInstance.html)
@@ -92,6 +119,7 @@ No modules.
 | <a name="input_instance_class"></a> [instance\_class](#input\_instance\_class) | The instance class for your instance(s). | `string` | `null` | no |
 | <a name="input_instance_timeouts"></a> [instance\_timeouts](#input\_instance\_timeouts) | aws\_rds\_instance provides the following Timeouts configuration options: create, update, delete | <pre>list(object({<br>    create = string<br>    update = string<br>    delete = string<br>  }))</pre> | `[]` | no |
 | <a name="input_kms_key_id"></a> [kms\_key\_id](#input\_kms\_key\_id) | The ARN for the KMS encryption key. If creating an encrypted replica, set this to the destination KMS ARN. If storage\_encrypted is set to true and kms\_key\_id is not specified the default KMS key created in your account will be used | `string` | `null` | no |
+| <a name="input_license_model"></a> [license\_model](#input\_license\_model) | (Optional, but required for some DB engines, i.e., Oracle SE1) License model information for this DB instance. | `string` | `null` | no |
 | <a name="input_maintenance_window"></a> [maintenance\_window](#input\_maintenance\_window) | The window to perform maintenance in. Syntax: 'ddd:hh24:mi-ddd:hh24:mi'. Eg: 'Mon:00:00-Mon:03:00' | `string` | `"Sun:00:00-Sun:02:00"` | no |
 | <a name="input_major_engine_version"></a> [major\_engine\_version](#input\_major\_engine\_version) | (Required) Specifies the major version of the engine that this option group should be associated with. | `string` | `""` | no |
 | <a name="input_max_allocated_storage"></a> [max\_allocated\_storage](#input\_max\_allocated\_storage) | (Optional) When configured, the upper limit to which Amazon RDS can automatically scale the storage of the DB instance. Configuring this will automatically ignore differences to allocated\_storage. Must be greater than or equal to allocated\_storage or 0 to disable Storage Autoscaling. | `number` | `0` | no |
@@ -162,7 +190,7 @@ No modules.
 | <a name="output_username"></a> [username](#output\_username) | The master username for the database. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
-## Third party software
+# Third party software
 This repository uses third party software:
 * [pre-commit](https://pre-commit.com/) - Used to help ensure code and documentation consistency
   * Install with `brew install pre-commit`
@@ -175,11 +203,33 @@ This repository uses third party software:
   * Install with `brew install tflint`
   * Manually use via pre-commit
 
+### Supporting resources:
+
+The example stacks are used by BOLDLink developers to validate the modules by building an actual stack on AWS.
+
+Some of the modules have dependencies on other modules (ex. Ec2 instance depends on the VPC module) so we create them
+first and use data sources on the examples to use the stacks.
+
+Any supporting resources will be available on the `tests/supportingResources` and the lifecycle is managed by the `Makefile` targets.
+
+Resources on the `tests/supportingResources` folder are not intended for demo or actual implementation purposes, and can be used for reference.
+
 ### Makefile
 The makefile contained in this repo is optimized for linux paths and the main purpose is to execute testing for now.
-* Create all tests:
-`$ make tests`
-* Clean all tests:
-`$ make clean`
-
-#### BOLDLink-SIG 2022
+* Create all tests stacks including any supporting resources:
+```console
+make tests
+```
+* Clean all tests *except* existing supporting resources:
+```console
+make clean
+```
+* Clean supporting resources - this is done separately so you can test your module build/modify/destroy independently.
+```console
+make cleansupporting
+```
+* !!!DANGER!!! Clean the state files from examples and test/supportingResources - use with CAUTION!!!
+```console
+make cleanstatefiles
+```
+#### BOLDLink-SIG 2023

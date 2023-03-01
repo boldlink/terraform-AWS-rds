@@ -1,11 +1,9 @@
 locals {
-  name               = "mysql-s3-import-example"
-  db_name            = "examples3db"
   vpc_id             = data.aws_vpc.supporting.id
   database_subnets   = local.database_subnet_id
   partition          = data.aws_partition.current.partition
   dns_suffix         = data.aws_partition.current.dns_suffix
-  replication_bucket = "${local.name}-replication-bucket"
+  replication_bucket = "${var.name}-replication-bucket"
 
   database_subnet_id = [
     for s in data.aws_subnet.database : s.id
@@ -42,8 +40,8 @@ locals {
         "Resource" : [
           module.replication_bucket.arn,
           "${module.replication_bucket.arn}/*",
-          "arn:${local.partition}:s3:::${local.name}",
-          "arn:${local.partition}:s3:::${local.name}/*"
+          "arn:${local.partition}:s3:::${var.name}",
+          "arn:${local.partition}:s3:::${var.name}/*"
         ]
       },
       {
@@ -57,21 +55,9 @@ locals {
         "Effect" : "Allow",
         "Resource" : [
           "${module.replication_bucket.arn}/*",
-          "arn:${local.partition}:s3:::${local.name}/*"
+          "arn:${local.partition}:s3:::${var.name}/*"
         ]
       }
     ]
   })
-
-  tags = {
-    Environment        = "example"
-    Name               = local.name
-    "user::CostCenter" = "terraform-registry"
-    Department         = "DevOps"
-    Project            = "Examples"
-    InstanceScheduler  = true
-    Owner              = "Boldlink"
-    LayerName          = "Example"
-    LayerId            = "Example"
-  }
 }

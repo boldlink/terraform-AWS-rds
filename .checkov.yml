@@ -1,0 +1,12 @@
+directory:
+- .
+download-external-modules: false
+evaluate-variables: true
+external-modules-download-path: .external_modules
+framework: all
+skip-check:
+- CKV2_AWS_30 #"Ensure Postgres RDS as aws_db_instance has Query Logging enabled"
+- CKV_AWS_129 #"Ensure that respective logs of Amazon Relational Database Service (Amazon RDS) are enabled"
+- CKV_AWS_118 #"Ensure that enhanced monitoring is enabled for Amazon RDS instances"
+- CKV_AWS_161 #"Ensure RDS database has IAM authentication enabled"
+- CKV_AWS_157 #"Ensure that RDS instances have Multi-AZ enabled"

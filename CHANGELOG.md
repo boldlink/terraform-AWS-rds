@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+- fix: CKV_AWS_293: "Ensure that AWS database instances have deletion protection enabled
 - feat: Show parameter group usage in example.
 - feat: add an example for single AZ
 - feat: use an updated version of the vpc module in supporting resources.

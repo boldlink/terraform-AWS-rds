@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat: Show parameter group usage in example.
 - feat: add an example for single AZ
 - feat: use an updated version of the vpc module in supporting resources.
+- feat: Add multithreading ability to test examples in parallel to avoid timout.
 
 ## [1.1.3] - 2023-02-23
 ### Changes

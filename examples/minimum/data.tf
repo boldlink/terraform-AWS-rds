@@ -8,7 +8,7 @@ data "aws_vpc" "supporting" {
 data "aws_subnets" "database" {
   filter {
     name   = "tag:Name"
-    values = ["${var.supporting_resources_name}.isolated.*"]
+    values = ["${var.supporting_resources_name}.databases.*"]
   }
 }
 

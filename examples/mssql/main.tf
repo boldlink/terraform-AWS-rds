@@ -15,32 +15,28 @@ resource "random_password" "rds_pwd" {
 
 module "rds_instance_mssql" {
   source                          = "../../"
-  engine                          = "sqlserver-ee"
-  allocated_storage               = 30
-  engine_version                  = "15.00.4153.1.v1"
-  instance_class                  = "db.t3.xlarge"
+  engine                          = var.engine
+  allocated_storage               = var.allocated_storage
+  max_allocated_storage           = var.max_allocated_storage
+  engine_version                  = var.engine_version
+  instance_class                  = var.instance_class
   subnet_ids                      = local.database_subnets
   name                            = var.name
   username                        = random_string.rds_usr.result
   password                        = random_password.rds_pwd.result
-  port                            = 1433
-  multi_az                        = true
-  enabled_cloudwatch_logs_exports = ["agent", "error"]
-  create_security_group           = true
-  create_monitoring_role          = true
-  monitoring_interval             = 30
-  create_option_group             = true
-  deletion_protection             = false
+  port                            = var.port
+  multi_az                        = var.multi_az
+  enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports
+  create_security_group           = var.create_security_group
+  create_monitoring_role          = var.create_monitoring_role
+  monitoring_interval             = var.monitoring_interval
+  create_option_group             = var.create_option_group
+  deletion_protection             = var.deletion_protection
   vpc_id                          = local.vpc_id
   assume_role_policy              = data.aws_iam_policy_document.monitoring.json
   policy_arn                      = "arn:${local.partition}:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
-  major_engine_version            = "15.00"
-  timezone                        = "UTC"
-  license_model                   = "license-included"
-  tags = merge(
-    {
-      "Name" = var.name
-    },
-    var.tags,
-  )
+  major_engine_version            = var.major_engine_version
+  timezone                        = var.timezone
+  license_model                   = var.license_model
+  tags                            = local.tags
 }

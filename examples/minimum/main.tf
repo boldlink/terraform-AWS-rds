@@ -17,14 +17,9 @@ module "minimum" {
   vpc_id              = local.vpc_id
   subnet_ids          = local.database_subnets
   name                = var.db_name
-  deletion_protection = false
-  instance_class      = "db.t2.small"
+  deletion_protection = var.deletion_protection
+  instance_class      = var.instance_class
   username            = random_string.rds_usr.result
   password            = random_password.rds_pwd.result
-  tags = merge(
-    {
-      "Name" = var.db_name
-    },
-    var.tags,
-  )
+  tags                = local.tags
 }

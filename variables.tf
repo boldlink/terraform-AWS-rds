@@ -212,19 +212,13 @@ variable "multi_az" {
 variable "option_group_name" {
   description = "(Optional) Name of the DB option group to associate."
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "parameter_group_name" {
   description = "Name of the DB parameter group to associate or create"
   type        = string
   default     = null
-}
-
-variable "parameter_group" {
-  description = "Parameter group to create"
-  type        = any
-  default     = []
 }
 
 variable "username" {
@@ -361,22 +355,43 @@ variable "port" {
   default     = 3306
 }
 
+variable "create_parameter_group" {
+  type        = bool
+  description = "whether to create parameter group resource or not"
+  default     = false
+}
+
+variable "parameter_group_family" {
+  type        = string
+  description = "The family of the DB parameter group."
+  default     = null
+}
+
 # Option Group
 variable "create_option_group" {
   description = "whether to create option_group resource or not"
   type        = bool
   default     = false
 }
+
+variable "parameters" {
+  type        = any
+  description = "A list of DB parameters to apply. Note that parameters may differ from a family to an other."
+  default     = []
+}
+
 variable "name_prefix" {
   description = "(Optional, Forces new resource) Creates a unique name beginning with the specified prefix. Conflicts with name. Must be lowercase, to match as it is stored in AWS."
   type        = string
   default     = null
 }
+
 variable "major_engine_version" {
   description = "(Required) Specifies the major version of the engine that this option group should be associated with."
   type        = string
   default     = ""
 }
+
 variable "options" {
   description = "(Optional) A list of Options to apply."
   type        = any

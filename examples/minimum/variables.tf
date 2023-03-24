@@ -24,3 +24,15 @@ variable "tags" {
     LayerId            = "Example"
   }
 }
+
+variable "instance_class" {
+  type        = string
+  description = "The instance class for your instance(s)."
+  default     = "db.t2.small"
+}
+
+variable "deletion_protection" {
+  type        = bool
+  description = "If the DB instance should have deletion protection enabled. The database can't be deleted when this value is set to true. The default is false."
+  default     = false
+}

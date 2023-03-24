@@ -5,15 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-- fix: CKV_AWS_293: "Ensure that AWS database instances have deletion protection enabled
 - feat: Show parameter group usage in example.
 - feat: add an example for single AZ
-- feat: use an updated version of the vpc module in supporting resources.
-- feat: Add multithreading ability to test examples in parallel to avoid timout.
 
-## [1.1.3] - 2023-02-23
+## [1.1.3] - 2023-03-25
 ### Changes
-
+- feat: Add multithreading ability to test examples in parallel to avoid timout.
+- feat: use an updated version of the vpc module in supporting resources.
 - fix: CKV2_AWS_30 #"Ensure Postgres RDS as aws_db_instance has Query Logging enabled"
 - fix: s3 import exampleCKV_AWS_145: "Ensure that S3 buckets are encrypted with KMS by default"
 - fix: s3 import exampleCKV_AWS_18: "Ensure the S3 bucket has access logging enabled"

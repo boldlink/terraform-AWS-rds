@@ -19,12 +19,7 @@ module "replication_bucket" {
   bucket                 = local.replication_bucket
   sse_sse_algorithm      = "AES256"
   force_destroy          = true
-  tags = merge(
-    {
-      "Name" = var.name
-    },
-    var.tags,
-  )
+  tags                   = local.tags
 
   providers = {
     aws = aws.dest
@@ -36,12 +31,7 @@ module "s3_logging" {
   version       = "2.2.0"
   bucket        = "${var.name}-logging-bucket"
   force_destroy = true
-  tags = merge(
-    {
-      "Name" = var.name
-    },
-    var.tags,
-  )
+  tags          = local.tags
 }
 
 module "mysql" {
@@ -51,12 +41,7 @@ module "mysql" {
   sse_sse_algorithm      = "AES256"
   sse_bucket_key_enabled = false
   force_destroy          = true
-  tags = merge(
-    {
-      "Name" = var.name
-    },
-    var.tags,
-  )
+  tags                   = local.tags
 
   s3_logging = {
     target_bucket = module.s3_logging.bucket
@@ -98,22 +83,12 @@ module "s3_acces_role" {
   assume_role_policy    = data.aws_iam_policy_document.assume_policy.json
   description           = "Role for mysql instance to access artifacts from s3"
   force_detach_policies = true
-  tags = merge(
-    {
-      "Name" = var.name
-    },
-    var.tags,
-  )
+  tags                  = local.tags
 
   policies = {
     "${var.name}-policy" = {
       policy = data.aws_iam_policy_document.s3_bucket.json
-      tags = merge(
-        {
-          "Name" = var.name
-        },
-        var.tags,
-      )
+      tags   = local.tags
     }
   }
 }

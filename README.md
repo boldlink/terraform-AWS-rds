@@ -17,6 +17,16 @@ Terraform module for creating an RDS instance resource.
 
 This template creates a database instance running on mysql version 8.0.13, port 3306 and a database subnet group.
 
+### Why choose this module over the standard resouces
+- Validated configurations: The default and custom configurations included in this module have been validated by Chekov, which is an open-source tool used for automated cloud security posture management. This ensures that the configurations adhere to best practices and security standards, reducing the risk of misconfiguration and security vulnerabilities.
+
+- Ease of use: This module includes several examples demonstrating different usage scenarios, making it easier for users to understand and use. It also abstracts the complexity of creating and configuring multiple resources required for an RDS instance, making it simpler and quicker to create and manage RDS instances.
+
+- Time-saving: By using this module, most of the resources and features required for creating and managing RDS instances are already included. This saves time for developers and system administrators who would otherwise need to spend time creating and configuring the resources manually.
+
+- Well-configured IAM permissions: The module has well-configured IAM permissions for some of the features, which helps to ensure that users have the appropriate level of access to the resources they need. This reduces the risk of unauthorized access or misconfigured permissions, which can lead to security breaches.
+
+
 Examples available [here](./examples)
 
 ## Usage
@@ -120,6 +130,7 @@ No modules.
 | <a name="input_instance_class"></a> [instance\_class](#input\_instance\_class) | The instance class for your instance(s). | `string` | `null` | no |
 | <a name="input_instance_timeouts"></a> [instance\_timeouts](#input\_instance\_timeouts) | aws\_rds\_instance provides the following Timeouts configuration options: create, update, delete | <pre>list(object({<br>    create = string<br>    update = string<br>    delete = string<br>  }))</pre> | `[]` | no |
 | <a name="input_kms_key_id"></a> [kms\_key\_id](#input\_kms\_key\_id) | The ARN for the KMS encryption key. If creating an encrypted replica, set this to the destination KMS ARN. If storage\_encrypted is set to true and kms\_key\_id is not specified the default KMS key created in your account will be used | `string` | `null` | no |
+| <a name="input_license_model"></a> [license\_model](#input\_license\_model) | (Optional, but required for some DB engines, i.e., Oracle SE1) License model information for this DB instance. | `string` | `null` | no |
 | <a name="input_maintenance_window"></a> [maintenance\_window](#input\_maintenance\_window) | The window to perform maintenance in. Syntax: 'ddd:hh24:mi-ddd:hh24:mi'. Eg: 'Mon:00:00-Mon:03:00' | `string` | `"Sun:00:00-Sun:02:00"` | no |
 | <a name="input_major_engine_version"></a> [major\_engine\_version](#input\_major\_engine\_version) | (Required) Specifies the major version of the engine that this option group should be associated with. | `string` | `""` | no |
 | <a name="input_max_allocated_storage"></a> [max\_allocated\_storage](#input\_max\_allocated\_storage) | (Optional) When configured, the upper limit to which Amazon RDS can automatically scale the storage of the DB instance. Configuring this will automatically ignore differences to allocated\_storage. Must be greater than or equal to allocated\_storage or 0 to disable Storage Autoscaling. | `number` | `0` | no |

@@ -15,9 +15,15 @@ Terraform module for creating an RDS instance resource.
 
 ## Description
 
-This template creates a database instance running on mysql version 8.0.13, port 3306 and a database subnet group.
+This Terraform module allows you to create a full AWS RDS setup with a single module. It combines all the AWS resources required to proper configure your RDS instance, network, security and more.
 
-### Why choose this module over the standard resouces
+### Why choose this module over the standard resources
+- Multiple RDS engines: This module supports multiple RDS engines, including MySQL, PostgreSQL, MariaDB, Oracle, and SQL Server.
+
+- Multiple database versions: This module supports multiple database versions, including MySQL 5.6, MySQL 5.7, MySQL 8.0, PostgreSQL 9.6, PostgreSQL 10, PostgreSQL 11, PostgreSQL 12, MariaDB 10.1, MariaDB 10.2, MariaDB 10.3, MariaDB 10.4, Oracle 11.2, Oracle 12.1, Oracle 12.2, SQL Server 2016, and SQL Server 2017.
+
+- Development and Production environments: This module supports creating RDS instances for both development and production environments. It also supports creating RDS instances with different configurations for each environment.
+
 - Validated configurations: The default and custom configurations included in this module have been validated by Chekov, which is an open-source tool used for automated cloud security posture management. This ensures that the configurations adhere to best practices and security standards, reducing the risk of misconfiguration and security vulnerabilities.
 
 - Ease of use: This module includes several examples demonstrating different usage scenarios, making it easier for users to understand and use. It also abstracts the complexity of creating and configuring multiple resources required for an RDS instance, making it simpler and quicker to create and manage RDS instances.
@@ -66,6 +72,9 @@ module "minimum" {
 
 [AWS Subnet Group documentation](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html#USER_VPC.Subnets)
 [Terraform AWS Subnet Group documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_subnet_group)
+
+[AWS Parameter Group documentation](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithParamGroups.html)
+[Terraform AWS Parameter Group documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_parameter_group)
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements

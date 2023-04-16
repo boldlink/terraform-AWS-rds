@@ -38,9 +38,9 @@ See [here](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/MySQL.Procedur
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.61.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.63.0 |
 | <a name="provider_null"></a> [null](#provider\_null) | 3.2.1 |
-| <a name="provider_random"></a> [random](#provider\_random) | 3.4.3 |
+| <a name="provider_random"></a> [random](#provider\_random) | 3.5.1 |
 
 ## Modules
 

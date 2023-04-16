@@ -11,16 +11,16 @@
 
 # AWS RDS Terraform module
 
-Terraform module for creating an RDS instance resource.
-
 ## Description
 
-This Terraform module allows you to create a full AWS RDS setup with a single module. It combines all the AWS resources required to proper configure your RDS instance, network, security and more.
+This Terraform module allows you to create a full AWS RDS setup with a single module. It combines all the AWS resources required to proper configure your RDS instance, network, IAM, security and more.
 
 ### Why choose this module over the standard resources
 - Multiple RDS engines: This module supports multiple RDS engines, including MySQL, PostgreSQL, MariaDB, Oracle, and SQL Server.
 
 - Multiple database versions: This module supports multiple database versions, including MySQL 5.6, MySQL 5.7, MySQL 8.0, PostgreSQL 9.6, PostgreSQL 10, PostgreSQL 11, PostgreSQL 12, MariaDB 10.1, MariaDB 10.2, MariaDB 10.3, MariaDB 10.4, Oracle 11.2, Oracle 12.1, Oracle 12.2, SQL Server 2016, and SQL Server 2017.
+
+- Working example to create your RDS instance(s) from a snapshot.
 
 - Development and Production environments: This module supports creating RDS instances for both development and production environments. It also supports creating RDS instances with different configurations for each environment.
 

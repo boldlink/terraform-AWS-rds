@@ -14,7 +14,7 @@
 ### Backup/Restore Requirements:
 - Only backups created with [Percona XtraBackup](https://www.percona.com/downloads) are accepted. `.sql` dump files are not supported.
 - The tar compression program must be installed on the environment where you will be running Terraform deployments for this example.
-- Creating backups of AWS RDS instances using Percona XtraBackup is not feasible, as the process necessitates access to the underlying infrastructure, which is not viable with RDS. This limitation arises from the fact that RDS is a fully-managed service offered by AWS.
+- Creating backups of AWS RDS instances using Percona XtraBackup is not feasible, as the process necessitates access to the underlying database files, which is not viable with RDS. This limitation arises from the fact that RDS is a fully-managed service offered by AWS.
 
 #### MySQL Version Compatibility:
 - Ensure that the version of MySQL you are using for RDS matches the version of MySQL used to create the backup. The backup for this example was taken using version `8.0.32`.

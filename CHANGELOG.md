@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fix: CKV_AWS_157 #"Ensure that RDS instances have Multi-AZ enabled"
 - fix: CKV_AWS_118 #"Ensure that enhanced monitoring is enabled for Amazon RDS instances"
 - fix: CKV_AWS_161 #"Ensure RDS database has IAM authentication enabled"
+- fix: CKV2_AWS_5 #"Ensure that Security Groups are attached to another resource"
 - feat: Show usage of parameter group in examples
 
 ## [1.1.3] - 2023-05-05

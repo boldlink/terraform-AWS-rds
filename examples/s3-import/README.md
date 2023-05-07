@@ -21,6 +21,9 @@
 
 See [here](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/MySQL.Procedural.Importing.html) how to create a database backup using Percona XtraBackup.
 
+### Sample Database and tables created from backup
+- In this example, we have instantiated a database named `usersdb`. Within this database, we have defined a table named `users`, which comprises three fields: `name, age, and address`.
+
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 

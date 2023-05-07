@@ -127,15 +127,3 @@ variable "force_destroy" {
   description = "Choose whether to force deletion of non empty bucket"
   default     = true
 }
-
-variable "rds_s3_acces_role_description" {
-  type        = string
-  description = "Information of what the role does"
-  default     = "Role for mysql instance to access artifacts from s3"
-}
-
-variable "force_detach_policies" {
-  type        = bool
-  description = "Whether to force detachment of policies from IAM role"
-  default     = true
-}

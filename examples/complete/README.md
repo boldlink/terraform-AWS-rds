@@ -35,7 +35,7 @@ make tfdestroy
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.64.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.66.1 |
 | <a name="provider_random"></a> [random](#provider\_random) | 3.5.1 |
 
 ## Modules
@@ -75,8 +75,10 @@ make tfdestroy
 | <a name="input_multi_az"></a> [multi\_az](#input\_multi\_az) | Boolean if specified leave availability\_zone empty, default = false | `bool` | `false` | no |
 | <a name="input_name"></a> [name](#input\_name) | The stack name | `string` | `"exampleinstancemysql"` | no |
 | <a name="input_option_name"></a> [option\_name](#input\_option\_name) | Name for option group option | `string` | `"MARIADB_AUDIT_PLUGIN"` | no |
-| <a name="input_security_group_egress_config"></a> [security\_group\_egress\_config](#input\_security\_group\_egress\_config) | Outgoing traffic configuration for the rds security group | `any` | <pre>[<br>  {<br>    "cidr_blocks": [<br>      "0.0.0.0/0"<br>    ],<br>    "description": "Rule to allow outbound traffic",<br>    "from_port": 0,<br>    "protocol": -1,<br>    "to_port": 0<br>  }<br>]</pre> | no |
-| <a name="input_security_group_ingress_config"></a> [security\_group\_ingress\_config](#input\_security\_group\_ingress\_config) | Incoming traffic configuration for the rds security group | `any` | <pre>[<br>  {<br>    "description": "inbound rds traffic",<br>    "from_port": 3306,<br>    "protocol": "tcp",<br>    "to_port": 3306<br>  }<br>]</pre> | no |
+| <a name="input_rds_sg_description"></a> [rds\_sg\_description](#input\_rds\_sg\_description) | Description of the rule. | `string` | `"mysql rds traffic"` | no |
+| <a name="input_rds_sg_from_port"></a> [rds\_sg\_from\_port](#input\_rds\_sg\_from\_port) | The source port for the traffic | `number` | `3306` | no |
+| <a name="input_rds_sg_protocol"></a> [rds\_sg\_protocol](#input\_rds\_sg\_protocol) | The protocol to use | `string` | `"tcp"` | no |
+| <a name="input_rds_sg_to_port"></a> [rds\_sg\_to\_port](#input\_rds\_sg\_to\_port) | The destination port for the traffic | `number` | `3306` | no |
 | <a name="input_supporting_resources_name"></a> [supporting\_resources\_name](#input\_supporting\_resources\_name) | The stack name for supporting resources launched separately | `string` | `"terraform-aws-rds"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | The resource tags to be applied | `map(string)` | <pre>{<br>  "Department": "DevOps",<br>  "Environment": "example",<br>  "InstanceScheduler": true,<br>  "LayerId": "Example",<br>  "LayerName": "Example",<br>  "Owner": "hugo.almeida",<br>  "Project": "Examples",<br>  "user::CostCenter": "terraform-registry"<br>}</pre> | no |
 

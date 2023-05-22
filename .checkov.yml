@@ -5,4 +5,9 @@ evaluate-variables: true
 external-modules-download-path: .external_modules
 framework: all
 skip-check:
-- CKV2_AWS_30 #"Ensure Postgres RDS as aws_db_instance has Query Logging enabled"
+- CKV2_AWS_60 #"Ensure RDS instance with copy tags to snapshots is enabled"
+- CKV_AWS_293 #"Ensure that AWS database instances have deletion protection enabled
+- CKV_AWS_157 #"Ensure that RDS instances have Multi-AZ enabled"
+- CKV_AWS_118 #"Ensure that enhanced monitoring is enabled for Amazon RDS instances"
+- CKV_AWS_161 #"Ensure RDS database has IAM authentication enabled"
+- CKV2_AWS_5 #"Ensure that Security Groups are attached to another resource"

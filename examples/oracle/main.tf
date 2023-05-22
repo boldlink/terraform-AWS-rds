@@ -15,26 +15,27 @@ resource "random_password" "rds_pwd" {
 
 module "rds_instance_oracle" {
   source                          = "../../"
-  engine                          = "oracle-ee"
-  engine_version                  = "19.0.0.0.ru-2022-01.rur-2022-01.r1"
-  instance_class                  = "db.m5.xlarge"
-  allocated_storage               = 30
+  engine                          = var.engine
+  engine_version                  = var.engine_version
+  instance_class                  = var.instance_class
+  allocated_storage               = var.allocated_storage
+  max_allocated_storage           = var.max_allocated_storage
   subnet_ids                      = local.database_subnets
-  name                            = local.name
+  name                            = var.name
   username                        = random_string.rds_usr.result
   password                        = random_password.rds_pwd.result
   kms_key_id                      = data.aws_kms_alias.rds.target_key_arn
-  port                            = 1521
-  multi_az                        = true
-  enabled_cloudwatch_logs_exports = ["alert", "audit", "listener", "trace"]
-  create_security_group           = true
-  create_monitoring_role          = true
-  monitoring_interval             = 30
-  create_option_group             = true
-  deletion_protection             = false
+  port                            = var.port
+  multi_az                        = var.multi_az
+  enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports
+  create_security_group           = var.create_security_group
+  create_monitoring_role          = var.create_monitoring_role
+  monitoring_interval             = var.monitoring_interval
+  create_option_group             = var.create_option_group
+  deletion_protection             = var.deletion_protection
   vpc_id                          = local.vpc_id
   assume_role_policy              = data.aws_iam_policy_document.monitoring.json
-  policy_arn                      = "arn:${data.aws_partition.current.partition}:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
-  major_engine_version            = "19"
+  policy_arn                      = "arn:${local.partition}:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
+  major_engine_version            = var.major_engine_version
   tags                            = local.tags
 }

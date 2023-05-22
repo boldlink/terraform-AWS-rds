@@ -82,7 +82,7 @@ See [here](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/MySQL.Procedur
 | <a name="input_major_engine_version"></a> [major\_engine\_version](#input\_major\_engine\_version) | Specify the major version of the engine that this option group should be associated with. | `string` | `"8.0"` | no |
 | <a name="input_monitoring_interval"></a> [monitoring\_interval](#input\_monitoring\_interval) | The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance. | `number` | `30` | no |
 | <a name="input_multi_az"></a> [multi\_az](#input\_multi\_az) | Boolean if specified leave availability\_zone empty, default = false | `bool` | `false` | no |
-| <a name="input_name"></a> [name](#input\_name) | Name of the stack | `string` | `"mysql-s3-import-example"` | no |
+| <a name="input_name"></a> [name](#input\_name) | Name of the stack | `string` | `"mysql-s3-import-examples"` | no |
 | <a name="input_option_name"></a> [option\_name](#input\_option\_name) | Name for option group option | `string` | `"MARIADB_AUDIT_PLUGIN"` | no |
 | <a name="input_source_engine_version"></a> [source\_engine\_version](#input\_source\_engine\_version) | Version of the source engine used to make the backup | `string` | `"8.0.32"` | no |
 | <a name="input_sse_bucket_key_enabled"></a> [sse\_bucket\_key\_enabled](#input\_sse\_bucket\_key\_enabled) | Specify whether Server side encryption is enabled | `bool` | `false` | no |

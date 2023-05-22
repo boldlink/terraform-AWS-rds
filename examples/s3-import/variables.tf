@@ -8,7 +8,7 @@ variable "supporting_resources_name" {
 variable "name" {
   type        = string
   description = "Name of the stack"
-  default     = "mysql-s3-import-example"
+  default     = "mysql-s3-import-examples"
 }
 
 variable "db_name" {
@@ -79,14 +79,6 @@ variable "monitoring_interval" {
   type        = number
   default     = 30
 }
-
-/*
-variable "max_allocated_storage" {
-  type        = number
-  description = "The upper limit to which Amazon RDS can automatically scale the storage of the DB instance."
-  default     = 25
-}
-*/
 
 variable "deletion_protection" {
   type        = bool

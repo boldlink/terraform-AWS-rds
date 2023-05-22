@@ -80,6 +80,11 @@ resource "aws_db_instance" "this" {
       delete = lookup(timeouts.value, "delete", "60m")
     }
   }
+
+  lifecycle {
+    ignore_changes = [enabled_cloudwatch_logs_exports]
+  }
+
 }
 
 # Subnet Group

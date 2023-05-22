@@ -15,13 +15,13 @@ resource "random_password" "rds_pwd" {
 }
 
 module "rds_create_from_s3_import" {
-  source                = "../../"
-  engine                = var.engine
-  instance_class        = var.instance_class
-  subnet_ids            = local.database_subnets
-  name                  = var.db_name
-  username              = random_string.rds_usr.result
-  password              = random_password.rds_pwd.result
+  source         = "../../"
+  engine         = var.engine
+  instance_class = var.instance_class
+  subnet_ids     = local.database_subnets
+  name           = var.db_name
+  username       = random_string.rds_usr.result
+  password       = random_password.rds_pwd.result
 
   s3_import = {
     source_engine_version = var.source_engine_version

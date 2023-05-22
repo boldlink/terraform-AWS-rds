@@ -80,11 +80,13 @@ variable "monitoring_interval" {
   default     = 30
 }
 
+/*
 variable "max_allocated_storage" {
   type        = number
   description = "The upper limit to which Amazon RDS can automatically scale the storage of the DB instance."
   default     = 25
 }
+*/
 
 variable "deletion_protection" {
   type        = bool

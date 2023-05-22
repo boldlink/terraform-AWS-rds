@@ -38,7 +38,7 @@ See [here](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/MySQL.Procedur
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.66.1 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.67.0 |
 | <a name="provider_random"></a> [random](#provider\_random) | 3.5.1 |
 
 ## Modules
@@ -80,7 +80,6 @@ See [here](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/MySQL.Procedur
 | <a name="input_iam_database_authentication_enabled"></a> [iam\_database\_authentication\_enabled](#input\_iam\_database\_authentication\_enabled) | Specifies whether or not the mappings of AWS Identity and Access Management (IAM) accounts to database accounts are enabled | `bool` | `true` | no |
 | <a name="input_instance_class"></a> [instance\_class](#input\_instance\_class) | The instance class for your instance(s). | `string` | `"db.t2.small"` | no |
 | <a name="input_major_engine_version"></a> [major\_engine\_version](#input\_major\_engine\_version) | Specify the major version of the engine that this option group should be associated with. | `string` | `"8.0"` | no |
-| <a name="input_max_allocated_storage"></a> [max\_allocated\_storage](#input\_max\_allocated\_storage) | The upper limit to which Amazon RDS can automatically scale the storage of the DB instance. | `number` | `25` | no |
 | <a name="input_monitoring_interval"></a> [monitoring\_interval](#input\_monitoring\_interval) | The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance. | `number` | `30` | no |
 | <a name="input_multi_az"></a> [multi\_az](#input\_multi\_az) | Boolean if specified leave availability\_zone empty, default = false | `bool` | `false` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name of the stack | `string` | `"mysql-s3-import-example"` | no |

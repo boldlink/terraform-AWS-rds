@@ -1,3 +1,6 @@
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/boldlink/terraform-aws-rds/blob/main/LICENSE)
+[![Latest Release](https://img.shields.io/github/release/boldlink/terraform-aws-rds.svg)](https://github.com/boldlink/terraform-aws-rds/releases/latest)
+[![Build Status](https://github.com/boldlink/terraform-aws-rds/actions/workflows/update.yaml/badge.svg)](https://github.com/boldlink/terraform-aws-rds/actions)
 [![Build Status](https://github.com/boldlink/terraform-aws-rds/actions/workflows/release.yaml/badge.svg)](https://github.com/boldlink/terraform-aws-rds/actions)
 [![Build Status](https://github.com/boldlink/terraform-aws-rds/actions/workflows/pre-commit.yaml/badge.svg)](https://github.com/boldlink/terraform-aws-rds/actions)
 [![Build Status](https://github.com/boldlink/terraform-aws-rds/actions/workflows/pr-labeler.yaml/badge.svg)](https://github.com/boldlink/terraform-aws-rds/actions)
@@ -8,17 +11,56 @@
 
 # AWS RDS Terraform module
 
-Terraform module for creating an RDS instance resource.
-
 ## Description
 
-This template creates a database instance running on mysql version 8.0.13, port 3306 and a database subnet group.
+This Terraform module allows you to create a full AWS RDS setup with a single module. It combines all the AWS resources required to properly configure your RDS instance, network, IAM, security and more.
 
-Example available [here](https://github.com/boldlink/terraform-aws-rds/tree/main/examples/complete-mysql)
+### Why choose this module over the standard resources
+- Multiple RDS engines: This module supports multiple RDS engines, including MySQL, PostgreSQL, MariaDB, Oracle, and SQL Server.
+
+- Multiple database versions: This module supports multiple database versions, including MySQL 5.6, MySQL 5.7, MySQL 8.0, PostgreSQL 9.6, PostgreSQL 10, PostgreSQL 11, PostgreSQL 12, MariaDB 10.1, MariaDB 10.2, MariaDB 10.3, MariaDB 10.4, Oracle 11.2, Oracle 12.1, Oracle 12.2, SQL Server 2016, and SQL Server 2017.
+
+- Working example to create your RDS instance(s) from a snapshot.
+
+- Development and Production environments: This module supports creating RDS instances for both development and production environments. It also supports creating RDS instances with different configurations for each environment.
+
+- Validated configurations: The default and custom configurations included in this module have been validated by Chekov, which is an open-source tool used for automated cloud security posture management. This ensures that the configurations adhere to best practices and security standards, reducing the risk of misconfiguration and security vulnerabilities.
+
+- Ease of use: This module includes several examples demonstrating different usage scenarios, making it easier for users to understand and use. It also abstracts the complexity of creating and configuring multiple resources required for an RDS instance, making it simpler and quicker to create and manage RDS instances.
+
+- Time-saving: By using this module, most of the resources and features required for creating and managing RDS instances are already included. This saves time for developers and system administrators who would otherwise need to spend time creating and configuring the resources manually.
+
+- Well-configured IAM permissions: The module has well-configured IAM permissions for some of the features, which helps to ensure that users have the appropriate level of access to the resources they need. This reduces the risk of unauthorized access or misconfigured permissions, which can lead to security breaches.
+
+
+Examples available [here](./examples)
 
 ## Usage
-*NOTE*: These examples use the latest version of this module
+**NOTE**: These examples use the latest version of this module
 
+## **Security Notice**
+The following checkov checks have been disabled for the minimum example because this intended for development environment. All these should be enabled in a production environment
+- CKV_AWS_129: "Ensure that respective logs of Amazon Relational Database Service (Amazon RDS) are enabled"
+
+```hcl
+module "minimum" {
+  source              = "boldlink/rds/aws"
+  engine              = "mysql"
+  vpc_id              = local.vpc_id
+  subnet_ids          = local.database_subnets
+  name                = var.db_name
+  deletion_protection = false
+  instance_class      = "db.t2.small"
+  username            = random_string.rds_usr.result
+  password            = random_password.rds_pwd.result
+  tags = merge(
+    {
+      "Name" = var.db_name
+    },
+    var.tags,
+  )
+}
+```
 ## Documentation
 
 [AWS DB Instance documentation](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.DBInstance.html)
@@ -27,19 +69,22 @@ Example available [here](https://github.com/boldlink/terraform-aws-rds/tree/main
 [AWS Subnet Group documentation](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html#USER_VPC.Subnets)
 [Terraform AWS Subnet Group documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_subnet_group)
 
+[AWS Parameter Group documentation](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithParamGroups.html)
+[Terraform AWS Parameter Group documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_parameter_group)
+
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.14.11 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.15.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.60.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.35.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.1.0 |
 
 ## Modules
 
@@ -51,6 +96,7 @@ No modules.
 |------|------|
 | [aws_db_instance.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_instance) | resource |
 | [aws_db_option_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_option_group) | resource |
+| [aws_db_parameter_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_parameter_group) | resource |
 | [aws_db_subnet_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_subnet_group) | resource |
 | [aws_iam_role.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role_policy_attachment.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
@@ -69,10 +115,11 @@ No modules.
 | <a name="input_backup_retention_period"></a> [backup\_retention\_period](#input\_backup\_retention\_period) | The days to retain backups for | `number` | `7` | no |
 | <a name="input_backup_window"></a> [backup\_window](#input\_backup\_window) | The daily time range (in UTC) during which automated backups are created if they are enabled. Example: '09:46-10:16'. Must not overlap with maintenance\_window | `string` | `"03:00-04:00"` | no |
 | <a name="input_ca_cert_identifier"></a> [ca\_cert\_identifier](#input\_ca\_cert\_identifier) | The identifier of the CA certificate for the DB instance. | `string` | `null` | no |
-| <a name="input_copy_tags_to_snapshot"></a> [copy\_tags\_to\_snapshot](#input\_copy\_tags\_to\_snapshot) | On delete, copy all Instance tags to the final snapshot (if final\_snapshot\_identifier is specified) | `bool` | `false` | no |
+| <a name="input_copy_tags_to_snapshot"></a> [copy\_tags\_to\_snapshot](#input\_copy\_tags\_to\_snapshot) | On delete, copy all Instance tags to the final snapshot (if final\_snapshot\_identifier is specified) | `bool` | `true` | no |
 | <a name="input_create_db_subnet_group"></a> [create\_db\_subnet\_group](#input\_create\_db\_subnet\_group) | (Optional) by default we want to create the subnet group, in the odd case you want to use a external (to the module) subnet group set it to false - see example | `bool` | `true` | no |
 | <a name="input_create_monitoring_role"></a> [create\_monitoring\_role](#input\_create\_monitoring\_role) | Create an IAM role for enhanced monitoring | `bool` | `false` | no |
 | <a name="input_create_option_group"></a> [create\_option\_group](#input\_create\_option\_group) | whether to create option\_group resource or not | `bool` | `false` | no |
+| <a name="input_create_parameter_group"></a> [create\_parameter\_group](#input\_create\_parameter\_group) | whether to create parameter group resource or not | `bool` | `false` | no |
 | <a name="input_create_security_group"></a> [create\_security\_group](#input\_create\_security\_group) | Whether to create a Security Group for RDS cluster. | `bool` | `false` | no |
 | <a name="input_db_subnet_group_name"></a> [db\_subnet\_group\_name](#input\_db\_subnet\_group\_name) | (Optional) The subnet group name to attach the instance (if specified you must also provide the var.subnet\_ids value), if no value is specified the module will create a group for you, | `string` | `null` | no |
 | <a name="input_delete_automated_backups"></a> [delete\_automated\_backups](#input\_delete\_automated\_backups) | Specifies whether to remove automated backups immediately after the DB instance is deleted. Default is true. | `bool` | `true` | no |
@@ -88,7 +135,6 @@ No modules.
 | <a name="input_instance_class"></a> [instance\_class](#input\_instance\_class) | The instance class for your instance(s). | `string` | `null` | no |
 | <a name="input_instance_timeouts"></a> [instance\_timeouts](#input\_instance\_timeouts) | aws\_rds\_instance provides the following Timeouts configuration options: create, update, delete | <pre>list(object({<br>    create = string<br>    update = string<br>    delete = string<br>  }))</pre> | `[]` | no |
 | <a name="input_kms_key_id"></a> [kms\_key\_id](#input\_kms\_key\_id) | The ARN for the KMS encryption key. If creating an encrypted replica, set this to the destination KMS ARN. If storage\_encrypted is set to true and kms\_key\_id is not specified the default KMS key created in your account will be used | `string` | `null` | no |
-| <a name="input_license_model"></a> [license\_model](#input\_license\_model) | (Optional, but required for some DB engines, i.e., Oracle SE1) License model information for this DB instance. | `string` | `null` | no |
 | <a name="input_maintenance_window"></a> [maintenance\_window](#input\_maintenance\_window) | The window to perform maintenance in. Syntax: 'ddd:hh24:mi-ddd:hh24:mi'. Eg: 'Mon:00:00-Mon:03:00' | `string` | `"Sun:00:00-Sun:02:00"` | no |
 | <a name="input_major_engine_version"></a> [major\_engine\_version](#input\_major\_engine\_version) | (Required) Specifies the major version of the engine that this option group should be associated with. | `string` | `""` | no |
 | <a name="input_max_allocated_storage"></a> [max\_allocated\_storage](#input\_max\_allocated\_storage) | (Optional) When configured, the upper limit to which Amazon RDS can automatically scale the storage of the DB instance. Configuring this will automatically ignore differences to allocated\_storage. Must be greater than or equal to allocated\_storage or 0 to disable Storage Autoscaling. | `number` | `0` | no |
@@ -98,15 +144,17 @@ No modules.
 | <a name="input_name"></a> [name](#input\_name) | The DB name to create. If omitted, no database is created initially | `string` | `null` | no |
 | <a name="input_name_prefix"></a> [name\_prefix](#input\_name\_prefix) | (Optional, Forces new resource) Creates a unique name beginning with the specified prefix. Conflicts with name. Must be lowercase, to match as it is stored in AWS. | `string` | `null` | no |
 | <a name="input_nchar_character_set_name"></a> [nchar\_character\_set\_name](#input\_nchar\_character\_set\_name) | (Optional, Forces new resource) The national character set is used in the NCHAR, NVARCHAR2, and NCLOB data types for Oracle instances. This can't be changed. | `string` | `null` | no |
-| <a name="input_option_group_name"></a> [option\_group\_name](#input\_option\_group\_name) | (Optional) Name of the DB option group to associate. | `string` | `""` | no |
+| <a name="input_option_group_name"></a> [option\_group\_name](#input\_option\_group\_name) | (Optional) Name of the DB option group to associate. | `string` | `null` | no |
 | <a name="input_options"></a> [options](#input\_options) | (Optional) A list of Options to apply. | `any` | `[]` | no |
+| <a name="input_parameter_group_family"></a> [parameter\_group\_family](#input\_parameter\_group\_family) | The family of the DB parameter group. | `string` | `null` | no |
 | <a name="input_parameter_group_name"></a> [parameter\_group\_name](#input\_parameter\_group\_name) | Name of the DB parameter group to associate or create | `string` | `null` | no |
+| <a name="input_parameters"></a> [parameters](#input\_parameters) | A list of DB parameters to apply. Note that parameters may differ from a family to an other. | `any` | `[]` | no |
 | <a name="input_password"></a> [password](#input\_password) | Password for the master DB user. Note that this may show up in logs, and it will be stored in the state file | `string` | n/a | yes |
 | <a name="input_performance_insights_enabled"></a> [performance\_insights\_enabled](#input\_performance\_insights\_enabled) | Specifies whether Performance Insights are enabled. Defaults to false. | `bool` | `false` | no |
 | <a name="input_performance_insights_kms_key_id"></a> [performance\_insights\_kms\_key\_id](#input\_performance\_insights\_kms\_key\_id) | The ARN for the KMS key to encrypt Performance Insights data. When specifying performance\_insights\_kms\_key\_id, performance\_insights\_enabled needs to be set to true. Once KMS key is set, it can never be changed. | `string` | `null` | no |
 | <a name="input_performance_insights_retention_period"></a> [performance\_insights\_retention\_period](#input\_performance\_insights\_retention\_period) | The amount of time in days to retain Performance Insights data. Either 7 (7 days) or 731 (2 years). When specifying performance\_insights\_retention\_period, performance\_insights\_enabled needs to be set to true. Defaults to '7'. | `number` | `0` | no |
 | <a name="input_policy_arn"></a> [policy\_arn](#input\_policy\_arn) | (Required) - The ARN of the policy you want to apply | `string` | `""` | no |
-| <a name="input_port"></a> [port](#input\_port) | The port on which the DB accepts connections | `string` | n/a | yes |
+| <a name="input_port"></a> [port](#input\_port) | The port on which the DB accepts connections | `number` | `3306` | no |
 | <a name="input_publicly_accessible"></a> [publicly\_accessible](#input\_publicly\_accessible) | Boolean to control if instance is publicly accessible | `bool` | `false` | no |
 | <a name="input_replica_mode"></a> [replica\_mode](#input\_replica\_mode) | (Optional) Specifies whether the replica is in either mounted or open-read-only mode. This attribute is only supported by Oracle instances. Oracle replicas operate in open-read-only mode unless otherwise specified. | `string` | `null` | no |
 | <a name="input_replicate_source_db"></a> [replicate\_source\_db](#input\_replicate\_source\_db) | Specifies that this resource is a Replicate database, and to use this value as the source database. | `string` | `null` | no |
@@ -158,7 +206,7 @@ No modules.
 | <a name="output_username"></a> [username](#output\_username) | The master username for the database. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
-## Third party software
+# Third party software
 This repository uses third party software:
 * [pre-commit](https://pre-commit.com/) - Used to help ensure code and documentation consistency
   * Install with `brew install pre-commit`
@@ -171,11 +219,33 @@ This repository uses third party software:
   * Install with `brew install tflint`
   * Manually use via pre-commit
 
+### Supporting resources:
+
+The example stacks are used by BOLDLink developers to validate the modules by building an actual stack on AWS.
+
+Some of the modules have dependencies on other modules (ex. Ec2 instance depends on the VPC module) so we create them
+first and use data sources on the examples to use the stacks.
+
+Any supporting resources will be available on the `tests/supportingResources` and the lifecycle is managed by the `Makefile` targets.
+
+Resources on the `tests/supportingResources` folder are not intended for demo or actual implementation purposes, and can be used for reference.
+
 ### Makefile
 The makefile contained in this repo is optimized for linux paths and the main purpose is to execute testing for now.
-* Create all tests:
-`$ make tests`
-* Clean all tests:
-`$ make clean`
-
-#### BOLDLink-SIG 2022
+* Create all tests stacks including any supporting resources:
+```console
+make tests
+```
+* Clean all tests *except* existing supporting resources:
+```console
+make clean
+```
+* Clean supporting resources - this is done separately so you can test your module build/modify/destroy independently.
+```console
+make cleansupporting
+```
+* !!!DANGER!!! Clean the state files from examples and test/supportingResources - use with CAUTION!!!
+```console
+make cleanstatefiles
+```
+#### BOLDLink-SIG 2023

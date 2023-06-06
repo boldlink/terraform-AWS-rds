@@ -1,4 +1,3 @@
-###
 data "aws_partition" "current" {}
 
 data "aws_iam_policy_document" "monitoring" {
@@ -22,14 +21,14 @@ data "aws_kms_alias" "rds" {
 data "aws_vpc" "supporting" {
   filter {
     name   = "tag:Name"
-    values = [local.supporting_resources_name]
+    values = [var.supporting_resources_name]
   }
 }
 
 data "aws_subnets" "database" {
   filter {
     name   = "tag:Name"
-    values = ["${local.supporting_resources_name}.isolated.*"]
+    values = ["${var.supporting_resources_name}.databases.*"]
   }
 }
 

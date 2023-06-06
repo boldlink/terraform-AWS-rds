@@ -62,7 +62,7 @@ variable "ca_cert_identifier" {
 variable "copy_tags_to_snapshot" {
   description = "On delete, copy all Instance tags to the final snapshot (if final_snapshot_identifier is specified)"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "db_subnet_group_name" {
@@ -212,7 +212,7 @@ variable "multi_az" {
 variable "option_group_name" {
   description = "(Optional) Name of the DB option group to associate."
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "parameter_group_name" {
@@ -351,7 +351,20 @@ variable "create_security_group" {
 
 variable "port" {
   description = "The port on which the DB accepts connections"
+  type        = number
+  default     = 3306
+}
+
+variable "create_parameter_group" {
+  type        = bool
+  description = "whether to create parameter group resource or not"
+  default     = false
+}
+
+variable "parameter_group_family" {
   type        = string
+  description = "The family of the DB parameter group."
+  default     = null
 }
 
 # Option Group
@@ -360,16 +373,25 @@ variable "create_option_group" {
   type        = bool
   default     = false
 }
+
+variable "parameters" {
+  type        = any
+  description = "A list of DB parameters to apply. Note that parameters may differ from a family to an other."
+  default     = []
+}
+
 variable "name_prefix" {
   description = "(Optional, Forces new resource) Creates a unique name beginning with the specified prefix. Conflicts with name. Must be lowercase, to match as it is stored in AWS."
   type        = string
   default     = null
 }
+
 variable "major_engine_version" {
   description = "(Required) Specifies the major version of the engine that this option group should be associated with."
   type        = string
   default     = ""
 }
+
 variable "options" {
   description = "(Optional) A list of Options to apply."
   type        = any

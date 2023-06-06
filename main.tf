@@ -33,8 +33,8 @@ resource "aws_db_instance" "this" {
   license_model                         = var.license_model
   replica_mode                          = var.replica_mode
   db_name                               = var.engine == try("mysql", "posgresql") ? var.name : null
-  option_group_name                     = length(var.option_group_name) > 0 ? var.option_group_name : join("", aws_db_option_group.this.*.name)
-  parameter_group_name                  = var.parameter_group_name
+  option_group_name                     = var.option_group_name != null ? var.option_group_name : join("", aws_db_option_group.this.*.name)
+  parameter_group_name                  = var.parameter_group_name != null ? var.parameter_group_name : join("", aws_db_parameter_group.this.*.id)
   username                              = var.username
   password                              = var.password
   performance_insights_enabled          = var.performance_insights_enabled
@@ -80,6 +80,11 @@ resource "aws_db_instance" "this" {
       delete = lookup(timeouts.value, "delete", "60m")
     }
   }
+
+  lifecycle {
+    ignore_changes = [enabled_cloudwatch_logs_exports]
+  }
+
 }
 
 # Subnet Group
@@ -157,7 +162,7 @@ resource "aws_iam_role" "this" {
   count              = var.create_monitoring_role ? 1 : 0
   name               = "${var.name}-enhanced-monitoring-role"
   assume_role_policy = var.assume_role_policy
-  description        = "enhanced monitoring iam role for rds instance."
+  description        = "enhanced monitoring iam role for ${var.name} rds instance."
   tags               = var.tags
 }
 
@@ -165,4 +170,24 @@ resource "aws_iam_role_policy_attachment" "this" {
   count      = var.create_monitoring_role ? 1 : 0
   role       = aws_iam_role.this[0].name
   policy_arn = var.policy_arn
+}
+
+## Parameter Group
+resource "aws_db_parameter_group" "this" {
+  count  = var.create_parameter_group ? 1 : 0
+  name   = "${var.name}-parameter-group"
+  family = var.parameter_group_family
+
+  dynamic "parameter" {
+    for_each = try([var.parameters], [])
+    content {
+      name         = parameter.value.name
+      value        = parameter.value.value
+      apply_method = lookup(parameter.value, "apply_method", "immediate")
+    }
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }

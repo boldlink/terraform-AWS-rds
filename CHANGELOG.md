@@ -5,16 +5,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-- feat: use s3 module to create the bucket in example.
-- fix: CKV2_AWS_30 #"Ensure Postgres RDS as aws_db_instance has Query Logging enabled"
-- fix: s3 import exampleCKV_AWS_145: "Ensure that S3 buckets are encrypted with KMS by default"
-- fix: s3 import exampleCKV_AWS_18: "Ensure the S3 bucket has access logging enabled"
-- fix: s3 import exampleCKV2_AWS_6: "Ensure that S3 bucket has a Public Access block"
-- fix: s3 import exampleCKV_AWS_19: "Ensure all data stored in the S3 bucket is securely encrypted at rest"
-- fix: s3 import exampleCKV_AWS_144: "Ensure that S3 bucket has cross-region replication enabled"
-- fix: mssql example CKV_AWS_157: "Ensure that RDS instances have Multi-AZ enabled"
-- fix: mssql example CKV_AWS_16: "Ensure all data stored in the RDS is securely encrypted at rest"
+- fix: CKV2_AWS_60 #"Ensure RDS instance with copy tags to snapshots is enabled"
+- fix: CKV_AWS_293 #"Ensure that AWS database instances have deletion protection enabled
+- fix: CKV_AWS_157 #"Ensure that RDS instances have Multi-AZ enabled"
+- fix: CKV_AWS_118 #"Ensure that enhanced monitoring is enabled for Amazon RDS instances"
+- fix: CKV_AWS_161 #"Ensure RDS database has IAM authentication enabled"
+- fix: CKV2_AWS_5 #"Ensure that Security Groups are attached to another resource"
+- feat: Show usage of parameter group in examples
 
+## [1.1.3] - 2023-06-06
+### Changes
+- fix: CKV2_AWS_30 #"Ensure Postgres RDS as aws_db_instance has Query Logging enabled"
+- feat: Added aws_db_parameter_group resource
+- feat: use s3 module to create the bucket in example.
+- fix: s3 import example checkov alerts for s3
+- feat: moved static values to variables.tf
 
 ## [1.1.2] - 2022-10-19
 ### Changes

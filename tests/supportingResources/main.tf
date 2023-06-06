@@ -1,17 +1,25 @@
 module "rds_vpc" {
   source                  = "boldlink/vpc/aws"
-  version                 = "2.0.3"
-  name                    = local.name
-  account                 = local.account_id
-  region                  = local.region
-  cidr_block              = local.cidr_block
-  enable_dns_hostnames    = true
-  create_nat_gateway      = true
-  nat_single_az           = true
-  public_subnets          = local.public_subnets
-  private_subnets         = local.private_subnets
-  isolated_subnets        = local.isolated_subnets
-  availability_zones      = local.azs
-  map_public_ip_on_launch = true
-  other_tags              = local.tags
+  version                 = "3.0.4"
+  name                    = var.name
+  cidr_block              = var.cidr_block
+  enable_dns_support      = var.enable_dns_support
+  enable_dns_hostnames    = var.enable_dns_hostnames
+  enable_public_subnets   = var.enable_public_subnets
+  enable_internal_subnets = var.enable_internal_subnets
+  tags                    = var.tags
+
+  public_subnets = {
+    public = {
+      cidrs                   = local.public_subnets
+      map_public_ip_on_launch = var.map_public_ip_on_launch
+      nat                     = var.nat
+    }
+  }
+
+  internal_subnets = {
+    databases = {
+      cidrs = local.database_subnets
+    }
+  }
 }

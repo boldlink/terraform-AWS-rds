@@ -33,7 +33,7 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_rds_vpc"></a> [rds\_vpc](#module\_rds\_vpc) | boldlink/vpc/aws | 3.0.3 |
+| <a name="module_rds_vpc"></a> [rds\_vpc](#module\_rds\_vpc) | boldlink/vpc/aws | 3.0.4 |
 
 ## Resources
 

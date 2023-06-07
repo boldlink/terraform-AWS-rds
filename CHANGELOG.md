@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fix: CKV2_AWS_5 #"Ensure that Security Groups are attached to another resource"
 - feat: Show usage of parameter group in examples
 
-## [1.1.3] - 2023-06-06
+## [1.2.0] - 2023-06-06
 ### Changes
 - fix: CKV2_AWS_30 #"Ensure Postgres RDS as aws_db_instance has Query Logging enabled"
 - feat: Added aws_db_parameter_group resource

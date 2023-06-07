@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fix: CKV2_AWS_5 #"Ensure that Security Groups are attached to another resource"
 - feat: Show usage of parameter group in examples
 
-## [1.1.3] - 2023-06-06
+## [1.2.0] - 2023-06-06
 ### Changes
 - fix: CKV2_AWS_30 #"Ensure Postgres RDS as aws_db_instance has Query Logging enabled"
 - feat: Added aws_db_parameter_group resource
@@ -96,7 +96,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial commit
 - pre-commit checks fix
 
-[Unreleased]: https://github.com/boldlink/terraform-aws-rds/compare/1.1.2...HEAD
+[Unreleased]: https://github.com/boldlink/terraform-aws-rds/compare/1.2.0...HEAD
 
 [1.0.0]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.0.0
 [1.0.2]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.0.2
@@ -110,3 +110,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [1.1.0]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.1.0
 [1.1.1]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.1.1
 [1.1.2]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.1.2
+[1.2.0]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.2.0

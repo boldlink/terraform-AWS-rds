@@ -4,8 +4,7 @@ repos:
     rev: v4.0.1
     hooks:
     # Git style
-      - id: check-added-large-files
-        args: ['--maxkb=30000']                                         ## Prevent giant files from being committed. Specify what is '"too large" with args => ['--maxkb=123'] (default=500kB). Skips Github Large Files
+      - id: check-added-large-files                                     ## Prevent giant files from being committed. Specify what is '"too large" with args => ['--maxkb=123'] (default=500kB). Skips Github Large Files
       - id: check-merge-conflict                                        ## Check for files that contain merge conflict strings.
       - id: forbid-new-submodules                                       ## Prevent addition of new git submodules.
       - id: no-commit-to-branch                                         ## Protect specific branches from direct checkins.

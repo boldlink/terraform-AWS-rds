@@ -35,8 +35,8 @@ module "rds_create_from_s3_import" {
   multi_az                            = var.multi_az
   enabled_cloudwatch_logs_exports     = var.enabled_cloudwatch_logs_exports
   security_group_ingress = [{
-    from_port   = 1433
-    to_port     = 1433
+    from_port   = 3306
+    to_port     = 3306
     protocol    = "tcp"
     cidr_blocks = [local.vpc_cidr]
   }]

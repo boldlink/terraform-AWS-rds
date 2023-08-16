@@ -41,7 +41,7 @@ Examples available [here](./examples)
 **NOTE**: These examples use the latest version of this module
 
 ## **Security Notice**
-The following checkov checks have been disabled for the minimum example because this intended for development environment for our convenience to provide you with working examples and use then to test module functionality. They must be addressed on a production envuronment.
+The following checkov checks have been disabled for the minimum example because this intended for development environment for our convenience to provide you with working examples and use then to test module functionality. They must be addressed on a production environment.
 
 - CKV_TF_1 "Ensure Terraform module sources use a commit hash"
 

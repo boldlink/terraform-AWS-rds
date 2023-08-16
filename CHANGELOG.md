@@ -20,6 +20,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changes
 - feat: Separate the inputs of name of the instance from the db name input, this is a breaking change since now `var.db_name` is mandatory.
 - feat: Set the `var.create_security_group = true` by default to prevent using the default VPC security group.
+- feat: Add security group config to all examples.
+- feat: Set var.db_name = null when MSSQL engine example.
 
 ## [1.2.0] - 2023-06-06
 ### Changes

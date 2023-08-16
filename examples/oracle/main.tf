@@ -30,8 +30,8 @@ module "rds_instance_oracle" {
   multi_az                        = var.multi_az
   enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports
   security_group_ingress = [{
-    from_port   = 1433
-    to_port     = 1433
+    from_port   = 1521
+    to_port     = 1521
     protocol    = "tcp"
     cidr_blocks = [local.vpc_cidr]
   }]

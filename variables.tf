@@ -269,7 +269,7 @@ variable "name" {
 
 variable "db_name" {
   description = "The default database name (mandatory)"
-  type = string
+  type        = string
 }
 
 variable "nchar_character_set_name" {

@@ -30,18 +30,18 @@ module "rds_instance_oracle" {
   multi_az                        = var.multi_az
   enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports
   security_group_ingress = [{
-      from_port        = 1433
-      to_port          = 1433
-      protocol         = "tcp"
-      cidr_blocks      = [local.vpc_cidr]
+    from_port   = 1433
+    to_port     = 1433
+    protocol    = "tcp"
+    cidr_blocks = [local.vpc_cidr]
   }]
-  create_monitoring_role          = var.create_monitoring_role
-  monitoring_interval             = var.monitoring_interval
-  create_option_group             = var.create_option_group
-  deletion_protection             = var.deletion_protection
-  vpc_id                          = local.vpc_id
-  assume_role_policy              = data.aws_iam_policy_document.monitoring.json
-  policy_arn                      = "arn:${local.partition}:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
-  major_engine_version            = var.major_engine_version
-  tags                            = local.tags
+  create_monitoring_role = var.create_monitoring_role
+  monitoring_interval    = var.monitoring_interval
+  create_option_group    = var.create_option_group
+  deletion_protection    = var.deletion_protection
+  vpc_id                 = local.vpc_id
+  assume_role_policy     = data.aws_iam_policy_document.monitoring.json
+  policy_arn             = "arn:${local.partition}:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
+  major_engine_version   = var.major_engine_version
+  tags                   = local.tags
 }

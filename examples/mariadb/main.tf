@@ -30,17 +30,17 @@ module "rds_instance_mariadb" {
   vpc_id                          = local.vpc_id
   enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports
   security_group_ingress = [{
-      from_port        = 3306
-      to_port          = 3306
-      protocol         = "tcp"
-      cidr_blocks      = [local.vpc_cidr]
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    cidr_blocks = [local.vpc_cidr]
   }]
-  create_monitoring_role          = var.create_monitoring_role
-  monitoring_interval             = var.monitoring_interval
-  deletion_protection             = var.deletion_protection
-  create_option_group             = var.create_option_group
-  assume_role_policy              = data.aws_iam_policy_document.monitoring.json
-  policy_arn                      = "arn:${local.partition}:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
-  major_engine_version            = var.major_engine_version
-  tags                            = local.tags
+  create_monitoring_role = var.create_monitoring_role
+  monitoring_interval    = var.monitoring_interval
+  deletion_protection    = var.deletion_protection
+  create_option_group    = var.create_option_group
+  assume_role_policy     = data.aws_iam_policy_document.monitoring.json
+  policy_arn             = "arn:${local.partition}:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
+  major_engine_version   = var.major_engine_version
+  tags                   = local.tags
 }

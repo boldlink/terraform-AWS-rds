@@ -17,39 +17,6 @@
 
 This Terraform module allows you to create a full AWS RDS setup with a single module. It combines all the AWS resources required to properly configure your RDS instance, network, IAM, security and more.
 
-**NOTE!!!** As of version 1.3.0 several braking changes where introduced:
-* Database name no longers uses the value from `var.name`, instead it requires `var.db_name` value in this and newer versions of this module.
-* `var.create_security_group = true` as been set as default (previously set to `false`) which means a empty SG will be created, you must then add the bellow information (see example for postgres):
-
-```hcl
-data "aws_subnets" "private_subnets" {
-  filter {
-    name   = "tag:Name"
-    values = ["example*.pri.*"]
-  }
-}
-
-data "aws_subnet" "eks_nodes" {
-  for_each = toset(data.aws_subnets.private_subnets.ids)
-  id       = each.value
-}
-
-module "example" {
-  source                = "boldlink/rds/aws"
-  version               = "<harcoded_version>"
-  engine                = "postgres"
-...
-  security_group_ingress = [{
-      from_port        = 5432
-      to_port          = 5432
-      protocol         = "tcp"
-      cidr_blocks      = [for s in data.aws_subnet.eks_nodes : s.cidr_block]
-  }]
-...
-}
-```
-
-
 ### Why choose this module over the standard resources
 - Multiple RDS engines: This module supports multiple RDS engines, including MySQL, PostgreSQL, MariaDB, Oracle, and SQL Server.
 
@@ -67,14 +34,16 @@ module "example" {
 
 - Well-configured IAM permissions: The module has well-configured IAM permissions for some of the features, which helps to ensure that users have the appropriate level of access to the resources they need. This reduces the risk of unauthorized access or misconfigured permissions, which can lead to security breaches.
 
+
 Examples available [here](./examples)
 
 ## Usage
 **NOTE**: These examples use the latest version of this module
 
 ## **Security Notice**
-The following checkov checks have been disabled for the minimum example because this intended for development environment. All these should be enabled in a production environment
-- CKV_AWS_129: "Ensure that respective logs of Amazon Relational Database Service (Amazon RDS) are enabled"
+The following checkov checks have been disabled for the minimum example because this intended for development environment for our convenience to provide you with working examples and use then to test module functionality. They must be addressed on a production envuronment.
+
+- CKV_TF_1 "Ensure Terraform module sources use a commit hash"
 
 ```hcl
 module "minimum" {
@@ -82,12 +51,6 @@ module "minimum" {
   engine              = "mysql"
   vpc_id              = local.vpc_id
   subnet_ids          = local.database_subnets
-  security_group_ingress = [{
-      from_port        = 3306
-      to_port          = 3306
-      protocol         = "tcp"
-      cidr_blocks      = [local.cidr_block]
-  }]
   name                = var.db_name
   deletion_protection = false
   instance_class      = "db.t2.small"

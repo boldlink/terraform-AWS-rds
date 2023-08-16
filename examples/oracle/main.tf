@@ -29,7 +29,12 @@ module "rds_instance_oracle" {
   port                            = var.port
   multi_az                        = var.multi_az
   enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports
-  create_security_group           = var.create_security_group
+  security_group_ingress = [{
+      from_port        = 1433
+      to_port          = 1433
+      protocol         = "tcp"
+      cidr_blocks      = [local.vpc_cidr]
+  }]
   create_monitoring_role          = var.create_monitoring_role
   monitoring_interval             = var.monitoring_interval
   create_option_group             = var.create_option_group

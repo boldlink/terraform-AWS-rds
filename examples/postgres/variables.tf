@@ -67,12 +67,6 @@ variable "max_allocated_storage" {
   default     = 25
 }
 
-variable "create_security_group" {
-  type        = bool
-  description = "Whether to create a Security Group for RDS cluster."
-  default     = true
-}
-
 variable "create_monitoring_role" {
   type        = bool
   description = "Create an IAM role for enhanced monitoring"

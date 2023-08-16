@@ -34,7 +34,12 @@ module "rds_create_from_s3_import" {
   iam_database_authentication_enabled = var.iam_database_authentication_enabled
   multi_az                            = var.multi_az
   enabled_cloudwatch_logs_exports     = var.enabled_cloudwatch_logs_exports
-  create_security_group               = var.create_security_group
+  security_group_ingress = [{
+      from_port        = 1433
+      to_port          = 1433
+      protocol         = "tcp"
+      cidr_blocks      = [local.vpc_cidr]
+  }]
   create_monitoring_role              = var.create_monitoring_role
   monitoring_interval                 = var.monitoring_interval
   deletion_protection                 = var.deletion_protection

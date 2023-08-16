@@ -67,12 +67,6 @@ variable "enabled_cloudwatch_logs_exports" {
   default     = ["alert", "audit", "listener", "trace"]
 }
 
-variable "create_security_group" {
-  type        = bool
-  description = "Whether to create a Security Group for RDS cluster."
-  default     = true
-}
-
 variable "create_monitoring_role" {
   type        = bool
   description = "Create an IAM role for enhanced monitoring"

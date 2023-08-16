@@ -20,6 +20,7 @@ module "rds_create_from_s3_import" {
   instance_class = var.instance_class
   subnet_ids     = local.database_subnets
   name           = var.db_name
+  db_name        = var.db_name
   username       = random_string.rds_usr.result
   password       = random_password.rds_pwd.result
 

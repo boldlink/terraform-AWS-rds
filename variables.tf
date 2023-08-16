@@ -267,6 +267,11 @@ variable "name" {
   default     = null
 }
 
+variable "db_name" {
+  description = "The default database name (mandatory)"
+  type = string
+}
+
 variable "nchar_character_set_name" {
   description = "(Optional, Forces new resource) The national character set is used in the NCHAR, NVARCHAR2, and NCLOB data types for Oracle instances. This can't be changed."
   type        = string
@@ -345,7 +350,7 @@ variable "vpc_id" {
 
 variable "create_security_group" {
   description = "Whether to create a Security Group for RDS cluster."
-  default     = false
+  default     = true
   type        = bool
 }
 

@@ -22,6 +22,7 @@ module "rds_instance_oracle" {
   max_allocated_storage           = var.max_allocated_storage
   subnet_ids                      = local.database_subnets
   name                            = var.name
+  db_name                         = "oracle"
   username                        = random_string.rds_usr.result
   password                        = random_password.rds_pwd.result
   kms_key_id                      = data.aws_kms_alias.rds.target_key_arn

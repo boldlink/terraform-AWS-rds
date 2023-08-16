@@ -22,13 +22,19 @@ module "rds_instance_mariadb" {
   max_allocated_storage           = var.max_allocated_storage
   subnet_ids                      = local.database_subnets
   name                            = var.name
+  db_name                         = var.name
   username                        = random_string.rds_usr.result
   password                        = random_password.rds_pwd.result
   kms_key_id                      = data.aws_kms_alias.rds.target_key_arn
   multi_az                        = var.multi_az
   vpc_id                          = local.vpc_id
   enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports
-  create_security_group           = var.create_security_group
+  security_group_ingress = [{
+      from_port        = 3306
+      to_port          = 3306
+      protocol         = "tcp"
+      cidr_blocks      = [local.vpc_cidr]
+  }]
   create_monitoring_role          = var.create_monitoring_role
   monitoring_interval             = var.monitoring_interval
   deletion_protection             = var.deletion_protection

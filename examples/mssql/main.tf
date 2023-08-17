@@ -14,13 +14,20 @@ resource "random_password" "rds_pwd" {
 }
 
 module "rds_instance_mssql" {
-  source                          = "../../"
-  engine                          = var.engine
-  allocated_storage               = var.allocated_storage
-  max_allocated_storage           = var.max_allocated_storage
-  engine_version                  = var.engine_version
-  instance_class                  = var.instance_class
-  subnet_ids                      = local.database_subnets
+  source                = "../../"
+  engine                = var.engine
+  allocated_storage     = var.allocated_storage
+  max_allocated_storage = var.max_allocated_storage
+  engine_version        = var.engine_version
+  instance_class        = var.instance_class
+  subnet_ids            = local.database_subnets
+  security_group_ingress = [{
+    from_port   = 1433
+    to_port     = 1433
+    protocol    = "tcp"
+    cidr_blocks = [local.vpc_cidr]
+  }]
+  db_name                         = null
   name                            = var.name
   username                        = random_string.rds_usr.result
   password                        = random_password.rds_pwd.result

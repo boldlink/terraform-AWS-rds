@@ -17,6 +17,7 @@ module "rds_instance_mysql" {
   instance_class                      = var.instance_class
   subnet_ids                          = local.database_subnets
   name                                = var.name
+  db_name                             = var.name
   username                            = random_string.rds_usr.result
   password                            = random_password.rds_pwd.result
   kms_key_id                          = data.aws_kms_alias.rds.target_key_arn

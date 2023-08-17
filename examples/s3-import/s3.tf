@@ -18,7 +18,7 @@ resource "aws_iam_policy" "s3_bucket" {
   policy = data.aws_iam_policy_document.s3_bucket.json
 
   provisioner "local-exec" {
-    command = "unzip sample_backup.zip && aws s3 sync ${path.module}/sample_backup s3://${module.s3_bucket_for_mysql_import.id}"
+    command = "unzip sample_backup.zip && aws s3 sync ${path.module}/sample_backup s3://${module.s3_bucket_for_mysql_import.id} && rm -rf ${path.module}/sample_backup"
   }
 }
 

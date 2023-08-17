@@ -67,12 +67,6 @@ variable "max_allocated_storage" {
   default     = 25
 }
 
-variable "create_security_group" {
-  type        = bool
-  description = "Whether to create a Security Group for RDS cluster."
-  default     = true
-}
-
 variable "create_monitoring_role" {
   type        = bool
   description = "Create an IAM role for enhanced monitoring"
@@ -100,11 +94,11 @@ variable "deletion_protection" {
 variable "major_engine_version" {
   type        = string
   description = "Specify the major version of the engine that this option group should be associated with."
-  default     = "14"
+  default     = "15"
 }
 
 variable "engine_version" {
   type        = string
   description = "Specify the version of the engine for this db"
-  default     = "14.1"
+  default     = "15.3"
 }

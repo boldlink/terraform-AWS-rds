@@ -41,8 +41,9 @@ Examples available [here](./examples)
 **NOTE**: These examples use the latest version of this module
 
 ## **Security Notice**
-The following checkov checks have been disabled for the minimum example because this intended for development environment. All these should be enabled in a production environment
-- CKV_AWS_129: "Ensure that respective logs of Amazon Relational Database Service (Amazon RDS) are enabled"
+The following checkov checks have been disabled for the minimum example because this intended for development environment for our convenience to provide you with working examples and use then to test module functionality. They must be addressed on a production environment.
+
+- CKV_TF_1 "Ensure Terraform module sources use a commit hash"
 
 ```hcl
 module "minimum" {
@@ -122,7 +123,8 @@ No modules.
 | <a name="input_create_monitoring_role"></a> [create\_monitoring\_role](#input\_create\_monitoring\_role) | Create an IAM role for enhanced monitoring | `bool` | `false` | no |
 | <a name="input_create_option_group"></a> [create\_option\_group](#input\_create\_option\_group) | whether to create option\_group resource or not | `bool` | `false` | no |
 | <a name="input_create_parameter_group"></a> [create\_parameter\_group](#input\_create\_parameter\_group) | whether to create parameter group resource or not | `bool` | `false` | no |
-| <a name="input_create_security_group"></a> [create\_security\_group](#input\_create\_security\_group) | Whether to create a Security Group for RDS cluster. | `bool` | `false` | no |
+| <a name="input_create_security_group"></a> [create\_security\_group](#input\_create\_security\_group) | Whether to create a Security Group for RDS cluster. | `bool` | `true` | no |
+| <a name="input_db_name"></a> [db\_name](#input\_db\_name) | The default database name (mandatory) | `string` | n/a | yes |
 | <a name="input_db_subnet_group_name"></a> [db\_subnet\_group\_name](#input\_db\_subnet\_group\_name) | (Optional) The subnet group name to attach the instance (if specified you must also provide the var.subnet\_ids value), if no value is specified the module will create a group for you, | `string` | `null` | no |
 | <a name="input_delete_automated_backups"></a> [delete\_automated\_backups](#input\_delete\_automated\_backups) | Specifies whether to remove automated backups immediately after the DB instance is deleted. Default is true. | `bool` | `true` | no |
 | <a name="input_deletion_protection"></a> [deletion\_protection](#input\_deletion\_protection) | If the DB instance should have deletion protection enabled. The database can't be deleted when this value is set to true. The default is false. | `bool` | `true` | no |

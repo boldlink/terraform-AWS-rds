@@ -32,7 +32,7 @@ resource "aws_db_instance" "this" {
   nchar_character_set_name              = var.nchar_character_set_name
   license_model                         = var.license_model
   replica_mode                          = var.replica_mode
-  db_name                               = var.engine == try("mysql", "posgresql") ? var.name : null
+  db_name                               = var.db_name
   option_group_name                     = var.option_group_name != null ? var.option_group_name : join("", aws_db_option_group.this.*.name)
   parameter_group_name                  = var.parameter_group_name != null ? var.parameter_group_name : join("", aws_db_parameter_group.this.*.id)
   username                              = var.username
@@ -125,9 +125,9 @@ resource "aws_db_option_group" "this" {
 # Security group
 resource "aws_security_group" "this" {
   count       = var.create_security_group ? 1 : 0
-  name        = "${var.name}-security-group"
+  name        = "${var.name}-rds-security-group"
   vpc_id      = var.vpc_id
-  description = "RDS instance Security Group"
+  description = "${var.name} RDS instance Security Group"
 
   dynamic "ingress" {
     for_each = var.security_group_ingress

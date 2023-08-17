@@ -28,7 +28,7 @@ data "aws_vpc" "supporting" {
 data "aws_subnets" "database" {
   filter {
     name   = "tag:Name"
-    values = ["${var.supporting_resources_name}.public.*"]
+    values = ["${var.supporting_resources_name}.databases.*"]
   }
 }
 

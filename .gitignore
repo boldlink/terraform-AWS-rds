@@ -43,3 +43,4 @@ terraform-docs.*
 tflint_*
 terraform_*
 *.log
+examples/s3-import/sample_backup/*

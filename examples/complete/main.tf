@@ -7,7 +7,7 @@ resource "random_string" "rds_usr" {
 
 
 module "rds_module_kms" {
-  source              = "boldlink/kms/aws"
+  source                  = "boldlink/kms/aws"
   description             = "Example kms key for RDS module"
   deletion_window_in_days = 7
 }

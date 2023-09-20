@@ -37,7 +37,7 @@ make tfdestroy
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.12.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.64.0 |
 | <a name="provider_random"></a> [random](#provider\_random) | 3.5.1 |
 
 ## Modules
@@ -45,12 +45,12 @@ make tfdestroy
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_rds_instance_mysql"></a> [rds\_instance\_mysql](#module\_rds\_instance\_mysql) | ../../ | n/a |
+| <a name="module_rds_module_kms"></a> [rds\_module\_kms](#module\_rds\_module\_kms) | boldlink/kms/aws | n/a |
 
 ## Resources
 
 | Name | Type |
 |------|------|
-| [random_password.rds_pwd](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password) | resource |
 | [random_string.rds_usr](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
 | [aws_iam_policy_document.monitoring](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_kms_alias.rds](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/kms_alias) | data source |

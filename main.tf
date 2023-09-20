@@ -36,7 +36,9 @@ resource "aws_db_instance" "this" {
   option_group_name                     = var.option_group_name != null ? var.option_group_name : join("", aws_db_option_group.this.*.name)
   parameter_group_name                  = var.parameter_group_name != null ? var.parameter_group_name : join("", aws_db_parameter_group.this.*.id)
   username                              = var.username
-  password                              = var.password
+  password                              = var.manage_master_user_password ? null : var.password
+  manage_master_user_password           = var.password == null ? var.manage_master_user_password : null
+  master_user_secret_kms_key_id         = var.manage_master_user_password ? var.master_user_secret_kms_key_id : null
   performance_insights_enabled          = var.performance_insights_enabled
   performance_insights_kms_key_id       = var.performance_insights_kms_key_id
   performance_insights_retention_period = var.performance_insights_retention_period

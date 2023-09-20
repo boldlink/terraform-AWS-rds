@@ -8,12 +8,6 @@ resource "random_string" "rds_usr" {
   numeric = false
 }
 
-resource "random_password" "rds_pwd" {
-  length  = 16
-  special = false
-  upper   = false
-}
-
 module "rds_create_from_s3_import" {
   source         = "../../"
   engine         = var.engine
@@ -22,7 +16,6 @@ module "rds_create_from_s3_import" {
   name           = var.db_name
   db_name        = var.db_name
   username       = random_string.rds_usr.result
-  password       = random_password.rds_pwd.result
 
   s3_import = {
     source_engine_version = var.source_engine_version

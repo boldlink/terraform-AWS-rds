@@ -47,21 +47,22 @@ The following checkov checks have been disabled for the minimum example because 
 
 ```hcl
 module "minimum" {
-  source              = "boldlink/rds/aws"
-  engine              = "mysql"
-  vpc_id              = local.vpc_id
-  subnet_ids          = local.database_subnets
-  name                = var.db_name
-  deletion_protection = false
-  instance_class      = "db.t2.small"
+  source     = "boldlink/rds/aws"
+  engine     = "mysql"
+  vpc_id     = local.vpc_id
+  subnet_ids = local.database_subnets
+  name       = var.db_name
+  db_name    = var.db_name
+  security_group_ingress = [{
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    cidr_blocks = [local.vpc_cidr]
+  }]
+  instance_class      = var.instance_class
+  deletion_protection = var.deletion_protection
   username            = random_string.rds_usr.result
-  password            = random_password.rds_pwd.result
-  tags = merge(
-    {
-      "Name" = var.db_name
-    },
-    var.tags,
-  )
+  tags                = local.tags
 }
 ```
 ## Documentation

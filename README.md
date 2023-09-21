@@ -48,6 +48,7 @@ The following checkov checks have been disabled for the minimum example because 
 ```hcl
 module "minimum" {
   source     = "boldlink/rds/aws"
+  version    = "<latest_version_here>"
   engine     = "mysql"
   vpc_id     = local.vpc_id
   subnet_ids = local.database_subnets

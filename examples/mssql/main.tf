@@ -7,11 +7,6 @@ resource "random_string" "rds_usr" {
   upper   = false
   numeric = false
 }
-resource "random_password" "rds_pwd" {
-  length  = 16
-  special = false
-  upper   = false
-}
 
 module "rds_instance_mssql" {
   source                = "../../"
@@ -30,7 +25,6 @@ module "rds_instance_mssql" {
   db_name                         = null
   name                            = var.name
   username                        = random_string.rds_usr.result
-  password                        = random_password.rds_pwd.result
   port                            = var.port
   enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports
   create_security_group           = var.create_security_group

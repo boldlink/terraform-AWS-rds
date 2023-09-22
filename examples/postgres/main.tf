@@ -7,11 +7,6 @@ resource "random_string" "rds_usr" {
   upper   = false
   numeric = false
 }
-resource "random_password" "rds_pwd" {
-  length  = 16
-  special = false
-  upper   = false
-}
 
 module "rds_instance_postgres" {
   source                              = "../../"
@@ -23,7 +18,6 @@ module "rds_instance_postgres" {
   name                                = var.name
   db_name                             = "postgres"
   username                            = random_string.rds_usr.result
-  password                            = random_password.rds_pwd.result
   kms_key_id                          = data.aws_kms_alias.rds.target_key_arn
   port                                = var.port
   iam_database_authentication_enabled = var.iam_database_authentication_enabled

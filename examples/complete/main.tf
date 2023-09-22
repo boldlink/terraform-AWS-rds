@@ -5,11 +5,13 @@ resource "random_string" "rds_usr" {
   numeric = false
 }
 
-resource "random_password" "rds_pwd" {
-  length  = 16
-  special = false
-  upper   = false
+
+module "rds_module_kms" {
+  source                  = "boldlink/kms/aws"
+  description             = "Example kms key for RDS module"
+  deletion_window_in_days = 7
 }
+
 
 module "rds_instance_mysql" {
   source                              = "../../"
@@ -19,8 +21,8 @@ module "rds_instance_mysql" {
   name                                = var.name
   db_name                             = var.name
   username                            = random_string.rds_usr.result
-  password                            = random_password.rds_pwd.result
   kms_key_id                          = data.aws_kms_alias.rds.target_key_arn
+  master_user_secret_kms_key_id       = module.rds_module_kms.arn
   max_allocated_storage               = var.max_allocated_storage
   iam_database_authentication_enabled = var.iam_database_authentication_enabled
   multi_az                            = var.multi_az

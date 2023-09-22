@@ -7,11 +7,6 @@ resource "random_string" "rds_usr" {
   upper   = false
   numeric = false
 }
-resource "random_password" "rds_pwd" {
-  length  = 16
-  special = false
-  upper   = false
-}
 
 module "rds_instance_mariadb" {
   source                          = "../../"
@@ -24,7 +19,6 @@ module "rds_instance_mariadb" {
   name                            = var.name
   db_name                         = var.name
   username                        = random_string.rds_usr.result
-  password                        = random_password.rds_pwd.result
   kms_key_id                      = data.aws_kms_alias.rds.target_key_arn
   multi_az                        = var.multi_az
   vpc_id                          = local.vpc_id

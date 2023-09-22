@@ -15,13 +15,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fix: CKV_AWS_161 #"Ensure RDS database has IAM authentication enabled"
 - fix: CKV2_AWS_5 #"Ensure that Security Groups are attached to another resource"
 - feat: Show usage of parameter group in examples
+- fix: upgrade s3 module version used in s3-import example.
+
+## [1.4.0] - 2023-09-20
+
+- feat: added manage_master_user_password and master_user_secret_kms_key_id arguments
+- removed random_password resources in all examples.
 
 ## [1.3.0] - 2023-08-16
 ### Changes
 - feat: Separate the inputs of name of the instance from the db name input, this is a breaking change since now `var.db_name` is mandatory.
 - feat: Set the `var.create_security_group = true` by default to prevent using the default VPC security group.
 - feat: Add security group config to all examples.
-- feat: Set var.db_name = null when MSSQL engine example.
+- feat: Set var.db_name = null in MSSQL engine example.
 
 ## [1.2.0] - 2023-06-06
 ### Changes
@@ -106,7 +112,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial commit
 - pre-commit checks fix
 
-[Unreleased]: https://github.com/boldlink/terraform-aws-rds/compare/1.2.0...HEAD
+[Unreleased]: https://github.com/boldlink/terraform-aws-rds/compare/1.4.0...HEAD
 
 [1.0.0]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.0.0
 [1.0.2]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.0.2
@@ -121,3 +127,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [1.1.1]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.1.1
 [1.1.2]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.1.2
 [1.2.0]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.2.0
+[1.3.0]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.3.0
+[1.4.0]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.4.0

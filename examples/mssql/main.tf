@@ -23,7 +23,7 @@ module "rds_instance_mssql" {
     cidr_blocks = [local.vpc_cidr]
   }]
   db_name                         = null
-  name                            = var.name
+  identifier                      = var.identifier
   username                        = random_string.rds_usr.result
   port                            = var.port
   enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports

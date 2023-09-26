@@ -11,7 +11,7 @@ module "minimum" {
   engine     = "mysql"
   vpc_id     = local.vpc_id
   subnet_ids = local.database_subnets
-  name       = var.db_name
+  identifier = var.db_name
   db_name    = var.db_name
   security_group_ingress = [{
     from_port   = 3306

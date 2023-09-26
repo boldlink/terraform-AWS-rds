@@ -15,7 +15,7 @@ module "rds_instance_postgres" {
   instance_class                      = var.instance_class
   max_allocated_storage               = var.max_allocated_storage
   subnet_ids                          = local.database_subnets
-  name                                = var.name
+  identifier                          = var.identifier
   db_name                             = "postgres"
   username                            = random_string.rds_usr.result
   kms_key_id                          = data.aws_kms_alias.rds.target_key_arn

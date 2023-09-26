@@ -4,9 +4,9 @@ variable "supporting_resources_name" {
   default     = "terraform-aws-rds"
 }
 
-variable "name" {
+variable "identifier" {
+  description = "(Optional) The name of the RDS instance, if omitted, Terraform will assign a random, unique identifier. Required if restore_to_point_in_time is specified."
   type        = string
-  description = "The stack name"
   default     = "exampleinstancemysql"
 }
 
@@ -40,7 +40,7 @@ variable "engine" {
 variable "instance_class" {
   type        = string
   description = "The instance class for your instance(s)."
-  default     = "db.t2.small"
+  default     = "db.m5.large"
 }
 
 variable "iam_database_authentication_enabled" {
@@ -125,4 +125,28 @@ variable "option_name" {
   type        = string
   description = "Name for option group option"
   default     = "MARIADB_AUDIT_PLUGIN"
+}
+
+variable "ca_cert_identifier" {
+  description = "The identifier of the CA certificate for the DB instance."
+  type        = string
+  default     = "rds-ca-rsa2048-g1"
+}
+
+variable "performance_insights_enabled" {
+  description = "Specifies whether Performance Insights are enabled. Defaults to false."
+  type        = bool
+  default     = true
+}
+
+variable "performance_insights_retention_period" {
+  description = "The amount of time in days to retain Performance Insights data. Either 7 (7 days) or 731 (2 years). When specifying performance_insights_retention_period, performance_insights_enabled needs to be set to true. Defaults to '7'."
+  type        = number
+  default     = 7
+}
+
+variable "deletion_window_in_days" {
+  description = "(Optional) The waiting period, specified in number of days. After the waiting period ends, AWS KMS deletes the KMS key. If you specify a value, it must be between 7 and 30, inclusive. If you do not specify a value, it defaults to 30."
+  type        = number
+  default     = 7
 }

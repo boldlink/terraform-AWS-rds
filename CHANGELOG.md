@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fix: parameter group and timeouts blocks in modules main file
 - `var.name` changed to `var.identifier`
 - added parameters block, replica and restore to point instances in the complete example
+- enabled performance insights in complete example
 
 ## [1.4.0] - 2023-09-20
 

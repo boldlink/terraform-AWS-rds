@@ -8,7 +8,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat: Remove the option to use the VPC default security group.
 - feat: Add an option to make `var.db_name = null` when MSSQL engine is selected.
 - feat: Add a default security group rule for the port specific to the DB engine selected allowing private subnets to access the DB (must be overidable by input).
-- fix: CKV2_AWS_60 #"Ensure RDS instance with copy tags to snapshots is enabled"
 - fix: CKV_AWS_293 #"Ensure that AWS database instances have deletion protection enabled
 - fix: CKV_AWS_157 #"Ensure that RDS instances have Multi-AZ enabled"
 - fix: CKV_AWS_118 #"Ensure that enhanced monitoring is enabled for Amazon RDS instances"
@@ -16,6 +15,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fix: CKV2_AWS_5 #"Ensure that Security Groups are attached to another resource"
 - feat: Show usage of parameter group in examples
 - fix: upgrade s3 module version used in s3-import example.
+
+## [1.4.1] - 2023-09-26
+- fix: parameter group and timeouts blocks in modules main file
+- `var.name` changed to `var.identifier`
+- added parameters block, replica and restore to point instances in the complete example
 
 ## [1.4.0] - 2023-09-20
 
@@ -112,7 +116,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial commit
 - pre-commit checks fix
 
-[Unreleased]: https://github.com/boldlink/terraform-aws-rds/compare/1.4.0...HEAD
+[Unreleased]: https://github.com/boldlink/terraform-aws-rds/compare/1.4.1...HEAD
 
 [1.0.0]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.0.0
 [1.0.2]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.0.2
@@ -129,3 +133,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [1.2.0]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.2.0
 [1.3.0]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.3.0
 [1.4.0]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.4.0
+[1.4.1]: https://github.com/boldlink/terraform-aws-rds/releases/tag/1.4.1

@@ -19,7 +19,7 @@ resource "aws_db_instance" "this" {
   engine_version                        = var.engine_version
   final_snapshot_identifier             = var.final_snapshot_identifier
   iam_database_authentication_enabled   = var.iam_database_authentication_enabled
-  identifier                            = lower(var.name)
+  identifier                            = lower(var.identifier)
   identifier_prefix                     = var.identifier_prefix
   publicly_accessible                   = var.publicly_accessible
   instance_class                        = var.instance_class
@@ -53,7 +53,7 @@ resource "aws_db_instance" "this" {
   tags                                  = var.tags
 
   dynamic "restore_to_point_in_time" {
-    for_each = var.restore_to_point_in_time
+    for_each = var.restore_to_point_in_time != null ? [var.restore_to_point_in_time] : []
     content {
       restore_time                  = lookup(restore_to_point_in_time.value, "restore_time", null)
       source_db_instance_identifier = lookup(restore_to_point_in_time.value, "source_db_instance_identifier", null)
@@ -74,13 +74,10 @@ resource "aws_db_instance" "this" {
     }
   }
 
-  dynamic "timeouts" {
-    for_each = var.instance_timeouts
-    content {
-      create = lookup(timeouts.value, "create", "40m")
-      update = lookup(timeouts.value, "update", "80m")
-      delete = lookup(timeouts.value, "delete", "60m")
-    }
+  timeouts {
+    create = lookup(var.timeouts, "create", null)
+    update = lookup(var.timeouts, "update", null)
+    delete = lookup(var.timeouts, "delete", null)
   }
 
   lifecycle {
@@ -92,16 +89,16 @@ resource "aws_db_instance" "this" {
 # Subnet Group
 resource "aws_db_subnet_group" "this" {
   count       = var.create_db_subnet_group ? 1 : 0
-  name        = lower("${var.name}-subnetgroup")
+  name        = lower("${var.identifier}-subnetgroup")
   subnet_ids  = var.subnet_ids
-  description = "${var.name} RDS Subnet Group"
+  description = "${var.identifier} RDS Subnet Group"
   tags        = var.tags
 }
 
 # Option Group
 resource "aws_db_option_group" "this" {
   count                = var.create_option_group ? 1 : 0
-  name                 = lower("${var.name}-option-group")
+  name                 = lower("${var.identifier}-option-group")
   name_prefix          = var.name_prefix
   engine_name          = var.engine
   major_engine_version = var.major_engine_version
@@ -127,9 +124,9 @@ resource "aws_db_option_group" "this" {
 # Security group
 resource "aws_security_group" "this" {
   count       = var.create_security_group ? 1 : 0
-  name        = "${var.name}-rds-security-group"
+  name        = "${var.identifier}-rds-security-group"
   vpc_id      = var.vpc_id
-  description = "${var.name} RDS instance Security Group"
+  description = "${var.identifier} RDS instance Security Group"
 
   dynamic "ingress" {
     for_each = var.security_group_ingress
@@ -162,9 +159,9 @@ resource "aws_security_group" "this" {
 # enhanced monitoring IAM role
 resource "aws_iam_role" "this" {
   count              = var.create_monitoring_role ? 1 : 0
-  name               = "${var.name}-enhanced-monitoring-role"
+  name               = "${var.identifier}-enhanced-monitoring-role"
   assume_role_policy = var.assume_role_policy
-  description        = "enhanced monitoring iam role for ${var.name} rds instance."
+  description        = "enhanced monitoring iam role for ${var.identifier} rds instance."
   tags               = var.tags
 }
 
@@ -177,7 +174,7 @@ resource "aws_iam_role_policy_attachment" "this" {
 ## Parameter Group
 resource "aws_db_parameter_group" "this" {
   count  = var.create_parameter_group ? 1 : 0
-  name   = "${var.name}-parameter-group"
+  name   = "${var.identifier}-parameter-group"
   family = var.parameter_group_family
 
   dynamic "parameter" {

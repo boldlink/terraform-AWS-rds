@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fix: CKV2_AWS_5 #"Ensure that Security Groups are attached to another resource"
 - feat: Show usage of parameter group in examples
 - fix: upgrade s3 module version used in s3-import example.
+- create a kms multi-region replica key to use in rds cross-region replica example
 
 ## [1.4.1] - 2023-09-26
 - fix: parameter group and timeouts blocks in modules main file

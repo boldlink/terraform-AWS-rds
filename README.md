@@ -141,6 +141,7 @@ No modules.
 | <a name="input_identifier_prefix"></a> [identifier\_prefix](#input\_identifier\_prefix) | Creates a unique identifier beginning with the specified prefix. Conflicts with identifier. | `string` | `null` | no |
 | <a name="input_instance_class"></a> [instance\_class](#input\_instance\_class) | The instance class for your instance(s). | `string` | `null` | no |
 | <a name="input_kms_key_id"></a> [kms\_key\_id](#input\_kms\_key\_id) | The ARN for the KMS encryption key. If creating an encrypted replica, set this to the destination KMS ARN. If storage\_encrypted is set to true and kms\_key\_id is not specified the default KMS key created in your account will be used | `string` | `null` | no |
+| <a name="input_license_model"></a> [license\_model](#input\_license\_model) | (Optional, but required for some DB engines, i.e., Oracle SE1) License model information for this DB instance. | `string` | `null` | no |
 | <a name="input_maintenance_window"></a> [maintenance\_window](#input\_maintenance\_window) | The window to perform maintenance in. Syntax: 'ddd:hh24:mi-ddd:hh24:mi'. Eg: 'Mon:00:00-Mon:03:00' | `string` | `"Sun:00:00-Sun:02:00"` | no |
 | <a name="input_major_engine_version"></a> [major\_engine\_version](#input\_major\_engine\_version) | (Required) Specifies the major version of the engine that this option group should be associated with. | `string` | `""` | no |
 | <a name="input_manage_master_user_password"></a> [manage\_master\_user\_password](#input\_manage\_master\_user\_password) | (Optional) Set to true to allow RDS to manage the master user password in Secrets Manager. Cannot be set if password is provided. | `bool` | `true` | no |
@@ -193,7 +194,6 @@ No modules.
 | <a name="output_backup_window"></a> [backup\_window](#output\_backup\_window) | The backup window. |
 | <a name="output_ca_cert_identifier"></a> [ca\_cert\_identifier](#output\_ca\_cert\_identifier) | Specifies the identifier of the CA certificate for the DB instance. |
 | <a name="output_character_set_name"></a> [character\_set\_name](#output\_character\_set\_name) | The character set (collation) used on Oracle and Microsoft SQL instances. |
-| <a name="output_db_instance_identifier"></a> [db\_instance\_identifier](#output\_db\_instance\_identifier) | The RDS instance identifier |
 | <a name="output_db_name"></a> [db\_name](#output\_db\_name) | The database name. |
 | <a name="output_domain"></a> [domain](#output\_domain) | The ID of the Directory Service Active Directory domain the instance is joined to |
 | <a name="output_endpoint"></a> [endpoint](#output\_endpoint) | The connection endpoint in address:port format. |
@@ -201,6 +201,7 @@ No modules.
 | <a name="output_engine_version_actual"></a> [engine\_version\_actual](#output\_engine\_version\_actual) | The running version of the database. |
 | <a name="output_hosted_zone_id"></a> [hosted\_zone\_id](#output\_hosted\_zone\_id) | The canonical hosted zone ID of the DB instance (to be used in a Route 53 Alias record). |
 | <a name="output_id"></a> [id](#output\_id) | The RDS instance ID. |
+| <a name="output_identifier"></a> [identifier](#output\_identifier) | The RDS instance identifier |
 | <a name="output_instance_class"></a> [instance\_class](#output\_instance\_class) | The RDS instance class. |
 | <a name="output_latest_restorable_time"></a> [latest\_restorable\_time](#output\_latest\_restorable\_time) | The latest time, in UTC RFC3339 format, to which a database can be restored with point-in-time restore. |
 | <a name="output_maintenance_window"></a> [maintenance\_window](#output\_maintenance\_window) | The instance maintenance window. |

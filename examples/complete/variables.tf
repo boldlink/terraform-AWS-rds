@@ -40,7 +40,7 @@ variable "engine" {
 variable "instance_class" {
   type        = string
   description = "The instance class for your instance(s)."
-  default     = "db.m5.large"
+  default     = "db.m5.large" #set to db.m5.large or higher in order to showcase how to enable performance insights
 }
 
 variable "iam_database_authentication_enabled" {

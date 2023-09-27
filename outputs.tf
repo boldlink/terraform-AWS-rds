@@ -39,7 +39,7 @@ output "endpoint" {
   description = "The connection endpoint in address:port format."
 }
 
-output "db_instance_identifier" {
+output "identifier" {
   description = "The RDS instance identifier"
   value       = aws_db_instance.this.identifier
 }

@@ -10,6 +10,12 @@ variable "identifier" {
   default     = "exampleinstanceoracle"
 }
 
+variable "db_name" {
+  description = "The default database name (mandatory)"
+  type        = string
+  default = "ORACLE"
+}
+
 variable "tags" {
   type        = map(string)
   description = "The resource tags to be applied"

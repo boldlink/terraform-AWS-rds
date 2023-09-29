@@ -110,6 +110,7 @@ variable "enabled_cloudwatch_logs_exports" {
 variable "engine" {
   description = "(Required unless a snapshot_identifier or replicate_source_db is provided) The database engine to use."
   type        = string
+  default     = null
 }
 
 variable "engine_version" {
@@ -224,6 +225,7 @@ variable "parameter_group_name" {
 variable "username" {
   description = "Username for the master DB user"
   type        = string
+  default     = null
 }
 
 variable "password" {
@@ -274,8 +276,8 @@ variable "storage_type" {
   default     = null
 }
 
-variable "name" {
-  description = "The DB name to create. If omitted, no database is created initially"
+variable "identifier" {
+  description = "(Optional) The name of the RDS instance, if omitted, Terraform will assign a random, unique identifier. Required if restore_to_point_in_time is specified."
   type        = string
   default     = null
 }
@@ -312,14 +314,8 @@ variable "timezone" {
 # Restore to point in time
 variable "restore_to_point_in_time" {
   description = "(Optional, Forces new resource) A configuration block for restoring a DB instance to an arbitrary point in time. Requires the identifier argument to be set with the name of the new DB instance to be created."
-  type = list(object({
-    restore_time                             = string
-    source_db_instance_identifier            = string
-    source_db_instance_automated_backups_arn = string
-    source_dbi_resource_id                   = string
-    use_latest_restorable_time               = bool
-  }))
-  default = []
+  type        = map(any)
+  default     = null
 }
 
 #S3 import
@@ -330,14 +326,10 @@ variable "s3_import" {
 }
 
 # Timeout
-variable "instance_timeouts" {
+variable "timeouts" {
   description = "aws_rds_instance provides the following Timeouts configuration options: create, update, delete"
-  type = list(object({
-    create = string
-    update = string
-    delete = string
-  }))
-  default = []
+  type        = map(string)
+  default     = {}
 }
 
 # Tags

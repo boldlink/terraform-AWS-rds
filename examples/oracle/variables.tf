@@ -4,10 +4,16 @@ variable "supporting_resources_name" {
   default     = "terraform-aws-rds"
 }
 
-variable "name" {
+variable "identifier" {
+  description = "(Optional) The name of the RDS instance, if omitted, Terraform will assign a random, unique identifier. Required if restore_to_point_in_time is specified."
   type        = string
-  description = "The stack name"
   default     = "exampleinstanceoracle"
+}
+
+variable "db_name" {
+  description = "The default database name (mandatory)"
+  type        = string
+  default     = "ORACLE"
 }
 
 variable "tags" {

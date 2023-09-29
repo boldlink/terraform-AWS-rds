@@ -13,7 +13,7 @@ module "rds_create_from_s3_import" {
   engine         = var.engine
   instance_class = var.instance_class
   subnet_ids     = local.database_subnets
-  name           = var.db_name
+  identifier     = var.db_name
   db_name        = var.db_name
   username       = random_string.rds_usr.result
 

@@ -13,7 +13,7 @@ variable "identifier" {
 variable "db_name" {
   description = "The default database name (mandatory)"
   type        = string
-  default = "ORACLE"
+  default     = "ORACLE"
 }
 
 variable "tags" {

@@ -37,7 +37,7 @@ make tfdestroy
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.18.1 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.19.0 |
 | <a name="provider_random"></a> [random](#provider\_random) | 3.5.1 |
 
 ## Modules
@@ -65,6 +65,7 @@ make tfdestroy
 | <a name="input_allocated_storage"></a> [allocated\_storage](#input\_allocated\_storage) | Enter allocated storage for the db | `number` | `30` | no |
 | <a name="input_create_monitoring_role"></a> [create\_monitoring\_role](#input\_create\_monitoring\_role) | Create an IAM role for enhanced monitoring | `bool` | `true` | no |
 | <a name="input_create_option_group"></a> [create\_option\_group](#input\_create\_option\_group) | whether to create option\_group resource or not | `bool` | `true` | no |
+| <a name="input_db_name"></a> [db\_name](#input\_db\_name) | The default database name (mandatory) | `string` | `"ORACLE"` | no |
 | <a name="input_deletion_protection"></a> [deletion\_protection](#input\_deletion\_protection) | If the DB instance should have deletion protection enabled. The database can't be deleted when this value is set to true. The default is false. | `bool` | `false` | no |
 | <a name="input_enabled_cloudwatch_logs_exports"></a> [enabled\_cloudwatch\_logs\_exports](#input\_enabled\_cloudwatch\_logs\_exports) | List of log types to enable for exporting to CloudWatch logs. | `list(string)` | <pre>[<br>  "alert",<br>  "audit",<br>  "listener",<br>  "trace"<br>]</pre> | no |
 | <a name="input_engine"></a> [engine](#input\_engine) | The database engine to use. | `string` | `"oracle-ee"` | no |
